@@ -64,7 +64,7 @@
 }
 
 /* Filter Styles */
-.filters {
+.filtersDesktop {
   background: rgba(255, 255, 255, 0.8);
   border: 1px solid rgba(225, 6, 0, 0.1);
   border-radius: 8px;
@@ -75,8 +75,323 @@
   gap: 1.5rem;
 
   @media (max-width: 768px) {
-    padding: 1.5rem;
-    gap: 1.25rem;
+    display: none;
+  }
+}
+
+/* Mobile Filter Button */
+.mobileFilterButton {
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.5rem;
+  background: var(--color-navy);
+  color: white;
+  border: none;
+  border-radius: 24px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  box-shadow: 0 4px 12px rgba(10, 26, 58, 0.2);
+  cursor: pointer;
+  margin: 0 auto 1.5rem;
+  position: sticky;
+  top: 80px;
+  z-index: 100;
+  transition: all 0.3s ease;
+
+  @media (max-width: 768px) {
+    display: flex;
+  }
+
+  svg {
+    flex-shrink: 0;
+  }
+}
+
+.filterBadge {
+  background: var(--color-red);
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  min-width: 20px;
+  text-align: center;
+}
+
+/* Active Filter Summary */
+.activeFilters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+  background: rgba(225, 6, 0, 0.05);
+  border-radius: 8px;
+}
+
+.activeFiltersLabel {
+  font-weight: 600;
+  color: var(--color-navy);
+  font-size: 0.875rem;
+}
+
+.activeFilterTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.75rem;
+  background: white;
+  border: 1px solid var(--color-red);
+  border-radius: 16px;
+  color: var(--color-red);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: var(--color-red);
+    color: white;
+  }
+}
+
+.removeIcon {
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
+
+/* Filter Modal (Bottom Sheet) */
+.filterModalBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+  z-index: 9998;
+}
+
+.filterModal {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-height: 80vh;
+  background: white;
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.dragHandle {
+  width: 40px;
+  height: 4px;
+  background: #cbd5e0;
+  border-radius: 2px;
+  margin: 12px auto 8px;
+  cursor: grab;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+
+  h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    margin: 0;
+  }
+}
+
+.closeButton {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f4f6;
+  border: none;
+  border-radius: 50%;
+  font-size: 1.25rem;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: #e5e7eb;
+    color: var(--color-navy);
+  }
+}
+
+.modalContent {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+.modalFilterSection {
+  margin-bottom: 2rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.modalFilterLabel {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-navy);
+  margin: 0 0 1rem 0;
+  letter-spacing: 0.3px;
+}
+
+/* Segmented Control for Year */
+.segmentedControl {
+  display: flex;
+  background: #f3f4f6;
+  border-radius: 12px;
+  padding: 4px;
+  gap: 4px;
+}
+
+.segmentButton {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  background: transparent;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--color-navy);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 44px;
+
+  &:active {
+    transform: scale(0.97);
+  }
+}
+
+.segmentActive {
+  background: var(--color-red) !important;
+  color: white !important;
+  box-shadow: 0 2px 8px rgba(225, 6, 0, 0.3);
+}
+
+/* Domain Grid */
+.domainGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+.domainChip {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1rem;
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--color-navy);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 48px;
+  text-align: left;
+
+  &:active {
+    transform: scale(0.97);
+  }
+}
+
+.domainChipActive {
+  background: rgba(225, 6, 0, 0.05);
+  border-color: var(--color-red);
+  color: var(--color-red);
+}
+
+.checkbox {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #cbd5e0;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.domainChipActive .checkbox {
+  background: var(--color-red);
+  border-color: var(--color-red);
+  color: white;
+}
+
+/* Modal Actions */
+.modalActions {
+  display: flex;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  border-top: 1px solid #e5e7eb;
+  background: white;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.resetButton {
+  flex: 1;
+  padding: 1rem;
+  background: white;
+  border: 2px solid var(--color-navy);
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--color-navy);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 52px;
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  &:hover {
+    background: #f9fafb;
+  }
+}
+
+.applyButton {
+  flex: 2;
+  padding: 1rem;
+  background: var(--color-red);
+  border: 2px solid var(--color-red);
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 1rem;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 52px;
+  box-shadow: 0 4px 12px rgba(225, 6, 0, 0.3);
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  &:hover {
+    background: #c70600;
+    box-shadow: 0 6px 16px rgba(225, 6, 0, 0.4);
   }
 }
 
