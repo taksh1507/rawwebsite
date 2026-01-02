@@ -88,9 +88,15 @@ export default function ContactMessagesPage() {
       console.log('📡 Response status:', response.status);
       
       if (!response.ok) {
-        const data = await response.json();
-        console.error('❌ API Error:', data);
-        throw new Error(data.message || 'Failed to update message');
+        let errorMessage = 'Failed to update message';
+        try {
+          const data = await response.json();
+          console.error('❌ API Error:', data);
+          errorMessage = data.message || errorMessage;
+        } catch (parseErr) {
+          console.error('❌ Could not parse error response');
+        }
+        throw new Error(errorMessage);
       }
 
       const data = await response.json();
@@ -106,7 +112,9 @@ export default function ContactMessagesPage() {
       }
     } catch (err) {
       console.error('❌ Error updating message:', err);
-      alert(err instanceof Error ? err.message : 'Failed to update message');
+      // Just log the error, don't show alert to user
+      const errorMessage = err instanceof Error ? err.message : 'Failed to update message';
+      console.error('Error details:', errorMessage);
     }
   };
 
@@ -116,15 +124,28 @@ export default function ContactMessagesPage() {
 
     try {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+      console.log('🗑️ Deleting message:', { id, apiUrl });
+      
       const response = await fetch(`${apiUrl}/api/contact/messages/${id}`, {
         method: 'DELETE',
       });
 
-      const data = await response.json();
+      console.log('📡 Delete response status:', response.status);
 
       if (!response.ok) {
-        throw new Error(data.message || 'Failed to delete message');
+        let errorMessage = 'Failed to delete message';
+        try {
+          const data = await response.json();
+          console.error('❌ API Error:', data);
+          errorMessage = data.message || errorMessage;
+        } catch (parseErr) {
+          console.error('❌ Could not parse error response');
+        }
+        throw new Error(errorMessage);
       }
+
+      const data = await response.json();
+      console.log('✅ Message deleted successfully:', data);
 
       // Update local state
       setContacts((prev) => prev.filter((c) => c._id !== id));
@@ -134,8 +155,10 @@ export default function ContactMessagesPage() {
         setSelectedContact(null);
       }
     } catch (err) {
-      console.error('Error deleting message:', err);
-      alert(err instanceof Error ? err.message : 'Failed to delete message');
+      console.error('❌ Error deleting message:', err);
+      // Just log the error
+      const errorMessage = err instanceof Error ? err.message : 'Failed to delete message';
+      console.error('Error details:', errorMessage);
     }
   };
 
