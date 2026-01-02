@@ -4,11 +4,13 @@ import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
+import UpdatesPopup from './components/UpdatesPopup';
 import Footer from './components/Footer';
 
 export default function Home() {
   return (
     <main>
+      <UpdatesPopup />
       <Navbar />
       <Hero />
 
