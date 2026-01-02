@@ -274,18 +274,23 @@ export default function RobotsGalleryPage() {
           achievements: formData.achievements.split(',').map((a: string) => a.trim()).filter(Boolean),
         };
       } else {
-        // For gallery items, process highlights if provided
-        if (formData.highlights) {
-          payload = {
-            ...formData,
-            highlights: formData.highlights.split(',').map((h: string) => h.trim()).filter(Boolean),
-          };
-        }
+        // For gallery items, ensure all fields are included
+        payload = {
+          ...formData,
+          // Process highlights array if provided
+          highlights: formData.highlights 
+            ? formData.highlights.split(',').map((h: string) => h.trim()).filter(Boolean)
+            : [],
+          // Ensure images array is included
+          images: multipleImages.length > 0 ? multipleImages : (formData.images || []),
+        };
       }
 
       const url = editingItem 
         ? `${apiUrl}/api/${endpoint}/${editingItem._id}`
         : `${apiUrl}/api/${endpoint}`;
+      
+      console.log('📤 Submitting payload:', payload);
       
       const response = await fetch(url, {
         method: editingItem ? 'PATCH' : 'POST',
