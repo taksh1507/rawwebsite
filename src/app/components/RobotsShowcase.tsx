@@ -15,6 +15,7 @@ const fallbackRobotsData = [
     description: 'Autonomous line-following robot with precision sensors',
     specs: ['IR Sensors', 'PWM Control', '30cm/s Max Speed'],
     tags: ['Autonomous', 'Sensor-based'],
+    year: 2024,
   },
   {
     id: 2,
@@ -24,6 +25,7 @@ const fallbackRobotsData = [
     description: 'Intelligent maze-solving robot using wall following',
     specs: ['Ultrasonic Sensors', 'Left-hand Rule', 'Real-time Decision'],
     tags: ['Navigation', 'AI Logic'],
+    year: 2024,
   },
   {
     id: 3,
@@ -33,6 +35,7 @@ const fallbackRobotsData = [
     description: 'Robotic arm for precise object manipulation',
     specs: ['4-DOF Arm', '5kg Payload', 'Servo Control'],
     tags: ['Manipulation', 'Precision'],
+    year: 2023,
   },
   {
     id: 4,
@@ -42,6 +45,7 @@ const fallbackRobotsData = [
     description: 'Robot with advanced vision processing capabilities',
     specs: ['HD Camera', 'OpenCV', 'Real-time Detection'],
     tags: ['Vision', 'ML'],
+    year: 2023,
   },
 ];
 
