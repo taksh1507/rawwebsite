@@ -88,24 +88,51 @@ export function DataProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const loadAllData = () => {
+  const loadAllData = async () => {
     try {
       setIsLoading(true);
       setError(null);
 
-      // Load static data directly (no API calls)
-      setGalleryImages(galleryData);
+      // Fetch from MongoDB API
+      const [robotsRes, galleryRes] = await Promise.all([
+        fetch('/api/robots').catch(() => null),
+        fetch('/api/gallery').catch(() => null)
+      ]);
+
+      let loadedRobots = robotsData;
+      let loadedGallery = galleryData;
+
+      // Load robots from API or fallback to static data
+      if (robotsRes && robotsRes.ok) {
+        const robotsJson = await robotsRes.json();
+        loadedRobots = robotsJson.data || [];
+        setRobots(loadedRobots);
+      } else {
+        console.warn('Failed to fetch robots from API, using static data');
+        setRobots(robotsData);
+      }
+
+      // Load gallery from API or fallback to static data
+      if (galleryRes && galleryRes.ok) {
+        const galleryJson = await galleryRes.json();
+        loadedGallery = galleryJson.data || [];
+        setGalleryImages(loadedGallery);
+      } else {
+        console.warn('Failed to fetch gallery from API, using static data');
+        setGalleryImages(galleryData);
+      }
+
+      // Team data still from static (no API yet)
       setTeamMembers(teamData);
-      setRobots(robotsData);
 
       console.log('📊 DataContext loaded:', {
-        galleryCount: galleryData.length,
+        galleryCount: loadedGallery.length,
         teamCount: teamData.length,
-        robotsCount: robotsData.length,
-        categoryCounts: {
-          robots: galleryData.filter(item => item.category === 'robots').length,
-          events: galleryData.filter(item => item.category === 'events').length,
-          workshops: galleryData.filter(item => item.category === 'workshops').length,
+        robotsCount: loadedRobots.length,
+        source: {
+          robots: (robotsRes && robotsRes.ok) ? 'MongoDB API' : 'Static Data',
+          gallery: (galleryRes && galleryRes.ok) ? 'MongoDB API' : 'Static Data',
+          team: 'Static Data'
         }
       });
 
