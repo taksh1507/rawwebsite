@@ -4,12 +4,11 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { promises as fs } from 'fs';
-import path from 'path';
+import { getDatabase } from '@/lib/mongodb';
+import { ObjectId } from 'mongodb';
 
 // Types
 interface ContactMessage {
-  _id: string;
   fullName: string;
   email: string;
   inquiryType: 'general' | 'membership' | 'sponsorship' | 'collaboration';
@@ -17,36 +16,6 @@ interface ContactMessage {
   timestamp: string;
   status: 'unread' | 'read';
   replied?: boolean;
-}
-
-// Data file path
-const DATA_DIR = path.join(process.cwd(), 'data');
-const CONTACTS_FILE = path.join(DATA_DIR, 'contacts.json');
-
-// Ensure data directory exists
-async function ensureDataDir() {
-  try {
-    await fs.mkdir(DATA_DIR, { recursive: true });
-  } catch (error) {
-    // Directory might already exist
-  }
-}
-
-// Read contacts from file
-async function readContacts(): Promise<ContactMessage[]> {
-  try {
-    const data = await fs.readFile(CONTACTS_FILE, 'utf-8');
-    return JSON.parse(data);
-  } catch (error) {
-    // File doesn't exist yet, return empty array
-    return [];
-  }
-}
-
-// Write contacts to file
-async function writeContacts(contacts: ContactMessage[]) {
-  await ensureDataDir();
-  await fs.writeFile(CONTACTS_FILE, JSON.stringify(contacts, null, 2));
 }
 
 // Validation helper
@@ -110,7 +79,6 @@ export async function POST(request: NextRequest) {
 
     // Sanitize inputs
     const newMessage: ContactMessage = {
-      _id: `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       fullName: sanitizeInput(body.fullName),
       email: sanitizeInput(body.email),
       inquiryType: body.inquiryType,
@@ -120,20 +88,18 @@ export async function POST(request: NextRequest) {
       replied: false,
     };
 
-    // Read existing contacts
-    const contacts = await readContacts();
+    // Save to MongoDB
+    const db = await getDatabase();
+    const collection = db.collection('contacts');
+    const result = await collection.insertOne(newMessage);
 
-    // Add new message to the beginning
-    contacts.unshift(newMessage);
-
-    // Write back to file
-    await writeContacts(contacts);
+    console.log('✅ Contact message saved to MongoDB:', result.insertedId);
 
     const response = NextResponse.json(
       {
         success: true,
         message: 'Contact message received successfully',
-        data: { id: newMessage._id },
+        data: { id: result.insertedId },
       },
       { status: 201 }
     );
@@ -163,12 +129,14 @@ export async function POST(request: NextRequest) {
 // GET - Fetch all contact messages (sorted by latest)
 export async function GET(request: NextRequest) {
   try {
-    const contacts = await readContacts();
-
-    // Sort by timestamp (newest first)
-    const sortedContacts = contacts.sort((a, b) => 
-      new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
-    );
+    const db = await getDatabase();
+    const collection = db.collection('contacts');
+    
+    // Fetch all contacts and sort by timestamp (newest first)
+    const contacts = await collection
+      .find({})
+      .sort({ timestamp: -1 })
+      .toArray();
 
     // Get counts
     const unreadCount = contacts.filter(c => c.status === 'unread').length;
@@ -176,7 +144,7 @@ export async function GET(request: NextRequest) {
 
     const response = NextResponse.json({
       success: true,
-      data: sortedContacts,
+      data: contacts,
       meta: {
         total: totalCount,
         unread: unreadCount,

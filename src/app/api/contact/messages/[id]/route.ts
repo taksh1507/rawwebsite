@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { promises as fs } from 'fs';
-import path from 'path';
+import { getDatabase } from '@/lib/mongodb';
+import { ObjectId } from 'mongodb';
 
 // Types
 interface ContactMessage {
-  _id: string;
   fullName: string;
   email: string;
   inquiryType: 'general' | 'membership' | 'sponsorship' | 'collaboration';
@@ -14,25 +13,6 @@ interface ContactMessage {
   replied?: boolean;
 }
 
-// Data file path
-const DATA_DIR = path.join(process.cwd(), 'data');
-const CONTACTS_FILE = path.join(DATA_DIR, 'contacts.json');
-
-// Read contacts from file
-async function readContacts(): Promise<ContactMessage[]> {
-  try {
-    const data = await fs.readFile(CONTACTS_FILE, 'utf-8');
-    return JSON.parse(data);
-  } catch (error) {
-    return [];
-  }
-}
-
-// Write contacts to file
-async function writeContacts(contacts: ContactMessage[]) {
-  await fs.writeFile(CONTACTS_FILE, JSON.stringify(contacts, null, 2));
-}
-
 // GET - Fetch single contact message by ID
 export async function GET(
   request: NextRequest,
@@ -40,8 +20,10 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
-    const contacts = await readContacts();
-    const contact = contacts.find((c) => c._id === id);
+    const db = await getDatabase();
+    const collection = db.collection('contacts');
+    
+    const contact = await collection.findOne({ _id: new ObjectId(id) });
 
     if (!contact) {
       const response = NextResponse.json(
@@ -88,11 +70,17 @@ export async function PATCH(
   try {
     const { id } = await params;
     const body = await request.json();
-    const contacts = await readContacts();
+    const db = await getDatabase();
+    const collection = db.collection('contacts');
 
-    const contactIndex = contacts.findIndex((c) => c._id === id);
+    // Find and update the contact
+    const result = await collection.findOneAndUpdate(
+      { _id: new ObjectId(id) },
+      { $set: body },
+      { returnDocument: 'after' }
+    );
 
-    if (contactIndex === -1) {
+    if (!result) {
       return NextResponse.json(
         {
           success: false,
@@ -102,21 +90,12 @@ export async function PATCH(
       );
     }
 
-    // Update only allowed fields
-    if (body.status && ['read', 'unread'].includes(body.status)) {
-      contacts[contactIndex].status = body.status;
-    }
-
-    if (typeof body.replied === 'boolean') {
-      contacts[contactIndex].replied = body.replied;
-    }
-
-    await writeContacts(contacts);
+    console.log('✅ Contact message updated in MongoDB:', id);
 
     const response = NextResponse.json({
       success: true,
       message: 'Contact message updated successfully',
-      data: contacts[contactIndex],
+      data: result,
     });
 
     response.headers.set('Access-Control-Allow-Origin', '*');
@@ -146,11 +125,12 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params;
-    const contacts = await readContacts();
+    const db = await getDatabase();
+    const collection = db.collection('contacts');
 
-    const contactIndex = contacts.findIndex((c) => c._id === id);
+    const result = await collection.deleteOne({ _id: new ObjectId(id) });
 
-    if (contactIndex === -1) {
+    if (result.deletedCount === 0) {
       return NextResponse.json(
         {
           success: false,
@@ -160,9 +140,7 @@ export async function DELETE(
       );
     }
 
-    // Remove contact
-    contacts.splice(contactIndex, 1);
-    await writeContacts(contacts);
+    console.log('✅ Contact message deleted from MongoDB:', id);
 
     const response = NextResponse.json({
       success: true,
