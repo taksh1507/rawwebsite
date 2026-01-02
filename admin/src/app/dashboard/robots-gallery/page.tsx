@@ -382,168 +382,169 @@ export default function RobotsGalleryPage() {
                   </div>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1.5rem' }}>
                   <div>
-                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>Category *</label>
+                    <label style={{ display: 'block', marginBottom: '0.75rem', fontWeight: '600', color: '#212529', fontSize: '1rem' }}>Category *</label>
                     <select
                       required
                       value={formData.category || 'competition'}
                       onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                      style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #ced4da' }}
+                      style={{ width: '100%', padding: '1rem', borderRadius: '8px', border: '2px solid #dee2e6', fontSize: '1rem', background: 'white', cursor: 'pointer', fontWeight: '500' }}
                     >
-                      <option value="competition">Competition</option>
-                      <option value="research">Research</option>
-                      <option value="development">Development</option>
+                      <option value="competition">🏆 Competition</option>
+                      <option value="research">🔬 Research</option>
+                      <option value="development">⚙️ Development</option>
                     </select>
                   </div>
                   <div>
-                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>Status</label>
+                    <label style={{ display: 'block', marginBottom: '0.75rem', fontWeight: '600', color: '#212529', fontSize: '1rem' }}>Status</label>
                     <select
                       value={formData.status || 'active'}
                       onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                      style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #ced4da' }}
+                      style={{ width: '100%', padding: '1rem', borderRadius: '8px', border: '2px solid #dee2e6', fontSize: '1rem', background: 'white', cursor: 'pointer', fontWeight: '500' }}
                     >
-                      <option value="active">Active</option>
-                      <option value="retired">Retired</option>
-                      <option value="development">Development</option>
+                      <option value="active">✅ Active</option>
+                      <option value="retired">🔒 Retired</option>
+                      <option value="development">🔧 Development</option>
                     </select>
                   </div>
                   <div>
-                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>Year</label>
+                    <label style={{ display: 'block', marginBottom: '0.75rem', fontWeight: '600', color: '#212529', fontSize: '1rem' }}>Year</label>
                     <input
                       type="number"
                       value={formData.year || new Date().getFullYear()}
                       onChange={(e) => setFormData({ ...formData, year: parseInt(e.target.value) })}
-                      style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #ced4da' }}
+                      style={{ width: '100%', padding: '1rem', borderRadius: '8px', border: '2px solid #dee2e6', fontSize: '1rem' }}
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>Image Upload *</label>
+                  <label style={{ display: 'block', marginBottom: '0.75rem', fontWeight: '600', color: '#212529', fontSize: '1rem' }}>Image Upload *</label>
                   <input
                     type="file"
                     accept="image/*"
                     onChange={handleImageChange}
-                    style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #ced4da' }}
+                    style={{ width: '100%', padding: '1rem', borderRadius: '8px', border: '2px solid #dee2e6', fontSize: '1rem', cursor: 'pointer' }}
                   />
                   {imagePreview && (
-                    <div style={{ marginTop: '1rem' }}>
+                    <div style={{ marginTop: '1rem', textAlign: 'center' }}>
                       <img
                         src={imagePreview}
                         alt="Preview"
-                        style={{ maxWidth: '100%', maxHeight: '200px', borderRadius: '8px', objectFit: 'cover' }}
+                        style={{ maxWidth: '100%', maxHeight: '250px', borderRadius: '12px', objectFit: 'cover', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
                       />
                     </div>
                   )}
-                  <small style={{ color: '#6c757d', display: 'block', marginTop: '0.5rem' }}>Max size: 5MB. Supported formats: JPG, PNG, GIF, WebP</small>
+                  <small style={{ color: '#6c757d', display: 'block', marginTop: '0.75rem', fontSize: '0.9rem' }}>📎 Max size: 5MB. Supported: JPG, PNG, GIF, WebP</small>
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>Description *</label>
+                  <label style={{ display: 'block', marginBottom: '0.75rem', fontWeight: '600', color: '#212529', fontSize: '1rem' }}>Description *</label>
                   <textarea
                     required
                     value={formData.description || ''}
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                    rows={2}
+                    rows={3}
                     placeholder="Short description"
-                    style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #ced4da', fontFamily: 'inherit' }}
+                    style={{ width: '100%', padding: '1rem', borderRadius: '8px', border: '2px solid #dee2e6', fontFamily: 'inherit', fontSize: '1rem', resize: 'vertical' }}
                   />
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>Long Description</label>
+                  <label style={{ display: 'block', marginBottom: '0.75rem', fontWeight: '600', color: '#212529', fontSize: '1rem' }}>Long Description</label>
                   <textarea
                     value={formData.longDescription || ''}
                     onChange={(e) => setFormData({ ...formData, longDescription: e.target.value })}
-                    rows={3}
-                    placeholder="Detailed description"
-                    style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #ced4da', fontFamily: 'inherit' }}
+                    rows={4}
+                    placeholder="Detailed description about the robot..."
+                    style={{ width: '100%', padding: '1rem', borderRadius: '8px', border: '2px solid #dee2e6', fontFamily: 'inherit', fontSize: '1rem', resize: 'vertical' }}
                   />
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
                   <div>
-                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>Specs (comma-separated)</label>
+                    <label style={{ display: 'block', marginBottom: '0.75rem', fontWeight: '600', color: '#212529', fontSize: '1rem' }}>Specs (comma-separated)</label>
                     <input
                       type="text"
                       value={formData.specs || ''}
                       onChange={(e) => setFormData({ ...formData, specs: e.target.value })}
                       placeholder="IR Sensors, PWM Control, 30cm/s"
-                      style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #ced4da' }}
+                      style={{ width: '100%', padding: '1rem', borderRadius: '8px', border: '2px solid #dee2e6', fontSize: '1rem' }}
                     />
                   </div>
                   <div>
-                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>Tags (comma-separated)</label>
+                    <label style={{ display: 'block', marginBottom: '0.75rem', fontWeight: '600', color: '#212529', fontSize: '1rem' }}>Tags (comma-separated)</label>
                     <input
                       type="text"
                       value={formData.tags || ''}
                       onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
                       placeholder="Autonomous, Competition"
-                      style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #ced4da' }}
+                      style={{ width: '100%', padding: '1rem', borderRadius: '8px', border: '2px solid #dee2e6', fontSize: '1rem' }}
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>Features (comma-separated)</label>
+                  <label style={{ display: 'block', marginBottom: '0.75rem', fontWeight: '600', color: '#212529', fontSize: '1rem' }}>Features (comma-separated)</label>
                   <input
                     type="text"
                     value={formData.features || ''}
                     onChange={(e) => setFormData({ ...formData, features: e.target.value })}
                     placeholder="Real-time tracking, Adaptive speed"
-                    style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #ced4da' }}
+                    style={{ width: '100%', padding: '1rem', borderRadius: '8px', border: '2px solid #dee2e6', fontSize: '1rem' }}
                   />
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>Achievements (comma-separated)</label>
+                  <label style={{ display: 'block', marginBottom: '0.75rem', fontWeight: '600', color: '#212529', fontSize: '1rem' }}>Achievements (comma-separated)</label>
                   <input
                     type="text"
                     value={formData.achievements || ''}
                     onChange={(e) => setFormData({ ...formData, achievements: e.target.value })}
-                    placeholder="1st Place TechFest 2024"
-                    style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #ced4da' }}
+                    placeholder="1st Place TechFest 2024, Best Design Award"
+                    style={{ width: '100%', padding: '1rem', borderRadius: '8px', border: '2px solid #dee2e6', fontSize: '1rem' }}
                   />
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>Team Lead</label>
+                  <label style={{ display: 'block', marginBottom: '0.75rem', fontWeight: '600', color: '#212529', fontSize: '1rem' }}>Team Lead</label>
                   <input
                     type="text"
                     value={formData.teamLead || 'Team RAW'}
                     onChange={(e) => setFormData({ ...formData, teamLead: e.target.value })}
-                    style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #ced4da' }}
+                    style={{ width: '100%', padding: '1rem', borderRadius: '8px', border: '2px solid #dee2e6', fontSize: '1rem' }}
                   />
                 </div>
               </>
             ) : (
               <>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
                   <div>
-                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>Title *</label>
+                    <label style={{ display: 'block', marginBottom: '0.75rem', fontWeight: '600', color: '#212529', fontSize: '1rem' }}>Title *</label>
                     <input
                       type="text"
                       required
                       value={formData.title || ''}
                       onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                      style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #ced4da' }}
+                      placeholder="Enter image title"
+                      style={{ width: '100%', padding: '1rem', borderRadius: '8px', border: '2px solid #dee2e6', fontSize: '1rem' }}
                     />
                   </div>
                   <div>
-                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>Category *</label>
+                    <label style={{ display: 'block', marginBottom: '0.75rem', fontWeight: '600', color: '#212529', fontSize: '1rem' }}>Category *</label>
                     <select
                       required
                       value={formData.category || 'events'}
                       onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                      style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #ced4da' }}
+                      style={{ width: '100%', padding: '1rem', borderRadius: '8px', border: '2px solid #dee2e6', fontSize: '1rem', background: 'white', cursor: 'pointer', fontWeight: '500' }}
                     >
-                      <option value="robots">Robots</option>
-                      <option value="events">Events</option>
-                      <option value="workshops">Workshops</option>
-                      <option value="competitions">Competitions</option>
-                      <option value="team">Team</option>
-                      <option value="milestones">Milestones</option>
+                      <option value="robots">🤖 Robots</option>
+                      <option value="events">🎉 Events</option>
+                      <option value="workshops">🛠️ Workshops</option>
+                      <option value="competitions">🏆 Competitions</option>
+                      <option value="team">👥 Team</option>
+                      <option value="milestones">🎯 Milestones</option>
                     </select>
                   </div>
                 </div>
@@ -557,69 +558,52 @@ export default function RobotsGalleryPage() {
                     style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #ced4da' }}
                   />
                   {imagePreview && (
-                    <div style={{ marginTop: '1rem' }}>
+                    <div style={{ marginTop: '1rem', textAlign: 'center' }}>
                       <img
                         src={imagePreview}
                         alt="Preview"
-                        style={{ maxWidth: '100%', maxHeight: '200px', borderRadius: '8px', objectFit: 'cover' }}
+                        style={{ maxWidth: '100%', maxHeight: '250px', borderRadius: '12px', objectFit: 'cover', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
                       />
                     </div>
                   )}
-                  <small style={{ color: '#6c757d', display: 'block', marginTop: '0.5rem' }}>Max size: 5MB. Supported formats: JPG, PNG, GIF, WebP</small>
+                  <small style={{ color: '#6c757d', display: 'block', marginTop: '0.75rem', fontSize: '0.9rem' }}>📎 Max size: 5MB. Supported: JPG, PNG, GIF, WebP</small>
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>Description</label>
+                  <label style={{ display: 'block', marginBottom: '0.75rem', fontWeight: '600', color: '#212529', fontSize: '1rem' }}>Description</label>
                   <textarea
                     value={formData.description || ''}
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                    rows={3}
-                    placeholder="Image description"
-                    style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #ced4da', fontFamily: 'inherit' }}
+                    rows={4}
+                    placeholder="Enter image description..."
+                    style={{ width: '100%', padding: '1rem', borderRadius: '8px', border: '2px solid #dee2e6', fontFamily: 'inherit', fontSize: '1rem', resize: 'vertical' }}
                   />
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
                   <div>
-                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>Uploaded By</label>
+                    <label style={{ display: 'block', marginBottom: '0.75rem', fontWeight: '600', color: '#212529', fontSize: '1rem' }}>Uploaded By</label>
                     <input
                       type="text"
                       value={formData.uploadedBy || 'Admin'}
                       onChange={(e) => setFormData({ ...formData, uploadedBy: e.target.value })}
-                      style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #ced4da' }}
+                      style={{ width: '100%', padding: '1rem', borderRadius: '8px', border: '2px solid #dee2e6', fontSize: '1rem' }}
                     />
                   </div>
                   <div>
-                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>Year</label>
+                    <label style={{ display: 'block', marginBottom: '0.75rem', fontWeight: '600', color: '#212529', fontSize: '1rem' }}>Year</label>
                     <input
                       type="number"
                       value={formData.year || new Date().getFullYear()}
                       onChange={(e) => setFormData({ ...formData, year: parseInt(e.target.value) })}
-                      style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #ced4da' }}
+                      style={{ width: '100%', padding: '1rem', borderRadius: '8px', border: '2px solid #dee2e6', fontSize: '1rem' }}
                     />
                   </div>
                 </div>
               </>
             )}
 
-            <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                style={{
-                  padding: '0.75rem 2rem',
-                  fontSize: '1rem',
-                  fontWeight: '600',
-                  border: 'none',
-                  borderRadius: '8px',
-                  cursor: isSubmitting ? 'not-allowed' : 'pointer',
-                  background: '#E10600',
-                  color: 'white',
-                  opacity: isSubmitting ? 0.6 : 1,
-                }}
-              >
-                {isSubmitting ? '⏳ Saving...' : (editingItem ? '💾 Update' : '✅ Create')}
-              </button>
+            <div style={{ display: 'flex', gap: '1rem', marginTop: '2rem', justifyContent: 'flex-end' }}>
               <button
                 type="button"
                 onClick={() => {
@@ -628,17 +612,37 @@ export default function RobotsGalleryPage() {
                   resetForm();
                 }}
                 style={{
-                  padding: '0.75rem 2rem',
+                  padding: '1rem 2rem',
                   fontSize: '1rem',
                   fontWeight: '600',
-                  border: '1px solid #ced4da',
+                  border: '2px solid #6c757d',
                   borderRadius: '8px',
                   cursor: 'pointer',
                   background: 'white',
-                  color: '#495057',
+                  color: '#6c757d',
+                  transition: 'all 0.3s',
                 }}
               >
                 ✕ Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                style={{
+                  padding: '1rem 2.5rem',
+                  fontSize: '1rem',
+                  fontWeight: '700',
+                  border: 'none',
+                  borderRadius: '8px',
+                  cursor: isSubmitting ? 'not-allowed' : 'pointer',
+                  background: isSubmitting ? '#6c757d' : '#E10600',
+                  color: 'white',
+                  opacity: isSubmitting ? 0.7 : 1,
+                  transition: 'all 0.3s',
+                  boxShadow: isSubmitting ? 'none' : '0 4px 12px rgba(225, 6, 0, 0.3)',
+                }}
+              >
+                {isSubmitting ? '⏳ Saving...' : (editingItem ? '💾 Update' : '✅ Create')}
               </button>
             </div>
           </form>
@@ -654,30 +658,42 @@ export default function RobotsGalleryPage() {
           <>
             <div className={styles.statCard}>
               <div className={styles.statNumber}>{robots.filter(r => r.category === 'competition').length}</div>
-              <div className={styles.statLabel}>Competition</div>
+              <div className={styles.statLabel}>🏆 Competition</div>
             </div>
             <div className={styles.statCard}>
               <div className={styles.statNumber}>{robots.filter(r => r.category === 'research').length}</div>
-              <div className={styles.statLabel}>Research</div>
+              <div className={styles.statLabel}>🔬 Research</div>
             </div>
             <div className={styles.statCard}>
               <div className={styles.statNumber}>{robots.filter(r => r.category === 'development').length}</div>
-              <div className={styles.statLabel}>Development</div>
+              <div className={styles.statLabel}>⚙️ Development</div>
             </div>
           </>
         ) : (
           <>
             <div className={styles.statCard}>
               <div className={styles.statNumber}>{galleryItems.filter(g => g.category === 'robots').length}</div>
-              <div className={styles.statLabel}>Robots</div>
+              <div className={styles.statLabel}>🤖 Robots</div>
             </div>
             <div className={styles.statCard}>
               <div className={styles.statNumber}>{galleryItems.filter(g => g.category === 'events').length}</div>
-              <div className={styles.statLabel}>Events</div>
+              <div className={styles.statLabel}>🎉 Events</div>
             </div>
             <div className={styles.statCard}>
               <div className={styles.statNumber}>{galleryItems.filter(g => g.category === 'workshops').length}</div>
-              <div className={styles.statLabel}>Workshops</div>
+              <div className={styles.statLabel}>🛠️ Workshops</div>
+            </div>
+            <div className={styles.statCard}>
+              <div className={styles.statNumber}>{galleryItems.filter(g => g.category === 'competitions').length}</div>
+              <div className={styles.statLabel}>🏆 Competitions</div>
+            </div>
+            <div className={styles.statCard}>
+              <div className={styles.statNumber}>{galleryItems.filter(g => g.category === 'team').length}</div>
+              <div className={styles.statLabel}>👥 Team</div>
+            </div>
+            <div className={styles.statCard}>
+              <div className={styles.statNumber}>{galleryItems.filter(g => g.category === 'milestones').length}</div>
+              <div className={styles.statLabel}>🎯 Milestones</div>
             </div>
           </>
         )}
