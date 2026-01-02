@@ -8,6 +8,10 @@
 .section {
   padding: 0;
   position: relative;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
 }
 
 /* Hero Section with Team Photo Background */
@@ -97,6 +101,12 @@
   max-width: 900px;
   margin: 0 auto;
   padding: 0 2rem;
+  width: 100%;
+  box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    padding: 0 1rem;
+  }
 }
 
 .container {
@@ -104,12 +114,24 @@
   margin: 0 auto;
   padding: 0 1.5rem;
   position: relative;
+  width: 100%;
+  box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    padding: 0 1rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0 0.75rem;
+  }
 }
 
 .gridContainer {
   padding: 0 1.5rem 3rem;
   max-width: 1200px;
   margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
 
   @media (max-width: 768px) {
     padding: 0 1.25rem 2.5rem;
@@ -203,6 +225,10 @@
   position: sticky;
   top: 70px;
   z-index: 90;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  box-sizing: border-box;
 
   @media (max-width: 768px) {
     padding: 1.25rem 0;

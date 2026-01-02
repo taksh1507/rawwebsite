@@ -15,27 +15,10 @@ export const metadata = {
 
 const TeamPage = () => {
   return (
-    <main style={{
-      background: 'linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%)',
-      position: 'relative',
-      minHeight: '100vh'
-    }}>
-      <div style={{
-        position: 'absolute',
-        top: 0,
-        left: '-50%',
-        width: '1000px',
-        height: '1000px',
-        background: 'radial-gradient(circle, rgba(225, 6, 0, 0.05) 0%, transparent 70%)',
-        borderRadius: '50%',
-        pointerEvents: 'none',
-        zIndex: 0
-      }}></div>
-      <div style={{ position: 'relative', zIndex: 1 }}>
-        <Navbar />
-        <TeamSection />
-        <Footer />
-      </div>
+    <main>
+      <Navbar />
+      <TeamSection />
+      <Footer />
     </main>
   );
 };
