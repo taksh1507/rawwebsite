@@ -15,6 +15,7 @@ export default function Gallery() {
   const [galleryItems, setGalleryItems] = useState<any[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedItem, setSelectedItem] = useState<any | null>(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
     // Transform data to match component's expected format
@@ -23,7 +24,15 @@ export default function Gallery() {
       category: item.category || 'general',
       title: item.title,
       description: item.description,
+      detailedDescription: item.detailedDescription,
       imageUrl: item.imageUrl,
+      images: item.images || [],
+      location: item.location,
+      date: item.date,
+      participants: item.participants,
+      highlights: item.highlights || [],
+      uploadedBy: item.uploadedBy,
+      year: item.year,
       color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
     }));
 
@@ -158,7 +167,10 @@ export default function Gallery() {
                   variants={itemVariants}
                   exit="exit"
                   layoutId={`gallery-${item.id}`}
-                  onClick={() => setSelectedItem(item)}
+                  onClick={() => {
+                    setSelectedItem(item);
+                    setCurrentImageIndex(0);
+                  }}
                 >
                   <motion.div
                     className={styles.itemContent}
@@ -206,12 +218,91 @@ export default function Gallery() {
                 animate={{ scale: 1 }}
                 exit={{ scale: 0.8 }}
                 onClick={(e) => e.stopPropagation()}
+                style={{ maxWidth: '1000px', maxHeight: '90vh', overflow: 'auto' }}
               >
+                {/* Image Gallery Section */}
                 <div
                   className={styles.lightboxImage}
-                  style={{ backgroundColor: selectedItem.imageUrl ? 'transparent' : selectedItem.color }}
+                  style={{ backgroundColor: selectedItem.imageUrl ? 'transparent' : selectedItem.color, position: 'relative' }}
                 >
-                  {selectedItem.imageUrl ? (
+                  {selectedItem.images && selectedItem.images.length > 0 ? (
+                    <>
+                      <img
+                        src={selectedItem.images[currentImageIndex]}
+                        alt={`${selectedItem.title} - Image ${currentImageIndex + 1}`}
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'contain',
+                          maxHeight: '60vh',
+                        }}
+                      />
+                      {/* Image Navigation */}
+                      {selectedItem.images.length > 1 && (
+                        <>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setCurrentImageIndex((prev) => (prev > 0 ? prev - 1 : selectedItem.images.length - 1));
+                            }}
+                            style={{
+                              position: 'absolute',
+                              left: '1rem',
+                              top: '50%',
+                              transform: 'translateY(-50%)',
+                              background: 'rgba(0, 0, 0, 0.7)',
+                              color: 'white',
+                              border: 'none',
+                              borderRadius: '50%',
+                              width: '48px',
+                              height: '48px',
+                              fontSize: '1.5rem',
+                              cursor: 'pointer',
+                              zIndex: 10,
+                            }}
+                          >
+                            ‹
+                          </button>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setCurrentImageIndex((prev) => (prev < selectedItem.images.length - 1 ? prev + 1 : 0));
+                            }}
+                            style={{
+                              position: 'absolute',
+                              right: '1rem',
+                              top: '50%',
+                              transform: 'translateY(-50%)',
+                              background: 'rgba(0, 0, 0, 0.7)',
+                              color: 'white',
+                              border: 'none',
+                              borderRadius: '50%',
+                              width: '48px',
+                              height: '48px',
+                              fontSize: '1.5rem',
+                              cursor: 'pointer',
+                              zIndex: 10,
+                            }}
+                          >
+                            ›
+                          </button>
+                          <div style={{
+                            position: 'absolute',
+                            bottom: '1rem',
+                            left: '50%',
+                            transform: 'translateX(-50%)',
+                            background: 'rgba(0, 0, 0, 0.7)',
+                            color: 'white',
+                            padding: '0.5rem 1rem',
+                            borderRadius: '20px',
+                            fontSize: '0.9rem',
+                          }}>
+                            {currentImageIndex + 1} / {selectedItem.images.length}
+                          </div>
+                        </>
+                      )}
+                    </>
+                  ) : selectedItem.imageUrl ? (
                     <img
                       src={selectedItem.imageUrl}
                       alt={selectedItem.title}
@@ -219,19 +310,104 @@ export default function Gallery() {
                         width: '100%',
                         height: '100%',
                         objectFit: 'contain',
-                        maxHeight: '80vh',
+                        maxHeight: '60vh',
                       }}
                     />
                   ) : (
                     <div className={styles.lightboxEmoji}>📸</div>
                   )}
                 </div>
-                <div className={styles.lightboxInfo}>
-                  <h3>{selectedItem.title}</h3>
-                  <p>{selectedItem.category}</p>
+                
+                {/* Thumbnail Strip for Multiple Images */}
+                {selectedItem.images && selectedItem.images.length > 1 && (
+                  <div style={{
+                    display: 'flex',
+                    gap: '0.5rem',
+                    padding: '1rem',
+                    overflowX: 'auto',
+                    background: '#f8f9fa',
+                  }}>
+                    {selectedItem.images.map((img: string, index: number) => (
+                      <img
+                        key={index}
+                        src={img}
+                        alt={`Thumbnail ${index + 1}`}
+                        onClick={() => setCurrentImageIndex(index)}
+                        style={{
+                          width: '80px',
+                          height: '80px',
+                          objectFit: 'cover',
+                          borderRadius: '8px',
+                          cursor: 'pointer',
+                          border: currentImageIndex === index ? '3px solid #B2001D' : '2px solid #ddd',
+                          opacity: currentImageIndex === index ? 1 : 0.6,
+                        }}
+                      />
+                    ))}
+                  </div>
+                )}
+                
+                {/* Info Section */}
+                <div className={styles.lightboxInfo} style={{ padding: '2rem' }}>
+                  <h3 style={{ fontSize: '1.8rem', marginBottom: '1rem', color: '#0d1f3e' }}>{selectedItem.title}</h3>
+                  
+                  {/* Metadata Row */}
+                  <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap', marginBottom: '1.5rem', fontSize: '0.9rem', color: '#666' }}>
+                    <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                      <strong>📂</strong> {selectedItem.category}
+                    </span>
+                    {selectedItem.date && (
+                      <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        <strong>📅</strong> {new Date(selectedItem.date).toLocaleDateString()}
+                      </span>
+                    )}
+                    {selectedItem.location && (
+                      <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        <strong>📍</strong> {selectedItem.location}
+                      </span>
+                    )}
+                    {selectedItem.participants && (
+                      <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        <strong>👥</strong> {selectedItem.participants}
+                      </span>
+                    )}
+                  </div>
+                  
+                  {/* Description */}
+                  {selectedItem.description && (
+                    <p style={{ marginBottom: '1rem', lineHeight: '1.6', color: '#333' }}>
+                      {selectedItem.description}
+                    </p>
+                  )}
+                  
+                  {/* Detailed Description */}
+                  {selectedItem.detailedDescription && (
+                    <div style={{ marginBottom: '1.5rem' }}>
+                      <h4 style={{ fontSize: '1.1rem', marginBottom: '0.75rem', color: '#0d1f3e' }}>About</h4>
+                      <p style={{ lineHeight: '1.8', color: '#555', whiteSpace: 'pre-line' }}>
+                        {selectedItem.detailedDescription}
+                      </p>
+                    </div>
+                  )}
+                  
+                  {/* Highlights */}
+                  {selectedItem.highlights && selectedItem.highlights.length > 0 && (
+                    <div style={{ marginBottom: '1rem' }}>
+                      <h4 style={{ fontSize: '1.1rem', marginBottom: '0.75rem', color: '#0d1f3e' }}>Highlights</h4>
+                      <ul style={{ paddingLeft: '1.5rem', lineHeight: '2' }}>
+                        {selectedItem.highlights.map((highlight: string, index: number) => (
+                          <li key={index} style={{ color: '#555' }}>{highlight}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  
                   <motion.button
                     className={styles.closeButton}
-                    onClick={() => setSelectedItem(null)}
+                    onClick={() => {
+                      setSelectedItem(null);
+                      setCurrentImageIndex(0);
+                    }}
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
                   >

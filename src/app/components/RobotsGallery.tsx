@@ -23,6 +23,7 @@ export default function RobotsGallery() {
   const [selectedItem, setSelectedItem] = useState<any | null>(null);
   const [detailViewItem, setDetailViewItem] = useState<any | null>(null);
   const [showFilterModal, setShowFilterModal] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   
   // Temporary filter states for modal
   const [tempCategory, setTempCategory] = useState('all');
@@ -67,7 +68,14 @@ export default function RobotsGallery() {
       category: item.category || 'general',
       title: item.title,
       description: item.description,
+      detailedDescription: item.detailedDescription,
       imageUrl: item.imageUrl,
+      images: item.images || [],
+      location: item.location,
+      date: item.date,
+      participants: item.participants,
+      highlights: item.highlights || [],
+      uploadedBy: item.uploadedBy,
       color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
       year: item.year,
     }));
@@ -603,7 +611,10 @@ export default function RobotsGallery() {
                 </div>
                 {/* View Details Button */}
                 <motion.button
-                  onClick={() => setDetailViewItem(robot)}
+                  onClick={() => {
+                    setCurrentImageIndex(0);
+                    setDetailViewItem(robot);
+                  }}
                   whileHover={{ 
                     scale: 1.02,
                     boxShadow: '0 8px 24px rgba(178, 0, 29, 0.4)',
@@ -740,7 +751,10 @@ export default function RobotsGallery() {
                   </p>
                   {/* View Details Button */}
                   <motion.button
-                    onClick={() => setDetailViewItem(item)}
+                    onClick={() => {
+                      setCurrentImageIndex(0);
+                      setDetailViewItem(item);
+                    }}
                     whileHover={{ 
                       scale: 1.02,
                       boxShadow: '0 8px 24px rgba(178, 0, 29, 0.4)',
@@ -926,7 +940,89 @@ export default function RobotsGallery() {
                     ease: 'easeInOut'
                   }}
                 >
-                  {detailViewItem.imageUrl ? (
+                  {detailViewItem.images && detailViewItem.images.length > 0 ? (
+                    <>
+                      <img
+                        src={detailViewItem.images[currentImageIndex]}
+                        alt={`${detailViewItem.name || detailViewItem.title} - Image ${currentImageIndex + 1}`}
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
+                        }}
+                      />
+                      {detailViewItem.images.length > 1 && (
+                        <>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setCurrentImageIndex(prev => prev > 0 ? prev - 1 : detailViewItem.images.length - 1);
+                            }}
+                            style={{
+                              position: 'absolute',
+                              left: '8px',
+                              top: '50%',
+                              transform: 'translateY(-50%)',
+                              background: 'rgba(0, 0, 0, 0.6)',
+                              color: 'white',
+                              border: 'none',
+                              borderRadius: '50%',
+                              width: '32px',
+                              height: '32px',
+                              cursor: 'pointer',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              fontSize: '1.2rem',
+                              zIndex: 2,
+                            }}
+                          >
+                            ‹
+                          </button>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setCurrentImageIndex(prev => prev < detailViewItem.images.length - 1 ? prev + 1 : 0);
+                            }}
+                            style={{
+                              position: 'absolute',
+                              right: '8px',
+                              top: '50%',
+                              transform: 'translateY(-50%)',
+                              background: 'rgba(0, 0, 0, 0.6)',
+                              color: 'white',
+                              border: 'none',
+                              borderRadius: '50%',
+                              width: '32px',
+                              height: '32px',
+                              cursor: 'pointer',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              fontSize: '1.2rem',
+                              zIndex: 2,
+                            }}
+                          >
+                            ›
+                          </button>
+                          <div style={{
+                            position: 'absolute',
+                            bottom: '8px',
+                            right: '8px',
+                            background: 'rgba(0, 0, 0, 0.7)',
+                            color: 'white',
+                            padding: '4px 10px',
+                            borderRadius: '12px',
+                            fontSize: '0.7rem',
+                            fontWeight: '600',
+                            zIndex: 2,
+                          }}>
+                            {currentImageIndex + 1} / {detailViewItem.images.length}
+                          </div>
+                        </>
+                      )}
+                    </>
+                  ) : detailViewItem.imageUrl ? (
                     <img
                       src={detailViewItem.imageUrl}
                       alt={detailViewItem.name || detailViewItem.title}
@@ -1002,6 +1098,103 @@ export default function RobotsGallery() {
                 overflowY: 'auto',
                 flex: 1,
               }}>
+                {/* Thumbnail Strip */}
+                {detailViewItem.images && detailViewItem.images.length > 1 && (
+                  <div style={{
+                    marginBottom: '2.5rem',
+                    display: 'flex',
+                    gap: '1rem',
+                    overflowX: 'auto',
+                    padding: '0.5rem 0',
+                  }}>
+                    {detailViewItem.images.map((img: string, idx: number) => (
+                      <motion.img
+                        key={idx}
+                        src={img}
+                        alt={`Thumbnail ${idx + 1}`}
+                        onClick={() => setCurrentImageIndex(idx)}
+                        whileHover={{ scale: 1.05 }}
+                        style={{
+                          width: '80px',
+                          height: '80px',
+                          objectFit: 'cover',
+                          borderRadius: '8px',
+                          cursor: 'pointer',
+                          border: currentImageIndex === idx ? '3px solid #B2001D' : '3px solid transparent',
+                          transition: 'all 0.3s ease',
+                        }}
+                      />
+                    ))}
+                  </div>
+                )}
+
+                {/* Metadata Row */}
+                {(detailViewItem.date || detailViewItem.location || detailViewItem.participants) && (
+                  <div style={{
+                    marginBottom: '2.5rem',
+                    display: 'flex',
+                    gap: '1.5rem',
+                    flexWrap: 'wrap',
+                    padding: '1.25rem',
+                    background: 'rgba(178, 0, 29, 0.04)',
+                    borderRadius: '12px',
+                    border: '1px solid rgba(178, 0, 29, 0.1)',
+                  }}>
+                    {detailViewItem.category && (
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        <span style={{ fontSize: '1.1rem' }}>📂</span>
+                        <span style={{ 
+                          fontSize: '0.9rem', 
+                          color: '#334155',
+                          fontWeight: 600,
+                          fontFamily: 'Inter, sans-serif',
+                        }}>
+                          {detailViewItem.category.charAt(0).toUpperCase() + detailViewItem.category.slice(1)}
+                        </span>
+                      </div>
+                    )}
+                    {detailViewItem.date && (
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        <span style={{ fontSize: '1.1rem' }}>📅</span>
+                        <span style={{ 
+                          fontSize: '0.9rem', 
+                          color: '#334155',
+                          fontWeight: 600,
+                          fontFamily: 'Inter, sans-serif',
+                        }}>
+                          {new Date(detailViewItem.date).toLocaleDateString()}
+                        </span>
+                      </div>
+                    )}
+                    {detailViewItem.location && (
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        <span style={{ fontSize: '1.1rem' }}>📍</span>
+                        <span style={{ 
+                          fontSize: '0.9rem', 
+                          color: '#334155',
+                          fontWeight: 600,
+                          fontFamily: 'Inter, sans-serif',
+                        }}>
+                          {detailViewItem.location}
+                        </span>
+                      </div>
+                    )}
+                    {detailViewItem.participants && (
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        <span style={{ fontSize: '1.1rem' }}>👥</span>
+                        <span style={{ 
+                          fontSize: '0.9rem', 
+                          color: '#334155',
+                          fontWeight: 600,
+                          fontFamily: 'Inter, sans-serif',
+                        }}>
+                          {detailViewItem.participants}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                )}
+
                 {/* Description Section */}
                 <div style={{ marginBottom: '2.5rem' }}>
                   <h3 style={{
@@ -1025,6 +1218,82 @@ export default function RobotsGallery() {
                     {detailViewItem.description}
                   </p>
                 </div>
+
+                {/* Detailed Description Section */}
+                {detailViewItem.detailedDescription && (
+                  <div style={{ marginBottom: '2.5rem' }}>
+                    <h3 style={{
+                      fontSize: '0.85rem',
+                      color: '#64748b',
+                      marginBottom: '1rem',
+                      fontWeight: 700,
+                      fontFamily: 'Inter, sans-serif',
+                      letterSpacing: '0.08em',
+                      textTransform: 'uppercase',
+                    }}>
+                      Detailed Description
+                    </h3>
+                    <p style={{
+                      fontSize: '1.05rem',
+                      color: '#334155',
+                      lineHeight: 1.7,
+                      fontFamily: 'Inter, sans-serif',
+                      fontWeight: 400,
+                      whiteSpace: 'pre-wrap',
+                    }}>
+                      {detailViewItem.detailedDescription}
+                    </p>
+                  </div>
+                )}
+
+                {/* Highlights Section */}
+                {detailViewItem.highlights && detailViewItem.highlights.length > 0 && (
+                  <div style={{ marginBottom: '2.5rem' }}>
+                    <h3 style={{
+                      fontSize: '0.85rem',
+                      color: '#64748b',
+                      marginBottom: '1rem',
+                      fontWeight: 700,
+                      fontFamily: 'Inter, sans-serif',
+                      letterSpacing: '0.08em',
+                      textTransform: 'uppercase',
+                    }}>
+                      Highlights
+                    </h3>
+                    <ul style={{
+                      listStyle: 'none',
+                      padding: 0,
+                      margin: 0,
+                    }}>
+                      {detailViewItem.highlights.map((highlight: string, idx: number) => (
+                        <motion.li
+                          key={idx}
+                          style={{
+                            padding: '0.75rem 0',
+                            borderBottom: idx < detailViewItem.highlights.length - 1 ? '1px solid rgba(0, 0, 0, 0.1)' : 'none',
+                            display: 'flex',
+                            alignItems: 'flex-start',
+                            gap: '0.75rem',
+                          }}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: idx * 0.05 }}
+                        >
+                          <span style={{ color: '#B2001D', fontSize: '1.2rem', marginTop: '0.1rem' }}>•</span>
+                          <span style={{
+                            fontSize: '1rem',
+                            color: '#334155',
+                            lineHeight: 1.6,
+                            fontFamily: 'Inter, sans-serif',
+                            fontWeight: 400,
+                          }}>
+                            {highlight}
+                          </span>
+                        </motion.li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
 
                 {/* Specifications Section (for robots) */}
                 {detailViewItem.specs && detailViewItem.specs.length > 0 && (
