@@ -158,9 +158,10 @@ export default function RobotsGalleryPage() {
     if (files && files.length > 0) {
       const newImages: string[] = [];
       const newPreviews: string[] = [];
-      let processedCount = 0;
+      const validFiles: File[] = [];
 
-      Array.from(files).forEach((file, index) => {
+      // First, validate all files
+      Array.from(files).forEach((file) => {
         // Check file size (max 5MB per image)
         if (file.size > 5 * 1024 * 1024) {
           alert(`Image ${file.name} is too large. Max size: 5MB`);
@@ -173,6 +174,17 @@ export default function RobotsGalleryPage() {
           return;
         }
 
+        validFiles.push(file);
+      });
+
+      if (validFiles.length === 0) {
+        return;
+      }
+
+      let processedCount = 0;
+
+      // Process valid files
+      validFiles.forEach((file) => {
         const reader = new FileReader();
         reader.onloadend = () => {
           const base64String = reader.result as string;
@@ -180,11 +192,16 @@ export default function RobotsGalleryPage() {
           newPreviews.push(base64String);
           processedCount++;
 
-          if (processedCount === files.length) {
+          if (processedCount === validFiles.length) {
             setMultipleImages(prev => [...prev, ...newImages]);
             setMultipleImagePreviews(prev => [...prev, ...newPreviews]);
-            setFormData({ ...formData, images: [...(formData.images || []), ...newImages] });
+            setFormData(prev => ({ ...prev, images: [...(prev.images || []), ...newImages] }));
+            console.log('✅ Multiple images added:', newImages.length);
           }
+        };
+        reader.onerror = (error) => {
+          console.error('Error reading file:', error);
+          alert(`Failed to read ${file.name}`);
         };
         reader.readAsDataURL(file);
       });
