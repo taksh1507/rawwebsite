@@ -40,28 +40,57 @@ export default function Analytics() {
 
   const fetchAnalytics = async () => {
     setLoading(true);
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    try {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+      
+      // Fetch contact messages
+      const contactResponse = await fetch(`${apiUrl}/api/contact/messages`);
+      const contactData = await contactResponse.json();
+      
+      // Fetch updates
+      const updatesResponse = await fetch(`${apiUrl}/api/updates`);
+      const updatesData = await updatesResponse.json();
+      
+      if (contactData.success && contactData.data) {
+        const contacts = contactData.data;
+        setContactStats({
+          total: contacts.length,
+          byStatus: {
+            new: contacts.filter((c: any) => c.status === 'unread').length,
+            read: contacts.filter((c: any) => c.status === 'read' && !c.replied).length,
+            replied: contacts.filter((c: any) => c.replied).length,
+          },
+          trend: 0, // Calculate based on last period if needed
+        });
+      }
 
-    // Mock analytics with trend data
-    setTeamStats({
-      total: 24,
-      byCategory: { core: 8, mentors: 4, members: 10, alumni: 2 },
-      byDepartment: { Mechanical: 8, Electronics: 7, Software: 6, Management: 3 },
-      trend: 12.5,
-    });
-    setGalleryStats({
-      total: 156,
-      byCategory: { robots: 42, events: 38, workshops: 28, competitions: 24, team: 14, milestones: 10 },
-      trend: 8.3,
-    });
-    setContactStats({
-      total: 47,
-      byStatus: { new: 12, read: 23, replied: 12 },
-      trend: -5.2,
-    });
-    setLastUpdated(new Date());
-    setLoading(false);
+      // Mock team and gallery stats (can be replaced with real API calls later)
+      setTeamStats({
+        total: 24,
+        byCategory: { core: 8, mentors: 4, members: 10, alumni: 2 },
+        byDepartment: { Mechanical: 8, Electronics: 7, Software: 6, Management: 3 },
+        trend: 12.5,
+      });
+      
+      setGalleryStats({
+        total: 156,
+        byCategory: { robots: 42, events: 38, workshops: 28, competitions: 24, team: 14, milestones: 10 },
+        trend: 8.3,
+      });
+      
+      setLastUpdated(new Date());
+    } catch (error) {
+      console.error('Error fetching analytics:', error);
+      // Fallback to mock data on error
+      setContactStats({
+        total: 0,
+        byStatus: { new: 0, read: 0, replied: 0 },
+        trend: 0,
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const formatLastUpdated = () => {
