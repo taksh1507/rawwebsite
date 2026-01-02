@@ -10,10 +10,27 @@ export default function UpdatesPopup() {
     // Show popup after a short delay
     const timer = setTimeout(() => {
       setShowPopup(true);
-    }, 1000);
+    }, 1500);
 
     return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    // ESC key to close
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && showPopup) {
+        setShowPopup(false);
+      }
+    };
+
+    if (showPopup) {
+      document.addEventListener('keydown', handleEscape);
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, [showPopup]);
 
   const handleClose = () => {
     setShowPopup(false);
@@ -22,158 +39,248 @@ export default function UpdatesPopup() {
   return (
     <AnimatePresence>
       {showPopup && (
-        <>
-          {/* Backdrop */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={handleClose}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(0, 0, 0, 0.35)',
+            backdropFilter: 'blur(3px)',
+            WebkitBackdropFilter: 'blur(3px)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 999,
+          }}
+        >
+          {/* Centered Latest Updates Modal */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={handleClose}
-            style={{
-              position: 'fixed',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              backgroundColor: 'rgba(0, 0, 0, 0.6)',
-              backdropFilter: 'blur(4px)',
-              zIndex: 9998,
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ 
+              duration: 0.35,
+              ease: [0.16, 1, 0.3, 1],
             }}
-          />
-
-          {/* Popup Content */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            onClick={(e) => e.stopPropagation()}
             style={{
-              position: 'fixed',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              width: '90%',
-              maxWidth: '600px',
-              maxHeight: '80vh',
-              overflowY: 'auto',
-              background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)',
-              borderRadius: '20px',
-              boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
-              border: '2px solid rgba(10, 26, 58, 0.1)',
-              zIndex: 9999,
+              width: '420px',
+              maxWidth: '90vw',
+              maxHeight: '75vh',
+              background: 'rgba(255, 255, 255, 0.78)',
+              backdropFilter: 'blur(14px)',
+              WebkitBackdropFilter: 'blur(14px)',
+              borderRadius: '18px',
+              boxShadow: '0 20px 60px rgba(0, 0, 0, 0.25)',
+              position: 'relative',
+              overflow: 'hidden',
+              display: 'flex',
+              flexDirection: 'column',
             }}
           >
-            {/* Header */}
+            {/* Header - Premium & Corporate */}
             <div
               style={{
-                background: 'linear-gradient(135deg, #0a1a3a 0%, #1a3254 100%)',
-                padding: '2rem',
-                borderTopLeftRadius: '18px',
-                borderTopRightRadius: '18px',
-                position: 'relative',
+                padding: '1.75rem 2rem',
+                borderBottom: '1px solid rgba(10, 26, 58, 0.1)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
               }}
             >
+              <h2
+                style={{
+                  fontSize: '1.5rem',
+                  fontFamily: 'Orbitron, sans-serif',
+                flexShrink: 0,
+                  color: '#0a1a3a',
+                  margin: 0,
+                  fontWeight: 700,
+                  letterSpacing: '-0.02em',
+                }}
+              >
+                Latest <span style={{ color: '#B2001D' }}>Updates</span>
+              </h2>
+
               {/* Close Button */}
               <button
                 onClick={handleClose}
                 style={{
-                  position: 'absolute',
-                  top: '1rem',
-                  right: '1rem',
-                  background: 'rgba(255, 255, 255, 0.1)',
-                  border: '1px solid rgba(255, 255, 255, 0.2)',
-                  borderRadius: '50%',
-                  width: '40px',
-                  height: '40px',
+                  background: 'transparent',
+                  border: '1px solid rgba(10, 26, 58, 0.15)',
+                  borderRadius: '8px',
+                  width: '36px',
+                  height: '36px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   cursor: 'pointer',
-                  color: '#ffffff',
-                  fontSize: '1.5rem',
+                  color: '#64748b',
+                  fontSize: '1.25rem',
                   transition: 'all 0.3s',
+                  fontWeight: 300,
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = 'rgba(178, 0, 29, 0.8)';
-                  e.currentTarget.style.transform = 'rotate(90deg)';
+                  e.currentTarget.style.background = 'rgba(178, 0, 29, 0.1)';
+                  e.currentTarget.style.color = '#B2001D';
+                  e.currentTarget.style.borderColor = '#B2001D';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
-                  e.currentTarget.style.transform = 'rotate(0deg)';
+                  e.currentTarget.style.background = 'transparent';
+                  e.currentTarget.style.color = '#64748b';
+                  e.currentTarget.style.borderColor = 'rgba(10, 26, 58, 0.15)';
                 }}
               >
                 ×
               </button>
-
-              <h2
-                style={{
-                  fontSize: '2rem',
-                  fontFamily: 'Orbitron, sans-serif',
-                  color: '#ffffff',
-                  margin: 0,
-                  textAlign: 'center',
-                }}
-              >
-                Latest <span style={{ color: '#B2001D' }}>Updates</span> 🚀
-              </h2>
             </div>
 
-            {/* Body */}
-            <div style={{ padding: '2rem' }}>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            {/* Body - Internal Scrolling Container */}
+            <div 
+              style={{ 
+                flex: 1,
+                overflowY: 'auto',
+                overflowX: 'hidden',
+              }}
+              className="updates-scroll"
+            >
+              <style jsx>{`
+                .updates-scroll {
+                  scrollbar-width: thin;
+                  scrollbar-color: rgba(178, 0, 29, 0.3) rgba(10, 26, 58, 0.05);
+                }
+                .updates-scroll::-webkit-scrollbar {
+                  width: 6px;
+                }
+                .updates-scroll::-webkit-scrollbar-track {
+                  background: rgba(10, 26, 58, 0.05);
+                  border-radius: 10px;
+                }
+                .updates-scroll::-webkit-scrollbar-thumb {
+                  background: rgba(178, 0, 29, 0.3);
+                  border-radius: 10px;
+                  transition: background 0.2s8, 0, 29, 0.3);
+                  border-radius: 10px;
+                }
+                .updates-scroll::-webkit-scrollbar-thumb:hover {
+                  background: rgba(178, 0, 29, 0.5);
+                }
+                
+                @media (max-width: 768px) {
+                  .updates-scroll {
+                    padding: 1rem 1.5rem 1.5rem !important;
+                  }
+                }
+              `}</style>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 {[
-                  { date: 'Dec 5, 2025', title: 'New Autonomous Bot Released', icon: '🚀', description: 'Our latest autonomous robot is now ready for competitions!' },
-                  { date: 'Dec 1, 2025', title: 'Won RoboRace Championship 2025', icon: '🥇', description: 'Team RAW secured first place in the national championship.' },
-                  { date: 'Nov 25, 2025', title: '5 New Members Joined the Team', icon: '👥', description: 'Welcome to our new talented team members!' },
+                  { 
+                    date: 'December 5, 2025', 
+                    title: 'New Autonomous Bot Released', 
+                    icon: '🚀', 
+                    description: 'Our latest autonomous robot is now ready for competitions with enhanced navigation.' 
+                  },
+                  { 
+                    date: 'December 1, 2025', 
+                    title: 'Won RoboRace Championship 2025', 
+                    icon: '🏆', 
+                    description: 'Team RAW secured first place in the national championship with record scores.' 
+                  },
+                  { 
+                    date: 'November 25, 2025', 
+                    title: '5 New Members Joined the Team', 
+                    icon: '🤖', 
+                    description: 'Welcome our new talented engineers and designers to Team RAW!' 
+                  },
                 ].map((update, idx) => (
                   <motion.div
                     key={idx}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.1 * idx }}
+                    transition={{ delay: 0.2 + (0.1 * idx) }}
                     style={{
-                      padding: '1.5rem',
-                      background: '#ffffff',
-                      border: '2px solid rgba(10, 26, 58, 0.08)',
-                      borderLeft: '4px solid #B2001D',
+                      position: 'relative',
+                      padding: '1.25rem 1.25rem 1.25rem 1.75rem',
+                      background: 'rgba(255, 255, 255, 0.6)',
                       borderRadius: '12px',
-                      transition: 'all 0.3s',
+                      border: '1px solid rgba(10, 26, 58, 0.08)',
+                      transition: 'all 0.3s ease',
+                      cursor: 'default',
                     }}
                     whileHover={{
-                      boxShadow: '0 8px 24px rgba(178, 0, 29, 0.15)',
-                      borderColor: 'rgba(178, 0, 29, 0.3)',
+                      boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12)',
+                      y: -2,
                     }}
                   >
+                    {/* Left Accent Strip */}
+                    <div
+                      style={{
+                        position: 'absolute',
+                        left: 0,
+                        top: 0,
+                        bottom: 0,
+                        width: '4px',
+                        background: 'linear-gradient(180deg, #B2001D 0%, #8a0016 100%)',
+                        borderTopLeftRadius: '12px',
+                        borderBottomLeftRadius: '12px',
+                      }}
+                    />
+
                     <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
-                      <div style={{ fontSize: '2rem' }}>{update.icon}</div>
+                      {/* Icon */}
+                      <div 
+                        style={{ 
+                          fontSize: '1.75rem',
+                          flexShrink: 0,
+                          lineHeight: 1,
+                        }}
+                      >
+                        {update.icon}
+                      </div>
+
+                      {/* Content */}
                       <div style={{ flex: 1 }}>
+                        {/* Date */}
                         <p
                           style={{
-                            fontSize: '0.85rem',
+                            fontSize: '0.75rem',
                             color: '#B2001D',
-                            fontWeight: '600',
+                            fontWeight: 600,
                             margin: '0 0 0.5rem 0',
                             letterSpacing: '0.05em',
+                            textTransform: 'uppercase',
+                            fontFamily: 'Inter, sans-serif',
                           }}
                         >
                           {update.date}
                         </p>
+
+                        {/* Title */}
                         <h3
                           style={{
-                            fontFamily: 'Orbitron, sans-serif',
-                            fontSize: '1.1rem',
+                            fontSize: '1rem',
                             color: '#0a1a3a',
                             margin: '0 0 0.5rem 0',
+                            fontWeight: 700,
+                            lineHeight: 1.4,
+                            fontFamily: 'Inter, sans-serif',
                           }}
                         >
                           {update.title}
                         </h3>
+
+                        {/* Description */}
                         <p
                           style={{
-                            fontSize: '0.9rem',
+                            fontSize: '0.875rem',
                             color: '#64748b',
                             margin: 0,
                             lineHeight: 1.6,
+                            fontFamily: 'Inter, sans-serif',
                           }}
                         >
                           {update.description}
@@ -183,32 +290,9 @@ export default function UpdatesPopup() {
                   </motion.div>
                 ))}
               </div>
-
-              {/* Footer Button */}
-              <motion.button
-                onClick={handleClose}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                style={{
-                  width: '100%',
-                  marginTop: '2rem',
-                  padding: '1rem',
-                  background: 'linear-gradient(135deg, #B2001D 0%, #8a0016 100%)',
-                  color: '#ffffff',
-                  border: 'none',
-                  borderRadius: '12px',
-                  fontSize: '1rem',
-                  fontWeight: '600',
-                  fontFamily: 'Inter, sans-serif',
-                  cursor: 'pointer',
-                  boxShadow: '0 4px 12px rgba(178, 0, 29, 0.3)',
-                }}
-              >
-                Got it, thanks! 👍
-              </motion.button>
             </div>
           </motion.div>
-        </>
+        </motion.div>
       )}
     </AnimatePresence>
   );
