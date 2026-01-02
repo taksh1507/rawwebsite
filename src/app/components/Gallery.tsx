@@ -17,6 +17,18 @@ export default function Gallery() {
   const [selectedItem, setSelectedItem] = useState<any | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
+  // Lock body scroll when lightbox is open
+  useEffect(() => {
+    if (selectedItem) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [selectedItem]);
+
   useEffect(() => {
     // Transform data to match component's expected format
     const transformedData = galleryImages.map((item: any) => ({
@@ -202,9 +214,10 @@ export default function Gallery() {
         </motion.div>
 
         {/* Lightbox */}
-        <AnimatePresence>
+        <AnimatePresence mode="wait">
           {selectedItem && (
             <motion.div
+              key={`lightbox-${selectedItem.id}`}
               className={styles.lightboxBackdrop}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -214,16 +227,26 @@ export default function Gallery() {
               <motion.div
                 className={styles.lightboxContent}
                 layoutId={`gallery-${selectedItem.id}`}
-                initial={{ scale: 0.8 }}
-                animate={{ scale: 1 }}
-                exit={{ scale: 0.8 }}
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.8, opacity: 0 }}
                 onClick={(e) => e.stopPropagation()}
-                style={{ maxWidth: '1000px', maxHeight: '90vh', overflow: 'auto' }}
+                style={{ 
+                  maxWidth: '1000px', 
+                  maxHeight: '90vh', 
+                  overflow: 'hidden',
+                  display: 'flex',
+                  flexDirection: 'column',
+                }}
               >
                 {/* Image Gallery Section */}
                 <div
                   className={styles.lightboxImage}
-                  style={{ backgroundColor: selectedItem.imageUrl ? 'transparent' : selectedItem.color, position: 'relative' }}
+                  style={{ 
+                    backgroundColor: selectedItem.imageUrl ? 'transparent' : selectedItem.color, 
+                    position: 'relative',
+                    flexShrink: 0,
+                  }}
                 >
                   {selectedItem.images && selectedItem.images.length > 0 ? (
                     <>
@@ -326,6 +349,7 @@ export default function Gallery() {
                     padding: '1rem',
                     overflowX: 'auto',
                     background: '#f8f9fa',
+                    flexShrink: 0,
                   }}>
                     {selectedItem.images.map((img: string, index: number) => (
                       <img
@@ -348,7 +372,11 @@ export default function Gallery() {
                 )}
                 
                 {/* Info Section */}
-                <div className={styles.lightboxInfo} style={{ padding: '2rem' }}>
+                <div className={styles.lightboxInfo} style={{ 
+                  padding: '2rem',
+                  overflowY: 'auto',
+                  flex: 1,
+                }}>
                   <h3 style={{ fontSize: '1.8rem', marginBottom: '1rem', color: '#0d1f3e' }}>{selectedItem.title}</h3>
                   
                   {/* Metadata Row */}
