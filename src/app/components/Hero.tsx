@@ -86,21 +86,25 @@ export default function Hero() {
           </motion.p>
 
           <motion.div variants={itemVariants} className={styles.ctaContainer}>
-            <motion.button
+            <motion.a
+              href="/competitions"
               className={`${styles.button} ${styles.primaryButton}`}
               whileHover={{ scale: 1.05, boxShadow: '0 0 30px rgba(225, 6, 0, 0.6)' }}
               whileTap={{ scale: 0.95 }}
+              style={{ textDecoration: 'none', display: 'inline-block', cursor: 'pointer' }}
             >
               Explore Competitions
-            </motion.button>
+            </motion.a>
 
-            <motion.button
+            <motion.a
+              href="/robots"
               className={`${styles.button} ${styles.secondaryButton}`}
               whileHover={{ scale: 1.05, backgroundColor: 'var(--color-navy)' }}
               whileTap={{ scale: 0.95 }}
+              style={{ textDecoration: 'none', display: 'inline-block', cursor: 'pointer' }}
             >
               Meet the Robots
-            </motion.button>
+            </motion.a>
           </motion.div>
 
           {/* Stats */}
@@ -149,7 +153,9 @@ export default function Hero() {
         className={styles.scrollIndicator}
         animate={{ y: [0, 10, 0] }}
         transition={{ duration: 2, repeat: Infinity }}
+        style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}
       >
+        <span style={{ fontSize: '0.875rem', color: 'var(--color-gray)', fontWeight: 500 }}>Scroll to Explore</span>
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
           <path d="M12 5v14M19 12l-7 7-7-7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         </svg>

@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import UpdatesPopup from './components/UpdatesPopup';
+import AnimatedStat from './components/AnimatedStat';
 import Footer from './components/Footer';
 
 export default function Home() {
@@ -43,12 +44,13 @@ export default function Home() {
             }}>
               Welcome to <span style={{ color: 'var(--color-red)', textShadow: '0 0 10px rgba(225, 6, 0, 0.2)' }}>TEAM RAW</span>
             </h2>
+            <div style={{ width: '60px', height: '3px', background: 'linear-gradient(90deg, var(--color-red), var(--color-navy))', margin: '1rem auto', borderRadius: '2px' }} />
             <p style={{
               fontSize: '1.1rem',
               color: 'var(--color-gray-dark)',
-              maxWidth: '700px',
+              maxWidth: '800px',
               margin: '0 auto',
-              lineHeight: '1.8',
+              lineHeight: '2',
             }}>
               The official robotics research and competition team of St. Francis Institute of Technology (SFIT). 
               We design, develop, and innovate robotics systems for national and international competitions.
@@ -94,13 +96,14 @@ export default function Home() {
             transition={{ delay: 0.2 }}
           >
             {[
-              { icon: '🎯', title: 'Our Mission', text: 'To provide a supportive environment for students to develop technical skills, conduct robotics research, and work on long-term innovative projects, while collaborating with industries and institutions to enhance learning and exposure in the field of robotics.' },
-              { icon: '🚀', title: 'Our Vision', text: 'To be a leading student robotics committee that drives innovation, represents SFIT globally, and cultivates a strong and lasting robotics culture within the institute.' },
-              { icon: '🧠', title: 'What We Do', text: 'Autonomous robotics, embedded systems, mechanical design, AI & computer vision, ROS, mechatronics, and industrial automation.' },
-              { icon: '🏆', title: 'Competitions', text: 'ABU Robocon, eYRC, IRC, SAE AeroX, National Robotics Championship, and Technovation Project Expo.' },
+              { icon: '🎯', title: 'Our Mission', text: 'To provide a supportive environment for students to develop technical skills, conduct robotics research, and work on long-term innovative projects, while collaborating with industries and institutions to enhance learning and exposure in the field of robotics.', link: '/about#mission' },
+              { icon: '🚀', title: 'Our Vision', text: 'To be a leading student robotics committee that drives innovation, represents SFIT globally, and cultivates a strong and lasting robotics culture within the institute.', link: '/about#vision' },
+              { icon: '🧠', title: 'What We Do', text: 'Autonomous robotics, embedded systems, mechanical design, AI & computer vision, ROS, mechatronics, and industrial automation.', link: '/team' },
+              { icon: '🏆', title: 'Competitions', text: 'ABU Robocon, eYRC, IRC, SAE AeroX, National Robotics Championship, and Technovation Project Expo.', link: '/competitions' },
             ].map((item, idx) => (
-              <motion.div
+              <motion.a
                 key={idx}
+                href={item.link}
                 style={{
                   background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 100%)',
                   borderWidth: '2px',
@@ -109,11 +112,16 @@ export default function Home() {
                   borderRadius: '8px',
                   padding: '2rem',
                   textAlign: 'center',
+                  textDecoration: 'none',
+                  display: 'block',
+                  cursor: 'pointer',
+                  minHeight: '280px',
+                  position: 'relative',
                 }}
                 whileHover={{
                   y: -10,
                   borderColor: 'var(--color-red)',
-                  boxShadow: '0 20px 40px rgba(225, 6, 0, 0.15)',
+                  boxShadow: '0 20px 40px rgba(225, 6, 0, 0.15), 0 0 20px rgba(225, 6, 0, 0.1)',
                 }}
               >
                 <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>{item.icon}</div>
@@ -132,7 +140,7 @@ export default function Home() {
                 }}>
                   {item.text}
                 </p>
-              </motion.div>
+              </motion.a>
             ))}
           </motion.div>
         </div>
@@ -144,7 +152,7 @@ export default function Home() {
       <motion.section
         style={{
           padding: '6rem 0',
-          background: 'linear-gradient(180deg, #E6E9EE 0%, #F0F2F7 100%)',
+          background: 'linear-gradient(180deg, #f5f7fa 0%, #e8ebf0 50%, #f5f7fa 100%)',
           color: 'var(--color-navy)',
           position: 'relative',
           overflow: 'hidden',
@@ -190,74 +198,38 @@ export default function Home() {
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
           >
-            {[
-              { icon: '🏆', stat: '15+', label: 'Competitions Participated', description: 'National & inter-university robotics events' },
-              { icon: '👥', stat: '20+', label: 'Active Members', description: 'Multidisciplinary engineering team' },
-              { icon: '🤖', stat: '4', label: 'Competition Robots Built', description: 'Mechanical, autonomous, and control systems' },
-              { icon: '📊', stat: '90%+', label: 'Task Completion Rate', description: 'Reliable on-field performance' },
-            ].map((item, idx) => (
-              <motion.div
-                key={idx}
-                style={{
-                  textAlign: 'center',
-                  padding: '2.5rem 2rem',
-                  background: 'linear-gradient(135deg, #FFFFFF 0%, #F9FAFB 100%)',
-                  borderRadius: '14px',
-                  borderWidth: '2px',
-                  borderStyle: 'solid',
-                  borderColor: '#E5E7EB',
-                  position: 'relative',
-                  overflow: 'hidden',
-                  boxShadow: '0 4px 15px rgba(10, 26, 58, 0.08)',
-                  transition: 'all 0.3s ease',
-                }}
-                whileHover={{
-                  y: -3,
-                  borderColor: '#E10600',
-                  boxShadow: '0 8px 25px rgba(225, 6, 0, 0.2), 0 0 15px rgba(225, 6, 0, 0.15)',
-                }}
-              >
-                
-                <div style={{
-                  fontSize: '2.5rem',
-                  marginBottom: '1rem',
-                  paddingTop: '0.5rem',
-                  filter: 'grayscale(0.2)',
-                }}>
-                  {item.icon}
-                </div>
-                
-                <h3 style={{
-                  fontFamily: 'Orbitron, sans-serif',
-                  fontSize: '2.5rem',
-                  fontWeight: '900',
-                  margin: '0 0 0.5rem 0',
-                  color: '#E10600',
-                }}>
-                  {item.stat}
-                </h3>
-                
-                <p style={{
-                  fontSize: '1.05rem',
-                  margin: '0 0 0.5rem 0',
-                  color: '#0A1A3A',
-                  fontWeight: '600',
-                  letterSpacing: '0.3px',
-                }}>
-                  {item.label}
-                </p>
-                
-                <p style={{
-                  fontSize: '0.875rem',
-                  margin: 0,
-                  color: '#6B7280',
-                  fontWeight: '400',
-                  lineHeight: '1.5',
-                }}>
-                  {item.description}
-                </p>
-              </motion.div>
-            ))}
+            <AnimatedStat 
+              icon="🏆" 
+              value={15} 
+              suffix="+" 
+              label="Competitions Participated" 
+              description="National & inter-university robotics events"
+              delay={0}
+            />
+            <AnimatedStat 
+              icon="👥" 
+              value={20} 
+              suffix="+" 
+              label="Active Members" 
+              description="Multidisciplinary engineering team"
+              delay={100}
+            />
+            <AnimatedStat 
+              icon="🤖" 
+              value={4} 
+              suffix="" 
+              label="Competition Robots Built" 
+              description="Mechanical, autonomous, and control systems"
+              delay={200}
+            />
+            <AnimatedStat 
+              icon="📊" 
+              value={90} 
+              suffix="%+" 
+              label="Task Completion Rate" 
+              description="Reliable on-field performance"
+              delay={300}
+            />
           </motion.div>
         </div>
       </motion.section>
@@ -315,16 +287,19 @@ export default function Home() {
             transition={{ delay: 0.2 }}
           >
             {[
-              { division: '🔧 Mechanical Division', color: '#0A1A3A' },
-              { division: '⚡ Electronics & Embedded Systems', color: '#0A1A3A' },
-              { division: '💻 Programming Division', color: '#B2001D' },
-              { division: '👁️ AI & Computer Vision', color: '#B2001D' },
-              { division: '📐 CAD & Simulation', color: '#0A1A3A' },
-              { division: '📊 Strategy & Management', color: '#0A1A3A' },
+              { division: '🔧 Mechanical Division', color: '#0A1A3A', link: '/team#mechanical' },
+              { division: '⚡ Electronics & Embedded Systems', color: '#0A1A3A', link: '/team#electronics' },
+              { division: '💻 Programming Division', color: '#B2001D', link: '/team#programming' },
+              { division: '👁️ AI & Computer Vision', color: '#B2001D', link: '/team#ai-vision' },
+              { division: '📐 CAD & Simulation', color: '#0A1A3A', link: '/team#cad' },
+              { division: '📊 Strategy & Management', color: '#0A1A3A', link: '/team#management' },
             ].map((item, idx) => (
-              <motion.div
+              <motion.a
                 key={idx}
+                href={item.link}
                 style={{
+                  textDecoration: 'none',
+                  cursor: 'pointer',
                   padding: 'clamp(1.5rem, 3vw, 2.5rem) clamp(1rem, 2vw, 1.5rem)',
                   background: 'linear-gradient(135deg, #FFFFFF 0%, #F9FAFB 100%)',
                   borderRadius: '12px',
@@ -371,7 +346,7 @@ export default function Home() {
                 }}>
                   {item.division}
                 </p>
-              </motion.div>
+              </motion.a>
             ))}
           </motion.div>
         </div>
@@ -380,8 +355,9 @@ export default function Home() {
       {/* Quick Links Section - Explore More */}
       <motion.section
         style={{
-          padding: '4rem 0',
-          background: 'linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%)',
+          padding: '5rem 0',
+          background: 'radial-gradient(ellipse at center, rgba(225, 6, 0, 0.05) 0%, rgba(10, 26, 58, 0.03) 50%, #ffffff 100%)',
+          position: 'relative',
         }}
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -392,10 +368,11 @@ export default function Home() {
           <motion.div
             style={{
               textAlign: 'center',
-              padding: '2rem',
-              background: 'rgba(225, 6, 0, 0.05)',
-              borderRadius: '8px',
-              border: '2px solid rgba(225, 6, 0, 0.2)',
+              padding: '3rem 2rem',
+              background: 'rgba(255, 255, 255, 0.8)',
+              borderRadius: '16px',
+              border: '2px solid rgba(225, 6, 0, 0.15)',
+              boxShadow: '0 10px 40px rgba(0, 0, 0, 0.08)',
             }}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -427,22 +404,24 @@ export default function Home() {
                   href={link.href}
                   style={{
                     display: 'inline-block',
-                    padding: '0.75rem 1.5rem',
+                    padding: '1rem 2rem',
                     background: 'var(--color-red)',
                     color: 'var(--color-white)',
-                    borderRadius: '4px',
+                    borderRadius: '8px',
                     textDecoration: 'none',
                     fontFamily: 'Montserrat, sans-serif',
                     fontWeight: '600',
-                    fontSize: '0.95rem',
+                    fontSize: '1rem',
                     border: '2px solid var(--color-red)',
                     cursor: 'pointer',
-                    transition: 'all 0.3s ease',
+                    transition: 'all 0.2s ease-in-out',
+                    boxShadow: '0 4px 12px rgba(225, 6, 0, 0.2)',
                   }}
                   whileHover={{
                     scale: 1.05,
                     background: 'transparent',
                     color: 'var(--color-red)',
+                    boxShadow: '0 0 25px rgba(225, 6, 0, 0.4), 0 8px 20px rgba(225, 6, 0, 0.2)',
                   }}
                   whileTap={{ scale: 0.95 }}
                 >

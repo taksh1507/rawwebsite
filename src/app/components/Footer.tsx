@@ -10,18 +10,18 @@ export default function Footer() {
 
   const footerLinks = {
     navigation: [
-      { label: 'Home', href: '#' },
-      { label: 'Competitions', href: '#competitions' },
-      { label: 'Robots', href: '#robots' },
-      { label: 'Team', href: '#team' },
-      { label: 'Gallery', href: '#gallery' },
-      { label: 'Contact', href: '#contact' },
+      { label: 'Home', href: '/' },
+      { label: 'Competitions', href: '/competitions' },
+      { label: 'Robots', href: '/robots-gallery' },
+      { label: 'Team', href: '/team' },
+      { label: 'Gallery', href: '/robots-gallery' },
+      { label: 'Contact', href: '/contact' },
     ],
     social: [
-      { label: 'Facebook', href: '#', icon: 'f' },
-      { label: 'LinkedIn', href: '#', icon: 'in' },
-      { label: 'Instagram', href: '#', icon: '@' },
-      { label: 'YouTube', href: '#', icon: 'Y' },
+      { label: 'Facebook', href: 'https://www.facebook.com/teamrawsfit', icon: 'f' },
+      { label: 'LinkedIn', href: 'https://www.linkedin.com/company/team-raw-sfit', icon: 'in' },
+      { label: 'Instagram', href: 'https://www.instagram.com/team.raw', icon: '@' },
+      { label: 'YouTube', href: 'https://www.youtube.com/@teamrawsfit', icon: 'Y' },
     ],
   };
 
@@ -79,14 +79,19 @@ export default function Footer() {
             <h4>Quick Links</h4>
             <div className={styles.links}>
               {footerLinks.navigation.map((link) => (
-                <motion.a
+                <Link
                   key={link.label}
                   href={link.href}
-                  whileHover={{ x: 5, color: 'var(--color-red)' }}
-                  transition={{ duration: 0.2 }}
+                  style={{ textDecoration: 'none', color: 'inherit', cursor: 'pointer' }}
                 >
-                  {link.label}
-                </motion.a>
+                  <motion.span
+                    style={{ display: 'block' }}
+                    whileHover={{ x: 5, color: 'var(--color-red)' }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    {link.label}
+                  </motion.span>
+                </Link>
               ))}
             </div>
           </motion.div>
@@ -99,10 +104,13 @@ export default function Footer() {
                 <motion.a
                   key={social.label}
                   href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   title={social.label}
                   className={styles.socialIcon}
                   whileHover={{ scale: 1.2, backgroundColor: 'var(--color-red)' }}
                   whileTap={{ scale: 0.9 }}
+                  style={{ cursor: 'pointer' }}
                 >
                   {social.icon}
                 </motion.a>
