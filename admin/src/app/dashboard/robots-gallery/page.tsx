@@ -765,17 +765,6 @@ export default function RobotsGalleryPage() {
                   <small style={{ color: '#6c757d', display: 'block', marginTop: '0.75rem', fontSize: '0.9rem' }}>📸 Upload multiple images for gallery. Max 5MB each. Total: {multipleImagePreviews.length} image(s)</small>
                 </div>
 
-                <div>
-                  <label style={{ display: 'block', marginBottom: '0.75rem', fontWeight: '600', color: '#212529', fontSize: '1rem' }}>Description</label>
-                  <textarea
-                    value={formData.description || ''}
-                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                    rows={4}
-                    placeholder="Enter image description..."
-                    style={{ width: '100%', padding: '1rem', borderRadius: '8px', border: '2px solid #dee2e6', fontFamily: 'inherit', fontSize: '1rem', resize: 'vertical' }}
-                  />
-                </div>
-
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
                   <div>
                     <label style={{ display: 'block', marginBottom: '0.75rem', fontWeight: '600', color: '#212529', fontSize: '1rem' }}>Uploaded By</label>
