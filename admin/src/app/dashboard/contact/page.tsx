@@ -35,16 +35,23 @@ export default function ContactMessagesPage() {
     try {
       // Use the main site API (port 3000)
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+      console.log('📡 Fetching contacts from:', apiUrl);
+      
       const response = await fetch(`${apiUrl}/api/contact/messages`);
-      const data = await response.json();
-
+      console.log('📡 Fetch response status:', response.status);
+      
       if (!response.ok) {
+        const data = await response.json();
+        console.error('❌ API Error:', data);
         throw new Error(data.message || 'Failed to fetch messages');
       }
 
+      const data = await response.json();
+      console.log('✅ Contacts fetched:', data.data?.length || 0, 'messages');
+
       setContacts(data.data || []);
     } catch (err) {
-      console.error('Error fetching contacts:', err);
+      console.error('❌ Error fetching contacts:', err);
       setError(err instanceof Error ? err.message : 'Failed to load messages');
     } finally {
       setLoading(false);
@@ -68,6 +75,8 @@ export default function ContactMessagesPage() {
     try {
       const newStatus = currentStatus === 'read' ? 'unread' : 'read';
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+      console.log('🔄 Updating message status:', { id, apiUrl, newStatus });
+      
       const response = await fetch(`${apiUrl}/api/contact/messages/${id}`, {
         method: 'PATCH',
         headers: {
@@ -76,11 +85,16 @@ export default function ContactMessagesPage() {
         body: JSON.stringify({ status: newStatus }),
       });
 
-      const data = await response.json();
-
+      console.log('📡 Response status:', response.status);
+      
       if (!response.ok) {
+        const data = await response.json();
+        console.error('❌ API Error:', data);
         throw new Error(data.message || 'Failed to update message');
       }
+
+      const data = await response.json();
+      console.log('✅ Message updated successfully:', data);
 
       // Update local state
       setContacts((prev) =>
@@ -91,7 +105,7 @@ export default function ContactMessagesPage() {
         setSelectedContact({ ...selectedContact, status: newStatus });
       }
     } catch (err) {
-      console.error('Error updating message:', err);
+      console.error('❌ Error updating message:', err);
       alert(err instanceof Error ? err.message : 'Failed to update message');
     }
   };
