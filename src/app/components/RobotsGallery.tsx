@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import styles from '../styles/RobotsShowcase.module.css';
+import mobileStyles from '../styles/RobotsGallery.module.css';
 import { useGlobalData } from '@/context/DataContext';
 
 export default function RobotsGallery() {
@@ -16,6 +17,11 @@ export default function RobotsGallery() {
   const [selectedYear, setSelectedYear] = useState<number | 'all'>('all');
   const [selectedItem, setSelectedItem] = useState<any | null>(null);
   const [detailViewItem, setDetailViewItem] = useState<any | null>(null);
+  const [showFilterModal, setShowFilterModal] = useState(false);
+  
+  // Temporary filter states for modal
+  const [tempCategory, setTempCategory] = useState('all');
+  const [tempYear, setTempYear] = useState<number | 'all'>('all');
 
   useEffect(() => {
     console.log('🔍 RobotsGallery - Data received:', { 
@@ -68,6 +74,18 @@ export default function RobotsGallery() {
     setAllItems([...transformedRobots, ...transformedGallery]);
   }, [robots, galleryImages]);
 
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    if (showFilterModal) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [showFilterModal]);
+
   const categories = [
     { id: 'all', label: 'All' },
     { id: 'robots', label: 'Robots' },
@@ -106,6 +124,31 @@ export default function RobotsGallery() {
   // Calculate filtered counts
   const filteredRobots = filteredItems.filter(item => item.category === 'robots');
   const filteredGallery = filteredItems.filter(item => item.category !== 'robots');
+
+  const openFilterModal = () => {
+    setTempCategory(selectedCategory);
+    setTempYear(selectedYear);
+    setShowFilterModal(true);
+  };
+
+  const applyFilters = () => {
+    setSelectedCategory(tempCategory);
+    setSelectedYear(tempYear);
+    setShowFilterModal(false);
+  };
+
+  const resetFilters = () => {
+    setTempCategory('all');
+    setTempYear('all');
+  };
+
+  const removeFilter = (type: 'category' | 'year') => {
+    if (type === 'category') {
+      setSelectedCategory('all');
+    } else {
+      setSelectedYear('all');
+    }
+  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -313,6 +356,63 @@ export default function RobotsGallery() {
             </motion.button>
           ))}
         </motion.div>
+
+        {/* Mobile Filter Button */}
+        <motion.button
+          className={mobileStyles.mobileFilterButton}
+          onClick={openFilterModal}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <line x1="4" y1="6" x2="20" y2="6" />
+            <line x1="4" y1="12" x2="20" y2="12" />
+            <line x1="4" y1="18" x2="20" y2="18" />
+            <circle cx="8" cy="6" r="2" fill="currentColor" />
+            <circle cx="16" cy="12" r="2" fill="currentColor" />
+            <circle cx="12" cy="18" r="2" fill="currentColor" />
+          </svg>
+          Filter & Sort
+          {(selectedYear !== 'all' || selectedCategory !== 'all') && (
+            <span className={mobileStyles.filterBadge}>
+              {(selectedYear !== 'all' ? 1 : 0) + (selectedCategory !== 'all' ? 1 : 0)}
+            </span>
+          )}
+        </motion.button>
+
+        {/* Active Filter Summary */}
+        {(selectedYear !== 'all' || selectedCategory !== 'all') && (
+          <motion.div
+            className={mobileStyles.activeFilters}
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+          >
+            <span className={mobileStyles.activeFiltersLabel}>Filters:</span>
+            {selectedYear !== 'all' && (
+              <button
+                className={mobileStyles.activeFilterTag}
+                onClick={() => removeFilter('year')}
+              >
+                {selectedYear}
+                <span className={mobileStyles.removeIcon}>✕</span>
+              </button>
+            )}
+            {selectedCategory !== 'all' && (
+              <button
+                className={mobileStyles.activeFilterTag}
+                onClick={() => removeFilter('category')}
+              >
+                {categories.find(c => c.id === selectedCategory)?.label}
+                <span className={mobileStyles.removeIcon}>✕</span>
+              </button>
+            )}
+          </motion.div>
+        )}
 
         {/* Combined Gallery Grid - Responsive with AnimatePresence */}
         <AnimatePresence mode="wait">
@@ -975,6 +1075,113 @@ export default function RobotsGallery() {
               </div>
             </motion.div>
           </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Mobile Filter Modal (Bottom Sheet) */}
+      <AnimatePresence>
+        {showFilterModal && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              className={mobileStyles.filterModalBackdrop}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowFilterModal(false)}
+            />
+
+            {/* Bottom Sheet */}
+            <motion.div
+              className={mobileStyles.filterModal}
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+              transition={{ type: 'spring', damping: 30, stiffness: 300 }}
+              drag="y"
+              dragConstraints={{ top: 0, bottom: 0 }}
+              dragElastic={0.2}
+              onDragEnd={(_, info) => {
+                if (info.offset.y > 100) {
+                  setShowFilterModal(false);
+                }
+              }}
+            >
+              {/* Drag Handle */}
+              <div className={mobileStyles.dragHandle} />
+
+              {/* Modal Header */}
+              <div className={mobileStyles.modalHeader}>
+                <h3>Filter & Sort</h3>
+                <button
+                  className={mobileStyles.closeButton}
+                  onClick={() => setShowFilterModal(false)}
+                  aria-label="Close filters"
+                >
+                  ✕
+                </button>
+              </div>
+
+              {/* Modal Content */}
+              <div className={mobileStyles.modalContent}>
+                {/* Year Filter Section */}
+                {availableYears.length > 0 && (
+                  <div className={mobileStyles.modalFilterSection}>
+                    <h4 className={mobileStyles.modalFilterLabel}>Year</h4>
+                    <div className={mobileStyles.segmentedControl}>
+                      <button
+                        className={`${mobileStyles.segmentButton} ${tempYear === 'all' ? mobileStyles.segmentActive : ''}`}
+                        onClick={() => setTempYear('all')}
+                      >
+                        All
+                      </button>
+                      {availableYears.map((year) => (
+                        <button
+                          key={year}
+                          className={`${mobileStyles.segmentButton} ${tempYear === year ? mobileStyles.segmentActive : ''}`}
+                          onClick={() => setTempYear(year as number)}
+                        >
+                          {year}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Category Filter Section */}
+                <div className={mobileStyles.modalFilterSection}>
+                  <h4 className={mobileStyles.modalFilterLabel}>Category</h4>
+                  <div className={mobileStyles.categoryGrid}>
+                    {categories.map((category) => (
+                      <button
+                        key={category.id}
+                        className={`${mobileStyles.categoryChip} ${tempCategory === category.id ? mobileStyles.categoryChipActive : ''}`}
+                        onClick={() => setTempCategory(category.id)}
+                      >
+                        {category.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Modal Actions */}
+              <div className={mobileStyles.modalActions}>
+                <button
+                  className={mobileStyles.resetButton}
+                  onClick={resetFilters}
+                >
+                  Reset Filters
+                </button>
+                <button
+                  className={mobileStyles.applyButton}
+                  onClick={applyFilters}
+                >
+                  Apply Filters
+                </button>
+              </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </section>
