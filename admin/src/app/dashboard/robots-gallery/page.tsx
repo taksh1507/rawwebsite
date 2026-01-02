@@ -9,11 +9,15 @@ interface Robot {
   type: string;
   category: string;
   description: string;
+  longDescription?: string;
   imageUrl: string;
   specs?: string[];
   tags?: string[];
+  features?: string[];
+  achievements?: string[];
   year?: number;
   status?: string;
+  teamLead?: string;
   createdAt?: string;
 }
 
@@ -38,6 +42,10 @@ export default function RobotsGalleryPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<FilterCategory>('all');
+  const [showForm, setShowForm] = useState(false);
+  const [editingItem, setEditingItem] = useState<Robot | GalleryItem | null>(null);
+  const [formData, setFormData] = useState<any>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     fetchData();
@@ -54,19 +62,132 @@ export default function RobotsGalleryPage() {
         if (!response.ok) throw new Error('Failed to fetch robots');
         const data = await response.json();
         setRobots(data.data || []);
-        console.log('✅ Fetched robots:', data.data?.length);
       } else {
         const response = await fetch(`${apiUrl}/api/gallery`);
         if (!response.ok) throw new Error('Failed to fetch gallery');
         const data = await response.json();
         setGalleryItems(data.data || []);
-        console.log('✅ Fetched gallery items:', data.data?.length);
       }
     } catch (err) {
       console.error('Error fetching data:', err);
       setError(err instanceof Error ? err.message : 'Failed to fetch data');
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const resetForm = () => {
+    if (viewMode === 'robots') {
+      setFormData({
+        name: '',
+        type: '',
+        category: 'competition',
+        description: '',
+        longDescription: '',
+        imageUrl: '',
+        specs: '',
+        tags: '',
+        features: '',
+        achievements: '',
+        year: new Date().getFullYear(),
+        status: 'active',
+        teamLead: 'Team RAW',
+      });
+    } else {
+      setFormData({
+        title: '',
+        description: '',
+        imageUrl: '',
+        category: 'events',
+        uploadedBy: 'Admin',
+        year: new Date().getFullYear(),
+      });
+    }
+  };
+
+  const handleAdd = () => {
+    setEditingItem(null);
+    resetForm();
+    setShowForm(true);
+  };
+
+  const handleEdit = (item: Robot | GalleryItem) => {
+    setEditingItem(item);
+    if (viewMode === 'robots') {
+      const robot = item as Robot;
+      setFormData({
+        name: robot.name,
+        type: robot.type,
+        category: robot.category,
+        description: robot.description,
+        longDescription: robot.longDescription || '',
+        imageUrl: robot.imageUrl,
+        specs: robot.specs?.join(', ') || '',
+        tags: robot.tags?.join(', ') || '',
+        features: robot.features?.join(', ') || '',
+        achievements: robot.achievements?.join(', ') || '',
+        year: robot.year || new Date().getFullYear(),
+        status: robot.status || 'active',
+        teamLead: robot.teamLead || 'Team RAW',
+      });
+    } else {
+      const gallery = item as GalleryItem;
+      setFormData({
+        title: gallery.title,
+        description: gallery.description || '',
+        imageUrl: gallery.imageUrl,
+        category: gallery.category,
+        uploadedBy: gallery.uploadedBy || 'Admin',
+        year: gallery.year || new Date().getFullYear(),
+      });
+    }
+    setShowForm(true);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://rawwebsite-seven.vercel.app';
+      const endpoint = viewMode === 'robots' ? 'robots' : 'gallery';
+      
+      let payload = { ...formData };
+      if (viewMode === 'robots') {
+        payload = {
+          ...formData,
+          specs: formData.specs.split(',').map((s: string) => s.trim()).filter(Boolean),
+          tags: formData.tags.split(',').map((t: string) => t.trim()).filter(Boolean),
+          features: formData.features.split(',').map((f: string) => f.trim()).filter(Boolean),
+          achievements: formData.achievements.split(',').map((a: string) => a.trim()).filter(Boolean),
+        };
+      }
+
+      const url = editingItem 
+        ? `${apiUrl}/api/${endpoint}/${editingItem._id}`
+        : `${apiUrl}/api/${endpoint}`;
+      
+      const response = await fetch(url, {
+        method: editingItem ? 'PATCH' : 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.message || 'Failed to save');
+      }
+
+      alert(`${viewMode === 'robots' ? 'Robot' : 'Gallery item'} ${editingItem ? 'updated' : 'created'} successfully!`);
+      setShowForm(false);
+      setEditingItem(null);
+      resetForm();
+      fetchData();
+    } catch (err) {
+      console.error('Error saving:', err);
+      alert(`Failed to save: ${err instanceof Error ? err.message : 'Unknown error'}`);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -82,7 +203,7 @@ export default function RobotsGalleryPage() {
         method: 'DELETE',
       });
 
-      if (!response.ok) throw new Error(`Failed to delete ${viewMode}`);
+      if (!response.ok) throw new Error(`Failed to delete`);
       
       alert(`${viewMode === 'robots' ? 'Robot' : 'Gallery item'} deleted successfully!`);
       fetchData();
@@ -92,14 +213,8 @@ export default function RobotsGalleryPage() {
     }
   };
 
-  const filteredRobots = selectedCategory === 'all' 
-    ? robots 
-    : robots.filter(r => r.category === selectedCategory);
-
-  const filteredGallery = selectedCategory === 'all'
-    ? galleryItems
-    : galleryItems.filter(g => g.category === selectedCategory);
-
+  const filteredRobots = selectedCategory === 'all' ? robots : robots.filter(r => r.category === selectedCategory);
+  const filteredGallery = selectedCategory === 'all' ? galleryItems : galleryItems.filter(g => g.category === selectedCategory);
   const currentData = viewMode === 'robots' ? filteredRobots : filteredGallery;
 
   const robotCategories = ['all', 'competition', 'research', 'development'];
@@ -107,33 +222,9 @@ export default function RobotsGalleryPage() {
   const categories = viewMode === 'robots' ? robotCategories : galleryCategories;
 
   const getCategoryCount = (category: string) => {
-    if (category === 'all') {
-      return viewMode === 'robots' ? robots.length : galleryItems.length;
-    }
-    return viewMode === 'robots'
-      ? robots.filter(r => r.category === category).length
-      : galleryItems.filter(g => g.category === category).length;
+    if (category === 'all') return viewMode === 'robots' ? robots.length : galleryItems.length;
+    return viewMode === 'robots' ? robots.filter(r => r.category === category).length : galleryItems.filter(g => g.category === category).length;
   };
-
-  const getTotalStats = () => {
-    if (viewMode === 'robots') {
-      return {
-        total: robots.length,
-        competition: robots.filter(r => r.category === 'competition').length,
-        research: robots.filter(r => r.category === 'research').length,
-        development: robots.filter(r => r.category === 'development').length,
-      };
-    } else {
-      return {
-        total: galleryItems.length,
-        robots: galleryItems.filter(g => g.category === 'robots').length,
-        events: galleryItems.filter(g => g.category === 'events').length,
-        workshops: galleryItems.filter(g => g.category === 'workshops').length,
-      };
-    }
-  };
-
-  const stats = getTotalStats();
 
   if (isLoading) {
     return (
@@ -152,15 +243,16 @@ export default function RobotsGalleryPage() {
     <div className={styles.container}>
       <div className={styles.header}>
         <h1 className={styles.title}>🤖📸 Robots & Gallery Management</h1>
-        <p className={styles.subtitle}>Manage all robots and gallery content</p>
+        <p className={styles.subtitle}>Full CRUD - Create, Read, Update, Delete</p>
       </div>
 
-      {/* View Mode Toggle */}
-      <div style={{ marginBottom: '1.5rem', display: 'flex', gap: '1rem', justifyContent: 'center' }}>
+      <div style={{ marginBottom: '1.5rem', display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
         <button
           onClick={() => {
             setViewMode('robots');
             setSelectedCategory('all');
+            setShowForm(false);
+            setEditingItem(null);
           }}
           style={{
             padding: '0.75rem 2rem',
@@ -169,7 +261,7 @@ export default function RobotsGalleryPage() {
             border: 'none',
             borderRadius: '8px',
             cursor: 'pointer',
-            background: viewMode === 'robots' ? 'var(--color-red, #E10600)' : '#e9ecef',
+            background: viewMode === 'robots' ? '#E10600' : '#e9ecef',
             color: viewMode === 'robots' ? 'white' : '#495057',
             transition: 'all 0.3s ease',
           }}
@@ -180,6 +272,8 @@ export default function RobotsGalleryPage() {
           onClick={() => {
             setViewMode('gallery');
             setSelectedCategory('all');
+            setShowForm(false);
+            setEditingItem(null);
           }}
           style={{
             padding: '0.75rem 2rem',
@@ -188,55 +282,349 @@ export default function RobotsGalleryPage() {
             border: 'none',
             borderRadius: '8px',
             cursor: 'pointer',
-            background: viewMode === 'gallery' ? 'var(--color-red, #E10600)' : '#e9ecef',
+            background: viewMode === 'gallery' ? '#E10600' : '#e9ecef',
             color: viewMode === 'gallery' ? 'white' : '#495057',
             transition: 'all 0.3s ease',
           }}
         >
           📸 Gallery
         </button>
+        <button
+          onClick={handleAdd}
+          style={{
+            padding: '0.75rem 2rem',
+            fontSize: '1rem',
+            fontWeight: '600',
+            border: '2px solid #E10600',
+            borderRadius: '8px',
+            cursor: 'pointer',
+            background: 'white',
+            color: '#E10600',
+            transition: 'all 0.3s ease',
+          }}
+        >
+          + Add New {viewMode === 'robots' ? 'Robot' : 'Image'}
+        </button>
       </div>
 
-      {/* Statistics */}
+      {showForm && (
+        <div style={{ marginBottom: '2rem', padding: '2rem', background: '#f8f9fa', borderRadius: '12px', border: '2px solid #E10600' }}>
+          <h2 style={{ marginBottom: '1.5rem', color: '#E10600' }}>
+            {editingItem ? '✏️ Edit' : '➕ Add New'} {viewMode === 'robots' ? 'Robot' : 'Gallery Item'}
+          </h2>
+          
+          <form onSubmit={handleSubmit} style={{ display: 'grid', gap: '1rem' }}>
+            {viewMode === 'robots' ? (
+              <>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>Name *</label>
+                    <input
+                      type="text"
+                      required
+                      value={formData.name || ''}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #ced4da' }}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>Type *</label>
+                    <input
+                      type="text"
+                      required
+                      value={formData.type || ''}
+                      onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+                      placeholder="e.g., Line Follower"
+                      style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #ced4da' }}
+                    />
+                  </div>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem' }}>
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>Category *</label>
+                    <select
+                      required
+                      value={formData.category || 'competition'}
+                      onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                      style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #ced4da' }}
+                    >
+                      <option value="competition">Competition</option>
+                      <option value="research">Research</option>
+                      <option value="development">Development</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>Status</label>
+                    <select
+                      value={formData.status || 'active'}
+                      onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                      style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #ced4da' }}
+                    >
+                      <option value="active">Active</option>
+                      <option value="retired">Retired</option>
+                      <option value="development">Development</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>Year</label>
+                    <input
+                      type="number"
+                      value={formData.year || new Date().getFullYear()}
+                      onChange={(e) => setFormData({ ...formData, year: parseInt(e.target.value) })}
+                      style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #ced4da' }}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>Image URL *</label>
+                  <input
+                    type="url"
+                    required
+                    value={formData.imageUrl || ''}
+                    onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
+                    placeholder="https://images.unsplash.com/..."
+                    style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #ced4da' }}
+                  />
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>Description *</label>
+                  <textarea
+                    required
+                    value={formData.description || ''}
+                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                    rows={2}
+                    placeholder="Short description"
+                    style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #ced4da', fontFamily: 'inherit' }}
+                  />
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>Long Description</label>
+                  <textarea
+                    value={formData.longDescription || ''}
+                    onChange={(e) => setFormData({ ...formData, longDescription: e.target.value })}
+                    rows={3}
+                    placeholder="Detailed description"
+                    style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #ced4da', fontFamily: 'inherit' }}
+                  />
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>Specs (comma-separated)</label>
+                    <input
+                      type="text"
+                      value={formData.specs || ''}
+                      onChange={(e) => setFormData({ ...formData, specs: e.target.value })}
+                      placeholder="IR Sensors, PWM Control, 30cm/s"
+                      style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #ced4da' }}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>Tags (comma-separated)</label>
+                    <input
+                      type="text"
+                      value={formData.tags || ''}
+                      onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
+                      placeholder="Autonomous, Competition"
+                      style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #ced4da' }}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>Features (comma-separated)</label>
+                  <input
+                    type="text"
+                    value={formData.features || ''}
+                    onChange={(e) => setFormData({ ...formData, features: e.target.value })}
+                    placeholder="Real-time tracking, Adaptive speed"
+                    style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #ced4da' }}
+                  />
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>Achievements (comma-separated)</label>
+                  <input
+                    type="text"
+                    value={formData.achievements || ''}
+                    onChange={(e) => setFormData({ ...formData, achievements: e.target.value })}
+                    placeholder="1st Place TechFest 2024"
+                    style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #ced4da' }}
+                  />
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>Team Lead</label>
+                  <input
+                    type="text"
+                    value={formData.teamLead || 'Team RAW'}
+                    onChange={(e) => setFormData({ ...formData, teamLead: e.target.value })}
+                    style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #ced4da' }}
+                  />
+                </div>
+              </>
+            ) : (
+              <>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>Title *</label>
+                    <input
+                      type="text"
+                      required
+                      value={formData.title || ''}
+                      onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                      style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #ced4da' }}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>Category *</label>
+                    <select
+                      required
+                      value={formData.category || 'events'}
+                      onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                      style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #ced4da' }}
+                    >
+                      <option value="robots">Robots</option>
+                      <option value="events">Events</option>
+                      <option value="workshops">Workshops</option>
+                      <option value="competitions">Competitions</option>
+                      <option value="team">Team</option>
+                      <option value="milestones">Milestones</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>Image URL *</label>
+                  <input
+                    type="url"
+                    required
+                    value={formData.imageUrl || ''}
+                    onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
+                    placeholder="https://images.unsplash.com/..."
+                    style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #ced4da' }}
+                  />
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>Description</label>
+                  <textarea
+                    value={formData.description || ''}
+                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                    rows={3}
+                    placeholder="Image description"
+                    style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #ced4da', fontFamily: 'inherit' }}
+                  />
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>Uploaded By</label>
+                    <input
+                      type="text"
+                      value={formData.uploadedBy || 'Admin'}
+                      onChange={(e) => setFormData({ ...formData, uploadedBy: e.target.value })}
+                      style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #ced4da' }}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>Year</label>
+                    <input
+                      type="number"
+                      value={formData.year || new Date().getFullYear()}
+                      onChange={(e) => setFormData({ ...formData, year: parseInt(e.target.value) })}
+                      style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #ced4da' }}
+                    />
+                  </div>
+                </div>
+              </>
+            )}
+
+            <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                style={{
+                  padding: '0.75rem 2rem',
+                  fontSize: '1rem',
+                  fontWeight: '600',
+                  border: 'none',
+                  borderRadius: '8px',
+                  cursor: isSubmitting ? 'not-allowed' : 'pointer',
+                  background: '#E10600',
+                  color: 'white',
+                  opacity: isSubmitting ? 0.6 : 1,
+                }}
+              >
+                {isSubmitting ? '⏳ Saving...' : (editingItem ? '💾 Update' : '✅ Create')}
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setShowForm(false);
+                  setEditingItem(null);
+                  resetForm();
+                }}
+                style={{
+                  padding: '0.75rem 2rem',
+                  fontSize: '1rem',
+                  fontWeight: '600',
+                  border: '1px solid #ced4da',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  background: 'white',
+                  color: '#495057',
+                }}
+              >
+                ✕ Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+
       <div className={styles.stats}>
         <div className={styles.statCard}>
-          <div className={styles.statNumber}>{stats.total}</div>
+          <div className={styles.statNumber}>{viewMode === 'robots' ? robots.length : galleryItems.length}</div>
           <div className={styles.statLabel}>Total {viewMode === 'robots' ? 'Robots' : 'Images'}</div>
         </div>
         {viewMode === 'robots' ? (
           <>
             <div className={styles.statCard}>
-              <div className={styles.statNumber}>{stats.competition}</div>
+              <div className={styles.statNumber}>{robots.filter(r => r.category === 'competition').length}</div>
               <div className={styles.statLabel}>Competition</div>
             </div>
             <div className={styles.statCard}>
-              <div className={styles.statNumber}>{stats.research}</div>
+              <div className={styles.statNumber}>{robots.filter(r => r.category === 'research').length}</div>
               <div className={styles.statLabel}>Research</div>
             </div>
             <div className={styles.statCard}>
-              <div className={styles.statNumber}>{stats.development}</div>
+              <div className={styles.statNumber}>{robots.filter(r => r.category === 'development').length}</div>
               <div className={styles.statLabel}>Development</div>
             </div>
           </>
         ) : (
           <>
             <div className={styles.statCard}>
-              <div className={styles.statNumber}>{stats.robots}</div>
+              <div className={styles.statNumber}>{galleryItems.filter(g => g.category === 'robots').length}</div>
               <div className={styles.statLabel}>Robots</div>
             </div>
             <div className={styles.statCard}>
-              <div className={styles.statNumber}>{stats.events}</div>
+              <div className={styles.statNumber}>{galleryItems.filter(g => g.category === 'events').length}</div>
               <div className={styles.statLabel}>Events</div>
             </div>
             <div className={styles.statCard}>
-              <div className={styles.statNumber}>{stats.workshops}</div>
+              <div className={styles.statNumber}>{galleryItems.filter(g => g.category === 'workshops').length}</div>
               <div className={styles.statLabel}>Workshops</div>
             </div>
           </>
         )}
       </div>
 
-      {/* Category Filter */}
       <div className={styles.filterBar}>
         {categories.map(cat => (
           <button
@@ -255,10 +643,25 @@ export default function RobotsGalleryPage() {
         </div>
       )}
 
-      {/* Content Grid */}
       {currentData.length === 0 ? (
-        <div style={{ textAlign: 'center', padding: '2rem' }}>
-          <p>No {viewMode === 'robots' ? 'robots' : 'gallery items'} found{selectedCategory !== 'all' ? ` in category "${selectedCategory}"` : ''}.</p>
+        <div style={{ textAlign: 'center', padding: '3rem', background: '#f8f9fa', borderRadius: '12px' }}>
+          <p style={{ fontSize: '1.2rem', color: '#6c757d' }}>No {viewMode === 'robots' ? 'robots' : 'gallery items'} found.</p>
+          <button
+            onClick={handleAdd}
+            style={{
+              marginTop: '1rem',
+              padding: '0.75rem 2rem',
+              fontSize: '1rem',
+              fontWeight: '600',
+              border: 'none',
+              borderRadius: '8px',
+              cursor: 'pointer',
+              background: '#E10600',
+              color: 'white',
+            }}
+          >
+            + Add Your First {viewMode === 'robots' ? 'Robot' : 'Image'}
+          </button>
         </div>
       ) : (
         <div className={styles.messagesGrid}>
@@ -273,7 +676,7 @@ export default function RobotsGalleryPage() {
                   <p><strong>Type:</strong> {robot.type}</p>
                   <p><strong>Description:</strong> {robot.description}</p>
                   {robot.specs && robot.specs.length > 0 && (
-                    <p><strong>Specs:</strong> {robot.specs.join(', ')}</p>
+                    <p><strong>Specs:</strong> {robot.specs.slice(0, 2).join(', ')}</p>
                   )}
                   {robot.year && <p><strong>Year:</strong> {robot.year}</p>}
                   {robot.status && <p><strong>Status:</strong> {robot.status}</p>}
@@ -282,7 +685,7 @@ export default function RobotsGalleryPage() {
                       <img 
                         src={robot.imageUrl} 
                         alt={robot.name}
-                        style={{ maxWidth: '100%', maxHeight: '150px', borderRadius: '4px' }}
+                        style={{ maxWidth: '100%', maxHeight: '150px', borderRadius: '4px', objectFit: 'cover' }}
                         onError={(e) => {
                           (e.target as HTMLImageElement).style.display = 'none';
                         }}
@@ -292,20 +695,38 @@ export default function RobotsGalleryPage() {
                 </div>
                 <div className={styles.messageFooter} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <small>Added: {robot.createdAt ? new Date(robot.createdAt).toLocaleDateString() : 'N/A'}</small>
-                  <button
-                    onClick={() => handleDelete(robot._id)}
-                    style={{
-                      padding: '0.4rem 0.8rem',
-                      background: '#dc3545',
-                      color: 'white',
-                      border: 'none',
-                      borderRadius: '4px',
-                      cursor: 'pointer',
-                      fontSize: '0.85rem',
-                    }}
-                  >
-                    Delete
-                  </button>
+                  <div style={{ display: 'flex', gap: '0.5rem' }}>
+                    <button
+                      onClick={() => handleEdit(robot)}
+                      style={{
+                        padding: '0.5rem 1rem',
+                        background: '#0d6efd',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                        fontSize: '0.9rem',
+                        fontWeight: '600',
+                      }}
+                    >
+                      ✏️ Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(robot._id)}
+                      style={{
+                        padding: '0.5rem 1rem',
+                        background: '#dc3545',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                        fontSize: '0.9rem',
+                        fontWeight: '600',
+                      }}
+                    >
+                      🗑️ Delete
+                    </button>
+                  </div>
                 </div>
               </div>
             ))
@@ -323,7 +744,7 @@ export default function RobotsGalleryPage() {
                       <img 
                         src={item.imageUrl} 
                         alt={item.title}
-                        style={{ maxWidth: '100%', maxHeight: '200px', borderRadius: '4px' }}
+                        style={{ maxWidth: '100%', maxHeight: '200px', borderRadius: '4px', objectFit: 'cover' }}
                         onError={(e) => {
                           (e.target as HTMLImageElement).style.display = 'none';
                         }}
@@ -335,46 +756,44 @@ export default function RobotsGalleryPage() {
                 </div>
                 <div className={styles.messageFooter} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <small>Added: {item.createdAt ? new Date(item.createdAt).toLocaleDateString() : 'N/A'}</small>
-                  <button
-                    onClick={() => handleDelete(item._id)}
-                    style={{
-                      padding: '0.4rem 0.8rem',
-                      background: '#dc3545',
-                      color: 'white',
-                      border: 'none',
-                      borderRadius: '4px',
-                      cursor: 'pointer',
-                      fontSize: '0.85rem',
-                    }}
-                  >
-                    Delete
-                  </button>
+                  <div style={{ display: 'flex', gap: '0.5rem' }}>
+                    <button
+                      onClick={() => handleEdit(item)}
+                      style={{
+                        padding: '0.5rem 1rem',
+                        background: '#0d6efd',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                        fontSize: '0.9rem',
+                        fontWeight: '600',
+                      }}
+                    >
+                      ✏️ Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(item._id)}
+                      style={{
+                        padding: '0.5rem 1rem',
+                        background: '#dc3545',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                        fontSize: '0.9rem',
+                        fontWeight: '600',
+                      }}
+                    >
+                      🗑️ Delete
+                    </button>
+                  </div>
                 </div>
               </div>
             ))
           )}
         </div>
       )}
-
-      {/* Management Info */}
-      <div style={{ marginTop: '2rem', padding: '1.5rem', background: '#f8f9fa', borderRadius: '8px', border: '1px solid #dee2e6' }}>
-        <h3 style={{ marginBottom: '1rem' }}>ℹ️ Management Options</h3>
-        <p style={{ marginBottom: '0.5rem' }}>To add or edit items, you can:</p>
-        <ul style={{ marginLeft: '1.5rem' }}>
-          <li>Use <strong>MongoDB Compass</strong> to directly manage the collections</li>
-          <li>Use <strong>Postman</strong> or <strong>curl</strong> to call the API endpoints:
-            <ul style={{ marginTop: '0.5rem' }}>
-              <li><code>POST /api/{viewMode}</code> - Create new item</li>
-              <li><code>PATCH /api/{viewMode}/[id]</code> - Update item</li>
-              <li><code>DELETE /api/{viewMode}/[id]</code> - Delete item (available above)</li>
-            </ul>
-          </li>
-          <li>Run seed script: <code>node scripts/seed-robots-gallery.js</code></li>
-        </ul>
-        <p style={{ marginTop: '1rem', fontSize: '0.9rem', color: '#6c757d' }}>
-          Full CRUD interface with forms coming soon!
-        </p>
-      </div>
     </div>
   );
 }
