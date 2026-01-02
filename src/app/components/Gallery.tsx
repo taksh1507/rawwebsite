@@ -31,23 +31,27 @@ export default function Gallery() {
 
   useEffect(() => {
     // Transform data to match component's expected format
-    const transformedData = galleryImages.map((item: any) => ({
-      id: item._id,
-      category: item.category || 'general',
-      title: item.title,
-      description: item.description,
-      detailedDescription: item.detailedDescription,
-      imageUrl: item.imageUrl,
-      images: item.images || [],
-      location: item.location,
-      date: item.date,
-      participants: item.participants,
-      highlights: item.highlights || [],
-      uploadedBy: item.uploadedBy,
-      year: item.year,
-      color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
-    }));
+    const transformedData = galleryImages.map((item: any) => {
+      console.log('🔍 Gallery Item from API:', item);
+      return {
+        id: item._id,
+        category: item.category || 'general',
+        title: item.title,
+        description: item.description,
+        detailedDescription: item.detailedDescription,
+        imageUrl: item.imageUrl,
+        images: item.images || [],
+        location: item.location,
+        date: item.date,
+        participants: item.participants,
+        highlights: item.highlights || [],
+        uploadedBy: item.uploadedBy,
+        year: item.year,
+        color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
+      };
+    });
 
+    console.log('✅ Transformed Gallery Items:', transformedData);
     setGalleryItems(transformedData);
   }, [galleryImages]);
 
@@ -180,6 +184,7 @@ export default function Gallery() {
                   exit="exit"
                   layoutId={`gallery-${item.id}`}
                   onClick={() => {
+                    console.log('🖼️ Selected Item for Modal:', item);
                     setSelectedItem(item);
                     setCurrentImageIndex(0);
                   }}
