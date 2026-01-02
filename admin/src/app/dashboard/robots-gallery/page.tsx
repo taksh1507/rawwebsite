@@ -25,10 +25,16 @@ interface GalleryItem {
   _id: string;
   title: string;
   description?: string;
+  detailedDescription?: string;
   imageUrl: string;
+  images?: string[];
   category: string;
   uploadedBy?: string;
   year?: number;
+  location?: string;
+  date?: string;
+  participants?: string;
+  highlights?: string[];
   createdAt?: string;
 }
 
@@ -48,6 +54,8 @@ export default function RobotsGalleryPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>('');
+  const [multipleImages, setMultipleImages] = useState<string[]>([]);
+  const [multipleImagePreviews, setMultipleImagePreviews] = useState<string[]>([]);
 
   useEffect(() => {
     fetchData();
@@ -81,6 +89,8 @@ export default function RobotsGalleryPage() {
   const resetForm = () => {
     setImageFile(null);
     setImagePreview('');
+    setMultipleImages([]);
+    setMultipleImagePreviews([]);
     if (viewMode === 'robots') {
       setFormData({
         name: '',
@@ -101,10 +111,16 @@ export default function RobotsGalleryPage() {
       setFormData({
         title: '',
         description: '',
+        detailedDescription: '',
         imageUrl: '',
+        images: [],
         category: 'events',
         uploadedBy: 'Admin',
         year: new Date().getFullYear(),
+        location: '',
+        date: '',
+        participants: '',
+        highlights: '',
       });
     }
   };
@@ -137,6 +153,52 @@ export default function RobotsGalleryPage() {
     }
   };
 
+  const handleMultipleImagesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      const newImages: string[] = [];
+      const newPreviews: string[] = [];
+      let processedCount = 0;
+
+      Array.from(files).forEach((file, index) => {
+        // Check file size (max 5MB per image)
+        if (file.size > 5 * 1024 * 1024) {
+          alert(`Image ${file.name} is too large. Max size: 5MB`);
+          return;
+        }
+
+        // Check file type
+        if (!file.type.startsWith('image/')) {
+          alert(`${file.name} is not a valid image file`);
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const base64String = reader.result as string;
+          newImages.push(base64String);
+          newPreviews.push(base64String);
+          processedCount++;
+
+          if (processedCount === files.length) {
+            setMultipleImages(prev => [...prev, ...newImages]);
+            setMultipleImagePreviews(prev => [...prev, ...newPreviews]);
+            setFormData({ ...formData, images: [...(formData.images || []), ...newImages] });
+          }
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+  };
+
+  const removeMultipleImage = (index: number) => {
+    const newPreviews = multipleImagePreviews.filter((_, i) => i !== index);
+    const newImages = multipleImages.filter((_, i) => i !== index);
+    setMultipleImagePreviews(newPreviews);
+    setMultipleImages(newImages);
+    setFormData({ ...formData, images: newImages });
+  };
+
   const handleAdd = () => {
     setEditingItem(null);
     resetForm();
@@ -167,13 +229,21 @@ export default function RobotsGalleryPage() {
     } else {
       const gallery = item as GalleryItem;
       setImagePreview(gallery.imageUrl);
+      setMultipleImagePreviews(gallery.images || []);
+      setMultipleImages(gallery.images || []);
       setFormData({
         title: gallery.title,
         description: gallery.description || '',
+        detailedDescription: gallery.detailedDescription || '',
         imageUrl: gallery.imageUrl,
+        images: gallery.images || [],
         category: gallery.category,
         uploadedBy: gallery.uploadedBy || 'Admin',
         year: gallery.year || new Date().getFullYear(),
+        location: gallery.location || '',
+        date: gallery.date || '',
+        participants: gallery.participants || '',
+        highlights: gallery.highlights?.join(', ') || '',
       });
     }
     setShowForm(true);
@@ -203,6 +273,14 @@ export default function RobotsGalleryPage() {
           features: formData.features.split(',').map((f: string) => f.trim()).filter(Boolean),
           achievements: formData.achievements.split(',').map((a: string) => a.trim()).filter(Boolean),
         };
+      } else {
+        // For gallery items, process highlights if provided
+        if (formData.highlights) {
+          payload = {
+            ...formData,
+            highlights: formData.highlights.split(',').map((h: string) => h.trim()).filter(Boolean),
+          };
+        }
       }
 
       const url = editingItem 
@@ -550,23 +628,141 @@ export default function RobotsGalleryPage() {
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>Image Upload *</label>
+                  <label style={{ display: 'block', marginBottom: '0.75rem', fontWeight: '600', color: '#212529', fontSize: '1rem' }}>Description (Short) *</label>
+                  <textarea
+                    required
+                    value={formData.description || ''}
+                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                    rows={2}
+                    placeholder="Brief description (max 200 characters)"
+                    maxLength={200}
+                    style={{ width: '100%', padding: '1rem', borderRadius: '8px', border: '2px solid #dee2e6', fontFamily: 'inherit', fontSize: '1rem', resize: 'vertical' }}
+                  />
+                  <small style={{ color: '#6c757d', fontSize: '0.85rem' }}>
+                    {formData.description?.length || 0}/200 characters
+                  </small>
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', marginBottom: '0.75rem', fontWeight: '600', color: '#212529', fontSize: '1rem' }}>Detailed Description</label>
+                  <textarea
+                    value={formData.detailedDescription || ''}
+                    onChange={(e) => setFormData({ ...formData, detailedDescription: e.target.value })}
+                    rows={6}
+                    placeholder="Enter detailed description about the event/workshop..."
+                    style={{ width: '100%', padding: '1rem', borderRadius: '8px', border: '2px solid #dee2e6', fontFamily: 'inherit', fontSize: '1rem', resize: 'vertical' }}
+                  />
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1.5rem' }}>
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '0.75rem', fontWeight: '600', color: '#212529', fontSize: '1rem' }}>Location</label>
+                    <input
+                      type="text"
+                      value={formData.location || ''}
+                      onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                      placeholder="e.g., Tech Park Hall A"
+                      style={{ width: '100%', padding: '1rem', borderRadius: '8px', border: '2px solid #dee2e6', fontSize: '1rem' }}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '0.75rem', fontWeight: '600', color: '#212529', fontSize: '1rem' }}>Date</label>
+                    <input
+                      type="date"
+                      value={formData.date || ''}
+                      onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                      style={{ width: '100%', padding: '1rem', borderRadius: '8px', border: '2px solid #dee2e6', fontSize: '1rem' }}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '0.75rem', fontWeight: '600', color: '#212529', fontSize: '1rem' }}>Participants</label>
+                    <input
+                      type="text"
+                      value={formData.participants || ''}
+                      onChange={(e) => setFormData({ ...formData, participants: e.target.value })}
+                      placeholder="e.g., 50+ students"
+                      style={{ width: '100%', padding: '1rem', borderRadius: '8px', border: '2px solid #dee2e6', fontSize: '1rem' }}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', marginBottom: '0.75rem', fontWeight: '600', color: '#212529', fontSize: '1rem' }}>Highlights (comma-separated)</label>
+                  <input
+                    type="text"
+                    value={formData.highlights || ''}
+                    onChange={(e) => setFormData({ ...formData, highlights: e.target.value })}
+                    placeholder="e.g., Hands-on sessions, Expert speakers, Live demos"
+                    style={{ width: '100%', padding: '1rem', borderRadius: '8px', border: '2px solid #dee2e6', fontSize: '1rem' }}
+                  />
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', marginBottom: '0.75rem', fontWeight: '600', color: '#212529', fontSize: '1rem' }}>Main Image *</label>
                   <input
                     type="file"
                     accept="image/*"
                     onChange={handleImageChange}
-                    style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #ced4da' }}
+                    style={{ width: '100%', padding: '1rem', borderRadius: '8px', border: '2px solid #dee2e6', fontSize: '1rem', cursor: 'pointer' }}
                   />
                   {imagePreview && (
                     <div style={{ marginTop: '1rem', textAlign: 'center' }}>
                       <img
                         src={imagePreview}
-                        alt="Preview"
+                        alt="Main Preview"
                         style={{ maxWidth: '100%', maxHeight: '250px', borderRadius: '12px', objectFit: 'cover', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
                       />
                     </div>
                   )}
-                  <small style={{ color: '#6c757d', display: 'block', marginTop: '0.75rem', fontSize: '0.9rem' }}>📎 Max size: 5MB. Supported: JPG, PNG, GIF, WebP</small>
+                  <small style={{ color: '#6c757d', display: 'block', marginTop: '0.75rem', fontSize: '0.9rem' }}>📎 Main display image. Max size: 5MB</small>
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', marginBottom: '0.75rem', fontWeight: '600', color: '#212529', fontSize: '1rem' }}>Additional Images (Multiple)</label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    onChange={handleMultipleImagesChange}
+                    style={{ width: '100%', padding: '1rem', borderRadius: '8px', border: '2px solid #dee2e6', fontSize: '1rem', cursor: 'pointer' }}
+                  />
+                  {multipleImagePreviews.length > 0 && (
+                    <div style={{ marginTop: '1rem', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '1rem' }}>
+                      {multipleImagePreviews.map((preview, index) => (
+                        <div key={index} style={{ position: 'relative', borderRadius: '8px', overflow: 'hidden', boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}>
+                          <img
+                            src={preview}
+                            alt={`Preview ${index + 1}`}
+                            style={{ width: '100%', height: '150px', objectFit: 'cover' }}
+                          />
+                          <button
+                            type="button"
+                            onClick={() => removeMultipleImage(index)}
+                            style={{
+                              position: 'absolute',
+                              top: '0.5rem',
+                              right: '0.5rem',
+                              background: '#E10600',
+                              color: 'white',
+                              border: 'none',
+                              borderRadius: '50%',
+                              width: '28px',
+                              height: '28px',
+                              cursor: 'pointer',
+                              fontSize: '1rem',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              boxShadow: '0 2px 6px rgba(0,0,0,0.3)',
+                            }}
+                          >
+                            ✕
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  <small style={{ color: '#6c757d', display: 'block', marginTop: '0.75rem', fontSize: '0.9rem' }}>📸 Upload multiple images for gallery. Max 5MB each. Total: {multipleImagePreviews.length} image(s)</small>
                 </div>
 
                 <div>
