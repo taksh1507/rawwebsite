@@ -46,6 +46,8 @@ export default function RobotsGalleryPage() {
   const [editingItem, setEditingItem] = useState<Robot | GalleryItem | null>(null);
   const [formData, setFormData] = useState<any>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string>('');
 
   useEffect(() => {
     fetchData();
@@ -77,6 +79,8 @@ export default function RobotsGalleryPage() {
   };
 
   const resetForm = () => {
+    setImageFile(null);
+    setImagePreview('');
     if (viewMode === 'robots') {
       setFormData({
         name: '',
@@ -105,6 +109,34 @@ export default function RobotsGalleryPage() {
     }
   };
 
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // Check file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        alert('Image size should be less than 5MB');
+        return;
+      }
+
+      // Check file type
+      if (!file.type.startsWith('image/')) {
+        alert('Please select a valid image file');
+        return;
+      }
+
+      setImageFile(file);
+
+      // Create preview and convert to base64
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result as string;
+        setImagePreview(base64String);
+        setFormData({ ...formData, imageUrl: base64String });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleAdd = () => {
     setEditingItem(null);
     resetForm();
@@ -113,8 +145,10 @@ export default function RobotsGalleryPage() {
 
   const handleEdit = (item: Robot | GalleryItem) => {
     setEditingItem(item);
+    setImageFile(null);
     if (viewMode === 'robots') {
       const robot = item as Robot;
+      setImagePreview(robot.imageUrl);
       setFormData({
         name: robot.name,
         type: robot.type,
@@ -132,6 +166,7 @@ export default function RobotsGalleryPage() {
       });
     } else {
       const gallery = item as GalleryItem;
+      setImagePreview(gallery.imageUrl);
       setFormData({
         title: gallery.title,
         description: gallery.description || '',
@@ -146,6 +181,13 @@ export default function RobotsGalleryPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validate image
+    if (!formData.imageUrl && !imageFile) {
+      alert('Please upload an image');
+      return;
+    }
+    
     setIsSubmitting(true);
 
     try {
@@ -378,15 +420,23 @@ export default function RobotsGalleryPage() {
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>Image URL *</label>
+                  <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>Image Upload *</label>
                   <input
-                    type="url"
-                    required
-                    value={formData.imageUrl || ''}
-                    onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
-                    placeholder="https://images.unsplash.com/..."
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
                     style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #ced4da' }}
                   />
+                  {imagePreview && (
+                    <div style={{ marginTop: '1rem' }}>
+                      <img
+                        src={imagePreview}
+                        alt="Preview"
+                        style={{ maxWidth: '100%', maxHeight: '200px', borderRadius: '8px', objectFit: 'cover' }}
+                      />
+                    </div>
+                  )}
+                  <small style={{ color: '#6c757d', display: 'block', marginTop: '0.5rem' }}>Max size: 5MB. Supported formats: JPG, PNG, GIF, WebP</small>
                 </div>
 
                 <div>
@@ -499,15 +549,23 @@ export default function RobotsGalleryPage() {
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>Image URL *</label>
+                  <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>Image Upload *</label>
                   <input
-                    type="url"
-                    required
-                    value={formData.imageUrl || ''}
-                    onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
-                    placeholder="https://images.unsplash.com/..."
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
                     style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #ced4da' }}
                   />
+                  {imagePreview && (
+                    <div style={{ marginTop: '1rem' }}>
+                      <img
+                        src={imagePreview}
+                        alt="Preview"
+                        style={{ maxWidth: '100%', maxHeight: '200px', borderRadius: '8px', objectFit: 'cover' }}
+                      />
+                    </div>
+                  )}
+                  <small style={{ color: '#6c757d', display: 'block', marginTop: '0.5rem' }}>Max size: 5MB. Supported formats: JPG, PNG, GIF, WebP</small>
                 </div>
 
                 <div>
