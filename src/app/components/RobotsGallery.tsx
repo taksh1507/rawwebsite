@@ -239,6 +239,7 @@ export default function RobotsGallery() {
         {/* Year Filter - Compact style above category filters */}
         {availableYears.length > 0 && (
           <motion.div
+            className={mobileStyles.desktopFilters}
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -315,6 +316,7 @@ export default function RobotsGallery() {
 
         {/* Unified Category Filters - Premium Style */}
         <motion.div
+          className={mobileStyles.desktopFilters}
           style={{
             display: 'flex',
             gap: '0.875rem',
