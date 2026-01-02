@@ -4,28 +4,11 @@ import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import IntroAnimation from './components/IntroAnimation';
 import Footer from './components/Footer';
 
 export default function Home() {
-  const [showIntro, setShowIntro] = useState(false);
-
-  useEffect(() => {
-    // Check if intro has already been shown in this session
-    const hasSeenIntro = localStorage.getItem('teamraw_intro_shown');
-    if (!hasSeenIntro) {
-      setShowIntro(true);
-      localStorage.setItem('teamraw_intro_shown', 'true');
-    }
-  }, []);
-
-  const handleIntroComplete = () => {
-    setShowIntro(false);
-  };
-
   return (
     <main>
-      {showIntro && <IntroAnimation onComplete={handleIntroComplete} />}
       <Navbar />
       <Hero />
 
