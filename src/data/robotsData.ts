@@ -1,4 +1,9 @@
 /**
+ * Author: Taksh Gandhi
+ * Email: takshgandhi4@gmail.com
+ */
+
+/**
  * ROBOTS DATA STRUCTURE
  * Real Team RAW robots data
  */

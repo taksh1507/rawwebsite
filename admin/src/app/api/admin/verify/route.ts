@@ -1,3 +1,8 @@
+/**
+ * Author: Taksh Gandhi
+ * Email: takshgandhi4@gmail.com
+ */
+
 import { NextRequest, NextResponse } from 'next/server';
 import { extractToken, verifyToken } from '@/lib/auth';
 

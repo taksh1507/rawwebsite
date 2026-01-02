@@ -1,3 +1,8 @@
+/**
+ * Author: Taksh Gandhi
+ * Email: takshgandhi4@gmail.com
+ */
+
 'use client';
 
 import Link from 'next/link';

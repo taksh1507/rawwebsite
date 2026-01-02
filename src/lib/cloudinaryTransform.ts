@@ -1,4 +1,9 @@
 /**
+ * Author: Taksh Gandhi
+ * Email: takshgandhi4@gmail.com
+ */
+
+/**
  * IMAGE URL HANDLER
  * Handles direct folder URLs (no Cloudinary transformation)
  * All images are stored in a local folder with direct URL references

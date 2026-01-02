@@ -1,4 +1,9 @@
 /**
+ * Author: Taksh Gandhi
+ * Email: takshgandhi4@gmail.com
+ */
+
+/**
  * Password Hash Generator for Team RAW Admin
  * 
  * Usage: node generate-password.js <password>

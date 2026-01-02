@@ -1,3 +1,8 @@
+/**
+ * Author: Taksh Gandhi
+ * Email: takshgandhi4@gmail.com
+ */
+
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 

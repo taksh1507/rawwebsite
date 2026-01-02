@@ -1,4 +1,9 @@
 /**
+ * Author: Taksh Gandhi
+ * Email: takshgandhi4@gmail.com
+ */
+
+/**
  * STATIC GALLERY DATA
  * Replace with your image imports and gallery details
  * Images should be imported at the top

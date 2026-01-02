@@ -1,3 +1,8 @@
+/**
+ * Author: Taksh Gandhi
+ * Email: takshgandhi4@gmail.com
+ */
+
 import React from 'react';
 import Navbar from '../components/Navbar';
 import TeamSection from '../components/TeamSection';

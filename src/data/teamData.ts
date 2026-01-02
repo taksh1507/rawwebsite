@@ -1,4 +1,9 @@
 /**
+ * Author: Taksh Gandhi
+ * Email: takshgandhi4@gmail.com
+ */
+
+/**
  * TEAM DATA STRUCTURE
  * Optimized for WebP images with lazy loading and responsive layouts
  */

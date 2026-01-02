@@ -1,3 +1,8 @@
+/**
+ * Author: Taksh Gandhi
+ * Email: takshgandhi4@gmail.com
+ */
+
 // Node.js script to convert team images to WebP format
 // Requires: npm install sharp
 

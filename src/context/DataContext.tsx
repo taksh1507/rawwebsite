@@ -1,3 +1,8 @@
+/**
+ * Author: Taksh Gandhi
+ * Email: takshgandhi4@gmail.com
+ */
+
 'use client';
 
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
