@@ -203,11 +203,14 @@ export default function UpdatesPopup() {
                 .updates-scroll::-webkit-scrollbar-thumb {
                   background: rgba(178, 0, 29, 0.3);
                   border-radius: 10px;
-                  transition: background 0.2s8, 0, 29, 0.3);
-                  border-radius: 10px;
+                  transition: background 0.2s;
                 }
                 .updates-scroll::-webkit-scrollbar-thumb:hover {
                   background: rgba(178, 0, 29, 0.5);
+                }
+                
+                @keyframes spin {
+                  to { transform: rotate(360deg); }
                 }
                 
                 @media (max-width: 768px) {
@@ -229,11 +232,6 @@ export default function UpdatesPopup() {
                       animation: 'spin 0.8s linear infinite',
                       margin: '0 auto',
                     }}></div>
-                    <style jsx>{`
-                      @keyframes spin {
-                        to { transform: rotate(360deg); }
-                      }
-                    `}</style>
                   </div>
                 ) : updates.length === 0 ? (
                   <div style={{ textAlign: 'center', padding: '2rem', color: '#64748b' }}>
