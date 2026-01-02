@@ -88,6 +88,20 @@ export default function Competitions() {
   const years = Array.from(new Set(competitionsData.map(c => c.year))).sort((a, b) => b - a);
   const allDomains = Array.from(new Set(competitionsData.flatMap(c => c.tags))).sort();
 
+  // Domain groups for better organization
+  const domainGroups = {
+    'Core Tech': ['Algorithms', 'Control', 'Autonomous Control'],
+    'Hardware': ['Electronics', 'Embedded Systems', 'Mechanical Design'],
+    'Themes': ['Robotics', 'Innovation', 'Speed Challenge', 'Design', 'Autonomous']
+  };
+
+  // Check if filters have changed
+  const hasChanges = tempYear !== selectedYear || 
+    JSON.stringify([...tempDomains].sort()) !== JSON.stringify([...selectedDomains].sort());
+
+  // Get active filter count
+  const activeFilterCount = (selectedYear ? 1 : 0) + selectedDomains.length;
+
   // Filter competitions
   const filteredCompetitions = competitionsData.filter(comp => {
     const yearMatch = !selectedYear || comp.year === selectedYear;
@@ -120,6 +134,13 @@ export default function Competitions() {
   };
 
   const resetFilters = () => {
+    setTempYear(null);
+    setTempDomains([]);
+  };
+
+  const clearAllFilters = () => {
+    setSelectedYear(null);
+    setSelectedDomains([]);
     setTempYear(null);
     setTempDomains([]);
   };
@@ -388,7 +409,17 @@ export default function Competitions() {
 
               {/* Modal Header */}
               <div className={styles.modalHeader}>
-                <h3>Filters</h3>
+                <div className={styles.modalHeaderLeft}>
+                  <h3>Filters {activeFilterCount > 0 && <span className={styles.filterCount}>({activeFilterCount})</span>}</h3>
+                  {activeFilterCount > 0 && (
+                    <button
+                      className={styles.clearAllButton}
+                      onClick={clearAllFilters}
+                    >
+                      Clear all
+                    </button>
+                  )}
+                </div>
                 <button
                   className={styles.closeButton}
                   onClick={() => setShowFilterModal(false)}
@@ -422,21 +453,26 @@ export default function Competitions() {
                   </div>
                 </div>
 
-                {/* Domain Filter Section */}
+                {/* Domain Filter Section - Grouped */}
                 <div className={styles.modalFilterSection}>
                   <h4 className={styles.modalFilterLabel}>Domain</h4>
-                  <div className={styles.domainGrid}>
-                    {allDomains.map(domain => (
-                      <button
-                        key={domain}
-                        className={`${styles.domainChip} ${tempDomains.includes(domain) ? styles.domainChipActive : ''}`}
-                        onClick={() => toggleDomain(domain)}
-                      >
-                        <span className={styles.checkbox}>
-                          {tempDomains.includes(domain) ? '✓' : ''}
-                        </span>
-                        {domain}
-                      </button>
+                  <div className={styles.domainScrollContainer}>
+                    {Object.entries(domainGroups).map(([groupName, domains]) => (
+                      <div key={groupName} className={styles.domainGroup}>
+                        <h5 className={styles.domainGroupLabel}>{groupName}</h5>
+                        <div className={styles.domainPillGrid}>
+                          {domains.filter(d => allDomains.includes(d)).map(domain => (
+                            <button
+                              key={domain}
+                              className={`${styles.domainPill} ${tempDomains.includes(domain) ? styles.domainPillActive : ''}`}
+                              onClick={() => toggleDomain(domain)}
+                            >
+                              {tempDomains.includes(domain) && <span className={styles.checkIcon}>✓</span>}
+                              {domain}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
                     ))}
                   </div>
                 </div>
@@ -447,14 +483,16 @@ export default function Competitions() {
                 <button
                   className={styles.resetButton}
                   onClick={resetFilters}
+                  disabled={!tempYear && tempDomains.length === 0}
                 >
-                  Reset Filters
+                  Reset
                 </button>
                 <button
                   className={styles.applyButton}
                   onClick={applyFilters}
+                  disabled={!hasChanges}
                 >
-                  Apply Filters
+                  Apply {(tempYear || tempDomains.length > 0) && `(${(tempYear ? 1 : 0) + tempDomains.length})`}
                 </button>
               </div>
             </motion.div>
