@@ -19,6 +19,41 @@ html {
   }
 }
 
+/* Smooth section transitions */
+section {
+  position: relative;
+  transition: background 0.5s ease;
+}
+
+/* Add lazy loading optimization */
+img {
+  content-visibility: auto;
+}
+
+/* Improve scrollbar for modals/panels */
+.modal-scroll::-webkit-scrollbar,
+.filter-panel::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-scroll::-webkit-scrollbar-track,
+.filter-panel::-webkit-scrollbar-track {
+  background: rgba(10, 26, 58, 0.05);
+  border-radius: 10px;
+}
+
+.modal-scroll::-webkit-scrollbar-thumb,
+.filter-panel::-webkit-scrollbar-thumb {
+  background: rgba(178, 0, 29, 0.3);
+  border-radius: 10px;
+  transition: background 0.2s;
+}
+
+.modal-scroll::-webkit-scrollbar-thumb:hover,
+.filter-panel::-webkit-scrollbar-thumb:hover {
+  background: rgba(178, 0, 29, 0.5);
+}
+
 body {
   --color-white: #ffffff;
   --color-navy: #0A1A3A;

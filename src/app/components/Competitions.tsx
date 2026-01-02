@@ -318,7 +318,7 @@ export default function Competitions() {
               >
                 <div className={styles.cardHeader}>
                   <span className={styles.year}>{comp.year}</span>
-                  <span className={styles.achievement}>{ACHIEVEMENT_BADGES[comp.achievement as keyof typeof ACHIEVEMENT_BADGES]}</span>
+                  <span className={styles.achievement} data-type={comp.achievement.toLowerCase().replace(/ /g, '-')}>{ACHIEVEMENT_BADGES[comp.achievement as keyof typeof ACHIEVEMENT_BADGES]}</span>
                 </div>
 
                 <h3 className={styles.title}>{comp.name}</h3>
