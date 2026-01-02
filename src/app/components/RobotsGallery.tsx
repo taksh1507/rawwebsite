@@ -41,6 +41,7 @@ export default function RobotsGallery() {
           name: item.name,
           type: item.type,
           description: item.description || 'High-performance robot',
+          imageUrl: item.imageUrl,
           specs: item.specs?.slice(0, 3) || ['Autonomous', 'Precision Control', 'Advanced Sensors'],
           tags: item.tags?.slice(0, 2) || ['Innovation', 'Engineering'],
           category: 'robots',
@@ -53,6 +54,7 @@ export default function RobotsGallery() {
             name: item.title,
             type: 'Robot',
             description: item.description || 'High-performance robot',
+            imageUrl: item.imageUrl,
             specs: ['Autonomous', 'Precision Control', 'Advanced Sensors'],
             tags: ['Innovation', 'Engineering'],
             category: 'robots',
@@ -65,6 +67,7 @@ export default function RobotsGallery() {
       category: item.category || 'general',
       title: item.title,
       description: item.description,
+      imageUrl: item.imageUrl,
       color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
       year: item.year,
     }));
@@ -488,13 +491,27 @@ export default function RobotsGallery() {
                   transition={{ duration: 0.3 }}
                   style={{ position: 'relative', zIndex: 1 }}
                 >
-                  <Image 
-                    src="/robot.png" 
-                    alt={robot.name || 'Robot'}
-                    width={200}
-                    height={200}
-                    style={{ filter: 'drop-shadow(0 8px 24px rgba(0, 0, 0, 0.3))' }}
-                  />
+                  {robot.imageUrl ? (
+                    <img
+                      src={robot.imageUrl}
+                      alt={robot.name || 'Robot'}
+                      style={{
+                        width: '200px',
+                        height: '200px',
+                        objectFit: 'cover',
+                        borderRadius: '12px',
+                        filter: 'drop-shadow(0 8px 24px rgba(0, 0, 0, 0.3))',
+                      }}
+                    />
+                  ) : (
+                    <Image 
+                      src="/robot.png" 
+                      alt={robot.name || 'Robot'}
+                      width={200}
+                      height={200}
+                      style={{ filter: 'drop-shadow(0 8px 24px rgba(0, 0, 0, 0.3))' }}
+                    />
+                  )}
                 </motion.div>
                 
                 {/* Category Badge */}
@@ -640,7 +657,7 @@ export default function RobotsGallery() {
                 <div style={{ 
                   height: '240px', 
                   overflow: 'hidden', 
-                  background: item.color || 'linear-gradient(135deg, #f5f7fa 0%, #e8edf2 100%)', 
+                  background: item.imageUrl ? 'transparent' : (item.color || 'linear-gradient(135deg, #f5f7fa 0%, #e8edf2 100%)'), 
                   position: 'relative', 
                   display: 'flex', 
                   alignItems: 'center', 
@@ -649,14 +666,28 @@ export default function RobotsGallery() {
                   <motion.div
                     whileHover={{ scale: 1.04 }}
                     transition={{ duration: 0.3 }}
+                    style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
                   >
-                    <Image 
-                      src="/robot.png" 
-                      alt={item.title || 'Gallery Item'}
-                      width={200}
-                      height={200}
-                      style={{ filter: 'drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15))' }}
-                    />
+                    {item.imageUrl ? (
+                      <img
+                        src={item.imageUrl}
+                        alt={item.title || 'Gallery Item'}
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
+                          filter: 'drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15))',
+                        }}
+                      />
+                    ) : (
+                      <Image 
+                        src="/robot.png" 
+                        alt={item.title || 'Gallery Item'}
+                        width={200}
+                        height={200}
+                        style={{ filter: 'drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15))' }}
+                      />
+                    )}
                   </motion.div>
                   {/* Category Badge */}
                   <div style={{
@@ -884,6 +915,7 @@ export default function RobotsGallery() {
                     border: '1px solid rgba(255, 255, 255, 0.1)',
                     position: 'relative',
                     zIndex: 1,
+                    overflow: 'hidden',
                   }}
                   animate={{ 
                     scale: [1, 1.02, 1],
@@ -894,7 +926,19 @@ export default function RobotsGallery() {
                     ease: 'easeInOut'
                   }}
                 >
-                  {detailViewItem.category === 'robots' ? '🤖' : '📸'}
+                  {detailViewItem.imageUrl ? (
+                    <img
+                      src={detailViewItem.imageUrl}
+                      alt={detailViewItem.name || detailViewItem.title}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                      }}
+                    />
+                  ) : (
+                    <span>{detailViewItem.category === 'robots' ? '🤖' : '📸'}</span>
+                  )}
                 </motion.div>
                 
                 <div style={{ position: 'relative', zIndex: 1 }}>

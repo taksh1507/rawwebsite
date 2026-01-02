@@ -23,6 +23,7 @@ export default function Gallery() {
       category: item.category || 'general',
       title: item.title,
       description: item.description,
+      imageUrl: item.imageUrl,
       color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
     }));
 
@@ -161,9 +162,22 @@ export default function Gallery() {
                 >
                   <motion.div
                     className={styles.itemContent}
-                    style={{ backgroundColor: item.color }}
+                    style={{ backgroundColor: item.imageUrl ? 'transparent' : item.color }}
                   >
-                    <div className={styles.itemEmoji}>📸</div>
+                    {item.imageUrl ? (
+                      <img
+                        src={item.imageUrl}
+                        alt={item.title}
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
+                          borderRadius: '12px',
+                        }}
+                      />
+                    ) : (
+                      <div className={styles.itemEmoji}>📸</div>
+                    )}
                     <div className={styles.itemOverlay}>
                       <h3>{item.title}</h3>
                       <p>{item.category}</p>
@@ -195,9 +209,22 @@ export default function Gallery() {
               >
                 <div
                   className={styles.lightboxImage}
-                  style={{ backgroundColor: selectedItem.color }}
+                  style={{ backgroundColor: selectedItem.imageUrl ? 'transparent' : selectedItem.color }}
                 >
-                  <div className={styles.lightboxEmoji}>📸</div>
+                  {selectedItem.imageUrl ? (
+                    <img
+                      src={selectedItem.imageUrl}
+                      alt={selectedItem.title}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'contain',
+                        maxHeight: '80vh',
+                      }}
+                    />
+                  ) : (
+                    <div className={styles.lightboxEmoji}>📸</div>
+                  )}
                 </div>
                 <div className={styles.lightboxInfo}>
                   <h3>{selectedItem.title}</h3>
