@@ -73,7 +73,7 @@ export const teamMembers: TeamMember[] = [
     role: 'SECRETARY',
     department: 'Coder',
     category: 'core',
-    imageUrl: '/logo.png',
+    imageUrl: '/Dikshi.jpg',
     createdAt: '2024-01-15',
   },
   {
@@ -173,7 +173,7 @@ export const teamMembers: TeamMember[] = [
     role: 'MENTOR',
     department: 'Designer',
     category: 'mentors',
-    imageUrl: '/logo.png',
+    imageUrl: '/Hrushikhi.jpg',
     createdAt: '2024-02-01',
   },
   // TEAM MEMBERS
