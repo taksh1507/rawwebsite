@@ -851,10 +851,11 @@
 .modalContainer {
   background: white;
   border-radius: 16px;
-  max-width: 90vw;
-  max-height: 90vh;
-  width: 1400px;
-  height: 85vh;
+  max-width: 95vw;
+  max-height: 92vh;
+  width: 1600px;
+  height: auto;
+  min-height: 600px;
   display: flex;
   flex-direction: column;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
@@ -904,18 +905,19 @@
 /* Modal Content - Split Layout */
 .modalContent {
   display: grid;
-  grid-template-columns: 60% 40%;
+  grid-template-columns: 65% 35%;
   height: 100%;
   overflow: hidden;
+  gap: 0;
 }
 
 /* Left Side: Image Viewer */
-.modalImageSection {
-  background: #0a1a3a;
+.modalImageSeclinear-gradient(135deg, #0a1a3a 0%, #162949 100%);
   display: flex;
   flex-direction: column;
-  padding: 2rem;
+  padding: 2.5rem;
   overflow: hidden;
+  justify-content: center;
 }
 
 .modalMainImage {
@@ -924,34 +926,39 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   overflow: hidden;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.03);
+  min-height: 500px;
+  max-height: 650px;
 }
 
 .mainImg {
-  max-width: 100%;
-  max-height: 100%;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
   border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5);
   cursor: zoom-in;
   transition: transform 0.3s ease;
+  max-height: 100%;
 }
 
 .mainImg:hover {
+  transform: scale(1.01
   transform: scale(1.02);
 }
-
-/* Image Counter */
-.imageCounter {
-  position: absolute;
-  bottom: 1rem;
-  right: 1rem;
-  background: rgba(225, 6, 0, 0.9);
+.5rem;
+  right: 1.5rem;
+  background: rgba(225, 6, 0, 0.95);
   color: white;
-  padding: 0.5rem 1rem;
+  padding: 0.625rem 1.25rem;
+  border-radius: 24px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px
   border-radius: 20px;
   font-size: 0.9rem;
   font-weight: 600;
@@ -960,43 +967,45 @@
 
 /* Thumbnail Strip */
 .thumbnailStrip {
-  display: flex;
-  gap: 0.75rem;
+  displ1rem;
   overflow-x: auto;
-  padding: 0.5rem 0;
+  padding: 1rem 0 0.5rem 0;
   scrollbar-width: thin;
   scrollbar-color: #e10600 rgba(255, 255, 255, 0.1);
+  max-height: 100px;
 }
 
 .thumbnailStrip::-webkit-scrollbar {
-  height: 6px;
+  height: 8px;
 }
 
 .thumbnailStrip::-webkit-scrollbar-track {
   background: rgba(255, 255, 255, 0.1);
-  border-radius: 3px;
+  border-radius: 4px;
 }
 
 .thumbnailStrip::-webkit-scrollbar-thumb {
   background: #e10600;
-  border-radius: 3px;
+  border-radius: 4px;
 }
 
 .thumbnail {
   flex-shrink: 0;
-  width: 100px;
-  height: 70px;
-  border-radius: 8px;
+  width: 110px;
+  height: 75px;
+  border-radius: 10px;
   overflow: hidden;
   cursor: pointer;
   border: 3px solid transparent;
-  transition: all 0.2s ease;
-  opacity: 0.6;
+  transition: all 0.25s ease;
+  opacity: 0.5;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .thumbnail:hover {
-  opacity: 1;
-  transform: translateY(-2px);
+  opacity: 0.85;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
 }
 
 .thumbnail img {
@@ -1008,69 +1017,74 @@
 .activeThumbnail {
   border-color: #e10600;
   opacity: 1;
+  box-shadow: 0 4px 16px rgba(225, 6, 0, 0.5);
+  transform: scale(1.05
   box-shadow: 0 4px 12px rgba(225, 6, 0, 0.4);
 }
 
 /* Right Side: Content & Metadata */
-.modalInfoSection {
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-  padding: 2rem;
-  background: white;
+.modalInfoSe.5rem 2rem 2rem 2rem;
+  background: #ffffff;
+  border-left: 1px solid #e9ecef;
 }
 
 .modalInfoSection::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 .modalInfoSection::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #f8f9fa;
 }
 
 .modalInfoSection::-webkit-scrollbar-thumb {
   background: #e10600;
-  border-radius: 4px;
+  border-radius: 3px;
 }
 
 /* Modal Header */
 .modalHeader {
-  margin-bottom: 1.5rem;
-  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.25rem;
   border-bottom: 2px solid #e9ecef;
 }
 
 .modalTitle {
   font-family: 'Orbitron', sans-serif;
-  font-size: 1.75rem;
+  font-size: 1.875rem;
   font-weight: 700;
   color: #0a1a3a;
-  margin: 0 0 0.75rem 0;
+  margin: 0 0 1rem 0;
   line-height: 1.3;
+  word-wrap: break-word;
 }
 
 .modalBadge {
   display: inline-block;
   background: linear-gradient(135deg, #e10600 0%, #c00500 100%);
   color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  font-size: 0.875rem;
-  font-weight: 600;
+  padding: 0.625rem 1.25rem;
+  border-radius: 24px;
+  font-size: 0.9rem;
+  font-weight: 700;
   text-transform: capitalize;
-}
-
-/* Modal Sections */
-.modalSection {
-  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 12px rgba(225, 6, 0, 0.25)
+  border-radius: 20px;
+  font-size: 0.872rem;
 }
 
 .sectionLabel {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   font-weight: 700;
   color: #6c757d;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.75rem;
+}
+
+.sectionContent {
+  color: #212529;
+  font-size: 1rem;
+  line-height: 1.80.1em;
   margin-bottom: 0.5rem;
 }
 
@@ -1082,47 +1096,45 @@
 }
 
 /* Chips List */
-.chipsList {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
+.chipsLis625rem;
 }
 
 .chip {
   background: #f8f9fa;
   color: #495057;
-  padding: 0.5rem 0.875rem;
-  border-radius: 16px;
-  font-size: 0.85rem;
+  padding: 0.625rem 1rem;
+  border-radius: 18px;
+  font-size: 0.9rem;
   font-weight: 500;
   border: 1px solid #dee2e6;
+  transition: all 0.2s ease;
+}
+
+.chip:hover {
+  background: #e9ecef;
+  border-color: #adb5bd;
 }
 
 .chipAchievement {
   background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
   color: white;
-  padding: 0.5rem 0.875rem;
-  border-radius: 16px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3);
-}
-
-/* Metadata Card */
-.metadataCard {
-  background: linear-gradient(135deg, #f8f9fb 0%, #e9ecef 100%);
-  border-radius: 12px;
-  padding: 1.25rem;
-  margin-top: 1.5rem;
+  padding: 0.625rem 1rem;
+  border-radius: 18px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  box-shadow: 0 3p4px;
+  padding: 1.5rem;
+  margin-top: 2rem;
   border: 1px solid #dee2e6;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
 }
 
 .metaItem {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.75rem 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  gap: 1rem;
+  padding: 0.875rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 .metaItem:last-child {
@@ -1135,10 +1147,19 @@
 }
 
 .metaIcon {
-  font-size: 1.25rem;
+  font-size: 1.375rem;
   flex-shrink: 0;
 }
 
+.metaLabel {
+  font-size: 0.9rem;
+  color: #6c757d;
+  font-weight: 600;
+  min-width: 90px;
+}
+
+.metaValue {
+  font-size: 0.95
 .metaLabel {
   font-size: 0.875rem;
   color: #6c757d;
@@ -1148,14 +1169,12 @@
 
 .metaValue {
   font-size: 0.9rem;
-  color: #212529;
-  font-weight: 500;
-}
-
-/* Responsive Design for Modal */
-@media (max-width: 1024px) {
-  .modalContent {
-    grid-template-columns: 55% 45%;
+  color: #212529;60% 40%;
+  }
+  
+  .modalMainImage {
+    min-height: 400px;
+    max-height: 550px;
   }
 }
 
@@ -1173,12 +1192,17 @@
   }
 
   .modalImageSection {
-    padding: 1rem;
-    max-height: 50vh;
+    padding: 1.5rem;
+    max-height: 55vh;
+  }
+
+  .modalMainImage {
+    min-height: 300px;
+    max-height: 450px;
   }
 
   .modalInfoSection {
-    padding: 1.5rem 1rem;
+    padding: 2rem 1.5rem;
   }
 
   .modalTitle {
@@ -1186,8 +1210,8 @@
   }
 
   .thumbnail {
-    width: 80px;
-    height: 56px;
+    width: 90px;
+    height: 62px;
   }
 }
 
@@ -1199,7 +1223,13 @@
   }
 
   .modalImageSection {
-    max-height: 40vh;
+    max-height: 45vh;
+    padding: 1rem;
+  }
+
+  .modalMainImage {
+    min-height: 250px;
+    max-height: 350px;
   }
 
   .modalTitle {
@@ -1207,10 +1237,21 @@
   }
 
   .thumbnail {
-    width: 70px;
-    height: 50px;
+    width: 75px;
+    height: 52px;
   }
 
+  .metaLabel {
+    min-width: 70px;
+    font-size: 0.8rem;
+  }
+
+  .metaValue {
+    font-size: 0.85rem;
+  }
+  
+  .modalInfoSection {
+    padding: 1.5rem 1
   .metaLabel {
     min-width: 70px;
     font-size: 0.8rem;
