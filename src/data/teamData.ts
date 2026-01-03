@@ -255,7 +255,7 @@ export const teamMembers: TeamMember[] = [
     role: 'TEAM MEMBER',
     department: 'Technical',
     category: 'members',
-    imageUrl: '/vansh.jpg',
+    imageUrl: '/Vansh.jpg',
     createdAt: '2024-03-10',
   },
   {
