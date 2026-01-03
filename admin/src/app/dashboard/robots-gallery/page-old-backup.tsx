@@ -195,7 +195,7 @@ export default function RobotsGalleryPage() {
           if (processedCount === validFiles.length) {
             setMultipleImages(prev => [...prev, ...newImages]);
             setMultipleImagePreviews(prev => [...prev, ...newPreviews]);
-            setFormData(prev => ({ ...prev, images: [...(prev.images || []), ...newImages] }));
+            setFormData((prev: any) => ({ ...prev, images: [...(prev.images || []), ...newImages] }));
             console.log('✅ Multiple images added:', newImages.length);
           }
         };
