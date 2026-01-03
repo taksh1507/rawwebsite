@@ -212,7 +212,7 @@ export default function RobotsGalleryEnhancedPage() {
           if (processedCount === validFiles.length) {
             setMultipleImages(prev => [...prev, ...newImages]);
             setMultipleImagePreviews(prev => [...prev, ...newPreviews]);
-            setFormData(prev => ({ ...prev, images: [...(prev.images || []), ...newImages] }));
+            setFormData((prev: any) => ({ ...prev, images: [...(prev.images || []), ...newImages] }));
           }
         };
         reader.readAsDataURL(file);
@@ -523,7 +523,7 @@ export default function RobotsGalleryEnhancedPage() {
                           </div>
                         </div>
 
-                        <div className={styles.formRow.triple}>
+                        <div className={styles.formRowTriple}>
                           <div className={styles.formGroup}>
                             <label className={styles.label}>
                               <span className={styles.labelIcon}>📂</span> Category <span className={styles.required}>*</span>
@@ -822,7 +822,7 @@ export default function RobotsGalleryEnhancedPage() {
                         <h3 className={styles.sectionTitle}>Event Metadata</h3>
                       </div>
                       <div className={styles.formGrid}>
-                        <div className={styles.formRow.triple}>
+                        <div className={styles.formRowTriple}>
                           <div className={styles.formGroup}>
                             <label className={styles.label}>
                               <span className={styles.labelIcon}>📍</span> Location
