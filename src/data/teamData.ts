@@ -100,7 +100,7 @@ export const teamMembers: TeamMember[] = [
     role: 'CO-EVENT HEAD',
     department: 'Electronics',
     category: 'core',
-    imageUrl: '/logo.png',
+    imageUrl: '/aryan.jpg',
     createdAt: '2024-01-15',
   },
   {
@@ -146,7 +146,7 @@ export const teamMembers: TeamMember[] = [
     role: 'MENTOR & EX-CRC',
     department: 'Electronics',
     category: 'mentors',
-    imageUrl: '/logo.png',
+    imageUrl: '/shreehari.jpg',
     createdAt: '2024-02-01',
   },
   {
@@ -255,7 +255,7 @@ export const teamMembers: TeamMember[] = [
     role: 'TEAM MEMBER',
     department: 'Technical',
     category: 'members',
-    imageUrl: '/Vansh.jpg',
+    imageUrl: '/vansh.jpg',
     createdAt: '2024-03-10',
   },
   {
