@@ -116,6 +116,34 @@ export default function UpdatesPopup() {
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
+  // Function to detect and linkify URLs in text
+  const linkifyText = (text: string) => {
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    const parts = text.split(urlRegex);
+    
+    return parts.map((part, index) => {
+      if (part.match(urlRegex)) {
+        return (
+          <a
+            key={index}
+            href={part}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              color: '#B2001D',
+              textDecoration: 'underline',
+              cursor: 'pointer',
+            }}
+          >
+            {part}
+          </a>
+        );
+      }
+      return part;
+    });
+  };
+
   return (
     <AnimatePresence>
       {showPopup && (
@@ -385,7 +413,7 @@ export default function UpdatesPopup() {
                                 fontFamily: 'Inter, sans-serif',
                               }}
                             >
-                              {update.description}
+                              {linkifyText(update.description)}
                             </p>
 
                             {/* View Button */}
@@ -599,7 +627,7 @@ export default function UpdatesPopup() {
                   whiteSpace: 'pre-wrap',
                 }}
               >
-                {selectedUpdate.description}
+                {linkifyText(selectedUpdate.description)}
               </p>
             </div>
 
