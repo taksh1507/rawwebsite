@@ -1068,7 +1068,6 @@ export default function RobotsGallery() {
                 background: '#ffffff',
                 borderLeft: isMobile ? 'none' : '1px solid #e9ecef',
               }}>
-              }}> {/* Right Side Content */}
                 {/* Header with Title and Badge */}
                 <div style={{
                   marginBottom: '2rem',
