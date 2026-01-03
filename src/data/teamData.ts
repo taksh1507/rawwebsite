@@ -285,6 +285,15 @@ export const teamMembers: TeamMember[] = [
     imageUrl: '/gunjan.jpg',
     createdAt: '2024-03-10',
   },
+  {
+    _id: 'member13',
+    name: 'Niyant Tiwari',
+    role: 'TEAM MEMBER',
+    department: 'Technical',
+    category: 'members',
+    imageUrl: '/logo.png',
+    createdAt: '2024-03-10',
+  },
 ];
 
 export default teamMembers;
