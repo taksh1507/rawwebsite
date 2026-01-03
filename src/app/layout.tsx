@@ -39,6 +39,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" style={{ scrollBehavior: 'smooth' }} suppressHydrationWarning>
+      <head>
+        <link rel="manifest" href="/site.webmanifest" />
+        <meta name="theme-color" content="#B2001D" />
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <DataProvider>
           {children}
