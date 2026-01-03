@@ -99,7 +99,18 @@ export default function RobotsGalleryEnhancedPage() {
       }
     };
     window.addEventListener('keydown', handleEscape);
-    return () => window.removeEventListener('keydown', handleEscape);
+    
+    // Prevent body scroll when modal is open
+    if (viewDetailsItem) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    
+    return () => {
+      window.removeEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'unset';
+    };
   }, [viewDetailsItem]);
 
   const fetchData = async () => {
