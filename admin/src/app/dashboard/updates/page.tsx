@@ -17,6 +17,10 @@ interface Update {
   timestamp: string;
   isActive: boolean;
   author?: string;
+  actionType?: 'none' | 'modal' | 'link';
+  actionUrl?: string | null;
+  ctaLabel?: string;
+  imageUrl?: string | null;
 }
 
 export default function UpdatesPage() {
@@ -35,6 +39,10 @@ export default function UpdatesPage() {
     priority: 'medium' as Update['priority'],
     isActive: true,
     author: 'Admin',
+    actionType: 'none' as 'none' | 'modal' | 'link',
+    actionUrl: '',
+    ctaLabel: 'View',
+    imageUrl: '',
   });
 
   // Fetch updates
@@ -122,6 +130,10 @@ export default function UpdatesPage() {
         priority: 'medium',
         isActive: true,
         author: 'Admin',
+        actionType: 'none',
+        actionUrl: '',
+        ctaLabel: 'View',
+        imageUrl: '',
       });
     } catch (err) {
       console.error('❌ Error saving update:', err);
@@ -139,6 +151,10 @@ export default function UpdatesPage() {
       priority: update.priority,
       isActive: update.isActive,
       author: update.author || 'Admin',
+      actionType: update.actionType || 'none',
+      actionUrl: update.actionUrl || '',
+      ctaLabel: update.ctaLabel || 'View',
+      imageUrl: update.imageUrl || '',
     });
     setShowForm(true);
   };
@@ -245,6 +261,10 @@ export default function UpdatesPage() {
               priority: 'medium',
               isActive: true,
               author: 'Admin',
+              actionType: 'none',
+              actionUrl: '',
+              ctaLabel: 'View',
+              imageUrl: '',
             });
           }}
         >
@@ -357,6 +377,129 @@ export default function UpdatesPage() {
                 </label>
               </div>
             </div>
+
+            {/* User Action Settings Section */}
+            <div className={styles.sectionDivider}>
+              <h3 className={styles.sectionTitle}>User Action Settings</h3>
+              <p className={styles.sectionHelper}>
+                Controls what happens when the user clicks on the update
+              </p>
+            </div>
+
+            <div className={styles.formGroup}>
+              <label className={styles.label}>Action Type *</label>
+              <select
+                className={styles.select}
+                value={formData.actionType}
+                onChange={(e) => setFormData({ ...formData, actionType: e.target.value as 'none' | 'modal' | 'link' })}
+                required
+              >
+                <option value="none">None - No action button</option>
+                <option value="modal">View Details - Opens detail modal</option>
+                <option value="link">Open External Link - Opens URL in new tab</option>
+              </select>
+            </div>
+
+            {formData.actionType === 'link' && (
+              <div className={styles.formGroup}>
+                <label className={styles.label}>External Link URL *</label>
+                <input
+                  type="url"
+                  className={styles.input}
+                  value={formData.actionUrl}
+                  onChange={(e) => setFormData({ ...formData, actionUrl: e.target.value })}
+                  required={formData.actionType === 'link'}
+                  placeholder="https://example.com"
+                />
+                <span className={styles.fieldHelper}>
+                  Link will open in a new tab with security attributes
+                </span>
+              </div>
+            )}
+
+            {formData.actionType !== 'none' && (
+              <div className={styles.formRow}>
+                <div className={styles.formGroup}>
+                  <label className={styles.label}>CTA Button Label</label>
+                  <input
+                    type="text"
+                    className={styles.input}
+                    value={formData.ctaLabel}
+                    onChange={(e) => setFormData({ ...formData, ctaLabel: e.target.value })}
+                    placeholder="View"
+                  />
+                  <span className={styles.fieldHelper}>
+                    Default: View (e.g., Open, Read More, Visit)
+                  </span>
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label className={styles.label}>Image URL (Optional)</label>
+                  <input
+                    type="url"
+                    className={styles.input}
+                    value={formData.imageUrl}
+                    onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
+                    placeholder="https://example.com/image.jpg"
+                  />
+                  <span className={styles.fieldHelper}>
+                    Display image in detail modal
+                  </span>
+                </div>
+              </div>
+            )}
+
+            {/* Preview Card */}
+            {(formData.title || formData.description) && (
+              <>
+                <div className={styles.sectionDivider}>
+                  <h3 className={styles.sectionTitle}>Preview</h3>
+                  <p className={styles.sectionHelper}>
+                    How your update will appear on the website
+                  </p>
+                </div>
+
+                <div className={styles.previewCard}>
+                  <div className={styles.previewHeader}>
+                    <span className={styles.previewIcon}>
+                      {formData.category === 'announcement' && '📢'}
+                      {formData.category === 'achievement' && '🏆'}
+                      {formData.category === 'event' && '📅'}
+                      {formData.category === 'general' && '📝'}
+                    </span>
+                    <div className={styles.previewContent}>
+                      <div className={styles.previewDate}>
+                        {new Date().toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric',
+                        })}
+                      </div>
+                      <h4 className={styles.previewTitle}>
+                        {formData.title || 'Update Title'}
+                      </h4>
+                      <p className={styles.previewDescription}>
+                        {formData.description || 'Update description will appear here...'}
+                      </p>
+                      {formData.actionType !== 'none' && (
+                        <div className={styles.previewButton}>
+                          {formData.ctaLabel || 'View'}
+                          {formData.actionType === 'link' && ' ↗'}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <div className={styles.previewMeta}>
+                    <span>
+                      <strong>Action:</strong>{' '}
+                      {formData.actionType === 'none' && 'No button'}
+                      {formData.actionType === 'modal' && 'Opens detail modal'}
+                      {formData.actionType === 'link' && `Opens ${formData.actionUrl || 'URL'}`}
+                    </span>
+                  </div>
+                </div>
+              </>
+            )}
 
             <div className={styles.formActions}>
               <button type="submit" className={styles.submitButton}>

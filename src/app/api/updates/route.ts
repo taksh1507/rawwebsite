@@ -26,6 +26,10 @@ interface Update {
   timestamp: string;
   isActive: boolean;
   author?: string;
+  actionType?: 'none' | 'modal' | 'link';
+  actionUrl?: string | null;
+  ctaLabel?: string;
+  imageUrl?: string | null;
 }
 
 // POST - Create new update
@@ -52,6 +56,10 @@ export async function POST(request: NextRequest) {
       timestamp: new Date().toISOString(),
       isActive: body.isActive !== undefined ? body.isActive : true,
       author: body.author || 'Admin',
+      actionType: body.actionType || 'none',
+      actionUrl: body.actionUrl || null,
+      ctaLabel: body.ctaLabel || 'View',
+      imageUrl: body.imageUrl || null,
     };
 
     // Save to MongoDB

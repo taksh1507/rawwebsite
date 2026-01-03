@@ -455,3 +455,96 @@
     white-space: nowrap;
   }
 }
+
+/* Section Divider */
+.sectionDivider {
+  margin: 2rem 0 1.5rem 0;
+  padding-top: 2rem;
+  border-top: 2px solid #f0f0f0;
+}
+
+.sectionTitle {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 0.5rem 0;
+}
+
+.sectionHelper {
+  font-size: 0.875rem;
+  color: #666;
+  margin: 0;
+}
+
+.fieldHelper {
+  font-size: 0.75rem;
+  color: #999;
+  font-style: italic;
+  margin-top: 0.25rem;
+}
+
+/* Preview Card */
+.previewCard {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border: 2px dashed #dee2e6;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-top: 1rem;
+}
+
+.previewHeader {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.previewIcon {
+  font-size: 1.75rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.previewContent {
+  flex: 1;
+}
+
+.previewDate {
+  font-size: 0.75rem;
+  color: #e30613;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.previewTitle {
+  font-size: 1rem;
+  color: #1a1a1a;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+}
+
+.previewDescription {
+  font-size: 0.875rem;
+  color: #666;
+  margin: 0 0 0.75rem 0;
+  line-height: 1.6;
+}
+
+.previewButton {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, #e30613 0%, #c00510 100%);
+  color: white;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.previewMeta {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #dee2e6;
+  font-size: 0.875rem;
+  color: #666;
+}

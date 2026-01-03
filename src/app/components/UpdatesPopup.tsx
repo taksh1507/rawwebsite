@@ -17,12 +17,19 @@ interface Update {
   timestamp: string;
   isActive: boolean;
   author?: string;
+  actionType?: 'none' | 'modal' | 'link';
+  actionUrl?: string | null;
+  ctaLabel?: string;
+  imageUrl?: string | null;
 }
 
 export default function UpdatesPopup() {
   const [showPopup, setShowPopup] = useState(false);
   const [updates, setUpdates] = useState<Update[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedUpdate, setSelectedUpdate] = useState<Update | null>(null);
+  const [showDetailModal, setShowDetailModal] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     // Fetch updates from API
@@ -43,6 +50,16 @@ export default function UpdatesPopup() {
     };
 
     fetchUpdates();
+
+    // Check for mobile
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   useEffect(() => {
@@ -59,22 +76,44 @@ export default function UpdatesPopup() {
   useEffect(() => {
     // ESC key to close
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && showPopup) {
-        setShowPopup(false);
+      if (e.key === 'Escape') {
+        if (showDetailModal) {
+          handleCloseDetailModal();
+        } else if (showPopup) {
+          setShowPopup(false);
+        }
       }
     };
 
-    if (showPopup) {
+    if (showPopup || showDetailModal) {
       document.addEventListener('keydown', handleEscape);
+      // Lock body scroll when modals are open
+      document.body.style.overflow = 'hidden';
     }
 
     return () => {
       document.removeEventListener('keydown', handleEscape);
+      // Restore body scroll
+      document.body.style.overflow = 'unset';
     };
-  }, [showPopup]);
+  }, [showPopup, showDetailModal]);
 
   const handleClose = () => {
     setShowPopup(false);
+  };
+
+  const handleViewDetails = (update: Update) => {
+    setSelectedUpdate(update);
+    setShowDetailModal(true);
+  };
+
+  const handleCloseDetailModal = () => {
+    setShowDetailModal(false);
+    setTimeout(() => setSelectedUpdate(null), 300);
+  };
+
+  const handleExternalLink = (url: string) => {
+    window.open(url, '_blank', 'noopener,noreferrer');
   };
 
   return (
@@ -348,6 +387,41 @@ export default function UpdatesPopup() {
                             >
                               {update.description}
                             </p>
+
+                            {/* View Button */}
+                            {update.actionType && update.actionType !== 'none' && (
+                              <motion.button
+                                whileHover={{ scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
+                                onClick={() => {
+                                  if (update.actionType === 'modal') {
+                                    handleViewDetails(update);
+                                  } else if (update.actionType === 'link' && update.actionUrl) {
+                                    handleExternalLink(update.actionUrl);
+                                  }
+                                }}
+                                style={{
+                                  marginTop: '0.75rem',
+                                  padding: '0.5rem 1rem',
+                                  background: 'linear-gradient(135deg, #B2001D 0%, #8a0016 100%)',
+                                  color: 'white',
+                                  border: 'none',
+                                  borderRadius: '6px',
+                                  fontSize: '0.875rem',
+                                  fontWeight: 600,
+                                  cursor: 'pointer',
+                                  fontFamily: 'Inter, sans-serif',
+                                  display: 'inline-flex',
+                                  alignItems: 'center',
+                                  gap: '0.5rem',
+                                }}
+                              >
+                                {update.ctaLabel || 'View'}
+                                {update.actionType === 'link' && (
+                                  <span style={{ fontSize: '0.75rem' }}>↗</span>
+                                )}
+                              </motion.button>
+                            )}
                           </div>
                         </div>
                       </motion.div>
@@ -356,6 +430,219 @@ export default function UpdatesPopup() {
                 )}
               </div>
             </div>
+          </motion.div>
+        </motion.div>
+      )}
+
+      {/* Detail Modal */}
+      {showDetailModal && selectedUpdate && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={handleCloseDetailModal}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(0, 0, 0, 0.5)',
+            backdropFilter: 'blur(8px)',
+            WebkitBackdropFilter: 'blur(8px)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 1000,
+            padding: '1rem',
+          }}
+        >
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+            transition={{ 
+              duration: 0.3,
+              ease: [0.16, 1, 0.3, 1],
+            }}
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              width: isMobile ? '100%' : '100%',
+              maxWidth: isMobile ? '100%' : '600px',
+              height: isMobile ? '100vh' : 'auto',
+              maxHeight: isMobile ? '100vh' : '90vh',
+              background: 'rgba(255, 255, 255, 0.95)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              borderRadius: isMobile ? '0' : '20px',
+              boxShadow: '0 25px 70px rgba(0, 0, 0, 0.3)',
+              overflow: 'hidden',
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            {/* Header */}
+            <div
+              style={{
+                padding: '1.5rem 2rem',
+                borderBottom: '1px solid rgba(10, 26, 58, 0.1)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                <span style={{ fontSize: '1.5rem' }}>
+                  {selectedUpdate.category === 'announcement' && '📢'}
+                  {selectedUpdate.category === 'achievement' && '🏆'}
+                  {selectedUpdate.category === 'event' && '📅'}
+                  {selectedUpdate.category === 'general' && '📝'}
+                </span>
+                <span
+                  style={{
+                    fontSize: '0.75rem',
+                    color: '#B2001D',
+                    fontWeight: 600,
+                    letterSpacing: '0.05em',
+                    textTransform: 'uppercase',
+                    fontFamily: 'Inter, sans-serif',
+                  }}
+                >
+                  {new Date(selectedUpdate.timestamp).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                </span>
+              </div>
+
+              <button
+                onClick={handleCloseDetailModal}
+                style={{
+                  background: 'transparent',
+                  border: '1px solid rgba(10, 26, 58, 0.15)',
+                  borderRadius: '8px',
+                  width: '36px',
+                  height: '36px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  color: '#64748b',
+                  fontSize: '1.25rem',
+                  transition: 'all 0.3s',
+                  fontWeight: 300,
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(178, 0, 29, 0.1)';
+                  e.currentTarget.style.color = '#B2001D';
+                  e.currentTarget.style.borderColor = '#B2001D';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'transparent';
+                  e.currentTarget.style.color = '#64748b';
+                  e.currentTarget.style.borderColor = 'rgba(10, 26, 58, 0.15)';
+                }}
+              >
+                ×
+              </button>
+            </div>
+
+            {/* Content */}
+            <div
+              style={{
+                flex: 1,
+                overflowY: 'auto',
+                padding: '2rem',
+              }}
+            >
+              {/* Image */}
+              {selectedUpdate.imageUrl && (
+                <div
+                  style={{
+                    marginBottom: '1.5rem',
+                    borderRadius: '12px',
+                    overflow: 'hidden',
+                  }}
+                >
+                  <img
+                    src={selectedUpdate.imageUrl}
+                    alt={selectedUpdate.title}
+                    style={{
+                      width: '100%',
+                      height: 'auto',
+                      display: 'block',
+                    }}
+                  />
+                </div>
+              )}
+
+              {/* Title */}
+              <h2
+                style={{
+                  fontSize: '1.75rem',
+                  color: '#0a1a3a',
+                  margin: '0 0 1rem 0',
+                  fontWeight: 700,
+                  lineHeight: 1.3,
+                  fontFamily: 'Inter, sans-serif',
+                }}
+              >
+                {selectedUpdate.title}
+              </h2>
+
+              {/* Full Description */}
+              <p
+                style={{
+                  fontSize: '1rem',
+                  color: '#475569',
+                  margin: 0,
+                  lineHeight: 1.7,
+                  fontFamily: 'Inter, sans-serif',
+                  whiteSpace: 'pre-wrap',
+                }}
+              >
+                {selectedUpdate.description}
+              </p>
+            </div>
+
+            {/* Footer with CTA */}
+            {selectedUpdate.actionType === 'link' && selectedUpdate.actionUrl && (
+              <div
+                style={{
+                  padding: isMobile ? '1rem 1.5rem' : '1.5rem 2rem',
+                  borderTop: '1px solid rgba(10, 26, 58, 0.1)',
+                  display: 'flex',
+                  justifyContent: isMobile ? 'center' : 'flex-end',
+                  position: isMobile ? 'sticky' : 'relative',
+                  bottom: 0,
+                  background: 'rgba(255, 255, 255, 0.95)',
+                  backdropFilter: 'blur(20px)',
+                }}
+              >
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => handleExternalLink(selectedUpdate.actionUrl!)}
+                  style={{
+                    padding: isMobile ? '1rem 2rem' : '0.75rem 1.5rem',
+                    background: 'linear-gradient(135deg, #B2001D 0%, #8a0016 100%)',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '8px',
+                    fontSize: isMobile ? '1.125rem' : '1rem',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    fontFamily: 'Inter, sans-serif',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    width: isMobile ? '100%' : 'auto',
+                    justifyContent: 'center',
+                  }}
+                >
+                  {selectedUpdate.ctaLabel || 'Visit Link'}
+                  <span style={{ fontSize: '0.875rem' }}>↗</span>
+                </motion.button>
+              </div>
+            )}
           </motion.div>
         </motion.div>
       )}
