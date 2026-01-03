@@ -25,6 +25,9 @@ export default function RobotsGallery() {
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const [showSwipeHint, setShowSwipeHint] = useState(false);
   
   // Temporary filter states for modal
   const [tempCategory, setTempCategory] = useState('all');
@@ -124,6 +127,53 @@ export default function RobotsGallery() {
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
+
+  // Show swipe hint on mobile when modal opens with multiple images
+  useEffect(() => {
+    if (detailViewItem && isMobile && detailViewItem.images?.length > 1) {
+      setShowSwipeHint(true);
+      const timer = setTimeout(() => {
+        setShowSwipeHint(false);
+      }, 3000); // Hide after 3 seconds
+      return () => clearTimeout(timer);
+    } else {
+      setShowSwipeHint(false);
+    }
+  }, [detailViewItem, isMobile]);
+
+  // Swipe gesture handlers
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (detailViewItem?.images && detailViewItem.images.length > 1) {
+      if (isLeftSwipe) {
+        // Swipe left - next image
+        setCurrentImageIndex(prev => 
+          prev < detailViewItem.images.length - 1 ? prev + 1 : 0
+        );
+      } else if (isRightSwipe) {
+        // Swipe right - previous image
+        setCurrentImageIndex(prev => 
+          prev > 0 ? prev - 1 : detailViewItem.images.length - 1
+        );
+      }
+    }
+  };
 
   const categories = [
     { id: 'all', label: 'All' },
@@ -939,26 +989,49 @@ export default function RobotsGallery() {
                 maxHeight: isMobile ? '55vh' : undefined,
               }}>
                 {/* Main Image Container */}
-                <div style={{
-                  flex: 1,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  position: 'relative',
-                  marginBottom: '1.5rem',
-                  overflow: 'hidden',
-                  borderRadius: '12px',
-                  background: 'rgba(255, 255, 255, 0.03)',
-                  minHeight: isMobile ? '250px' : '500px',
-                  maxHeight: isMobile ? '450px' : '650px',
-                }}>
+                <div 
+                  onTouchStart={onTouchStart}
+                  onTouchMove={onTouchMove}
+                  onTouchEnd={onTouchEnd}
+                  style={{
+                    flex: 1,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    position: 'relative',
+                    marginBottom: '1.5rem',
+                    overflow: 'hidden',
+                    borderRadius: '12px',
+                    background: 'rgba(255, 255, 255, 0.03)',
+                    minHeight: isMobile ? '250px' : '500px',
+                    maxHeight: isMobile ? '450px' : '650px',
+                    touchAction: 'pan-y pinch-zoom', // Allow vertical scroll but capture horizontal swipe
+                  }}>
                   {detailViewItem.images && detailViewItem.images.length > 0 ? (
                     <motion.img
                       key={currentImageIndex}
                       src={detailViewItem.images[currentImageIndex]}
                       alt={`${detailViewItem.name || detailViewItem.title} - Image ${currentImageIndex + 1}`}
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
+                      drag={detailViewItem.images.length > 1 ? "x" : false}
+                      dragConstraints={{ left: 0, right: 0 }}
+                      dragElastic={0.2}
+                      onDragEnd={(e, { offset, velocity }) => {
+                        const swipe = Math.abs(offset.x) * velocity.x;
+                        if (swipe < -1000) {
+                          // Swipe left - next image
+                          setCurrentImageIndex(prev => 
+                            prev < detailViewItem.images.length - 1 ? prev + 1 : 0
+                          );
+                        } else if (swipe > 1000) {
+                          // Swipe right - previous image
+                          setCurrentImageIndex(prev => 
+                            prev > 0 ? prev - 1 : detailViewItem.images.length - 1
+                          );
+                        }
+                      }}
+                      initial={{ opacity: 0, x: 0 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0 }}
                       transition={{ duration: 0.3 }}
                       style={{
                         width: '100%',
@@ -966,7 +1039,7 @@ export default function RobotsGallery() {
                         objectFit: 'contain',
                         borderRadius: '12px',
                         boxShadow: '0 12px 48px rgba(0, 0, 0, 0.5)',
-                        cursor: 'zoom-in',
+                        cursor: detailViewItem.images.length > 1 ? 'grab' : 'zoom-in',
                       }}
                     />
                   ) : detailViewItem.imageUrl ? (
@@ -992,21 +1065,70 @@ export default function RobotsGallery() {
 
                   {/* Image Counter Badge */}
                   {detailViewItem.images && detailViewItem.images.length > 1 && (
-                    <div style={{
-                      position: 'absolute',
-                      bottom: '1.5rem',
-                      right: '1.5rem',
-                      background: 'rgba(225, 6, 0, 0.95)',
-                      color: 'white',
-                      padding: '0.625rem 1.25rem',
-                      borderRadius: '24px',
-                      fontSize: '0.95rem',
-                      fontWeight: '700',
-                      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.4)',
-                      backdropFilter: 'blur(8px)',
-                    }}>
-                      {currentImageIndex + 1} / {detailViewItem.images.length}
-                    </div>
+                    <>
+                      <div style={{
+                        position: 'absolute',
+                        bottom: '1.5rem',
+                        right: '1.5rem',
+                        background: 'rgba(225, 6, 0, 0.95)',
+                        color: 'white',
+                        padding: '0.625rem 1.25rem',
+                        borderRadius: '24px',
+                        fontSize: '0.95rem',
+                        fontWeight: '700',
+                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.4)',
+                        backdropFilter: 'blur(8px)',
+                      }}>
+                        {currentImageIndex + 1} / {detailViewItem.images.length}
+                      </div>
+
+                      {/* Swipe Hint for Mobile */}
+                      <AnimatePresence>
+                        {showSwipeHint && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                            transition={{ duration: 0.5 }}
+                            style={{
+                              position: 'absolute',
+                              top: '50%',
+                              left: '50%',
+                              transform: 'translate(-50%, -50%)',
+                              background: 'rgba(0, 0, 0, 0.85)',
+                              color: 'white',
+                              padding: '1rem 2rem',
+                              borderRadius: '30px',
+                              fontSize: '0.95rem',
+                              fontWeight: '600',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '0.75rem',
+                              boxShadow: '0 8px 24px rgba(0, 0, 0, 0.5)',
+                              backdropFilter: 'blur(12px)',
+                              pointerEvents: 'none',
+                              zIndex: 5,
+                            }}
+                          >
+                            <motion.span
+                              animate={{ x: [-5, 5, -5] }}
+                              transition={{ duration: 1.5, repeat: Infinity }}
+                              style={{ fontSize: '1.5rem' }}
+                            >
+                              ←
+                            </motion.span>
+                            Swipe to navigate
+                            <motion.span
+                              animate={{ x: [-5, 5, -5] }}
+                              transition={{ duration: 1.5, repeat: Infinity }}
+                              style={{ fontSize: '1.5rem' }}
+                            >
+                              →
+                            </motion.span>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </>
                   )}
                 </div>
 
