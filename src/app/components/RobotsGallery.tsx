@@ -1063,9 +1063,82 @@ export default function RobotsGallery() {
                     </div>
                   )}
 
-                  {/* Image Counter Badge */}
+                  {/* Navigation Arrows */}
                   {detailViewItem.images && detailViewItem.images.length > 1 && (
                     <>
+                      {/* Previous Button */}
+                      <motion.button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setCurrentImageIndex(prev => 
+                            prev > 0 ? prev - 1 : detailViewItem.images.length - 1
+                          );
+                        }}
+                        whileHover={{ scale: 1.1, x: -5 }}
+                        whileTap={{ scale: 0.95 }}
+                        style={{
+                          position: 'absolute',
+                          left: isMobile ? '0.75rem' : '1.5rem',
+                          top: '50%',
+                          transform: 'translateY(-50%)',
+                          background: 'rgba(225, 6, 0, 0.95)',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '50%',
+                          width: isMobile ? '44px' : '56px',
+                          height: isMobile ? '44px' : '56px',
+                          fontSize: isMobile ? '1.5rem' : '2rem',
+                          fontWeight: '700',
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          zIndex: 10,
+                          transition: 'all 0.3s ease',
+                          boxShadow: '0 6px 20px rgba(225, 6, 0, 0.5)',
+                          backdropFilter: 'blur(8px)',
+                        }}
+                      >
+                        ‹
+                      </motion.button>
+                      
+                      {/* Next Button */}
+                      <motion.button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setCurrentImageIndex(prev => 
+                            prev < detailViewItem.images.length - 1 ? prev + 1 : 0
+                          );
+                        }}
+                        whileHover={{ scale: 1.1, x: 5 }}
+                        whileTap={{ scale: 0.95 }}
+                        style={{
+                          position: 'absolute',
+                          right: isMobile ? '0.75rem' : '1.5rem',
+                          top: '50%',
+                          transform: 'translateY(-50%)',
+                          background: 'rgba(225, 6, 0, 0.95)',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '50%',
+                          width: isMobile ? '44px' : '56px',
+                          height: isMobile ? '44px' : '56px',
+                          fontSize: isMobile ? '1.5rem' : '2rem',
+                          fontWeight: '700',
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          zIndex: 10,
+                          transition: 'all 0.3s ease',
+                          boxShadow: '0 6px 20px rgba(225, 6, 0, 0.5)',
+                          backdropFilter: 'blur(8px)',
+                        }}
+                      >
+                        ›
+                      </motion.button>
+                      
+                      {/* Image Counter Badge */}
                       <div style={{
                         position: 'absolute',
                         bottom: '1.5rem',

@@ -268,52 +268,70 @@ export default function Gallery() {
                       {/* Image Navigation */}
                       {selectedItem.images.length > 1 && (
                         <>
-                          <button
+                          <motion.button
                             onClick={(e) => {
                               e.stopPropagation();
                               setCurrentImageIndex((prev) => (prev > 0 ? prev - 1 : selectedItem.images.length - 1));
                             }}
+                            whileHover={{ scale: 1.1, x: -5 }}
+                            whileTap={{ scale: 0.95 }}
                             style={{
                               position: 'absolute',
                               left: '1rem',
                               top: '50%',
                               transform: 'translateY(-50%)',
-                              background: 'rgba(0, 0, 0, 0.7)',
+                              background: 'rgba(178, 0, 29, 0.95)',
                               color: 'white',
                               border: 'none',
                               borderRadius: '50%',
-                              width: '48px',
-                              height: '48px',
-                              fontSize: '1.5rem',
+                              width: '56px',
+                              height: '56px',
+                              fontSize: '2rem',
+                              fontWeight: '700',
                               cursor: 'pointer',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
                               zIndex: 10,
+                              transition: 'all 0.3s ease',
+                              boxShadow: '0 6px 20px rgba(178, 0, 29, 0.5)',
+                              backdropFilter: 'blur(8px)',
                             }}
                           >
                             ‹
-                          </button>
-                          <button
+                          </motion.button>
+                          <motion.button
                             onClick={(e) => {
                               e.stopPropagation();
                               setCurrentImageIndex((prev) => (prev < selectedItem.images.length - 1 ? prev + 1 : 0));
                             }}
+                            whileHover={{ scale: 1.1, x: 5 }}
+                            whileTap={{ scale: 0.95 }}
                             style={{
                               position: 'absolute',
                               right: '1rem',
                               top: '50%',
                               transform: 'translateY(-50%)',
-                              background: 'rgba(0, 0, 0, 0.7)',
+                              background: 'rgba(178, 0, 29, 0.95)',
                               color: 'white',
                               border: 'none',
                               borderRadius: '50%',
-                              width: '48px',
-                              height: '48px',
-                              fontSize: '1.5rem',
+                              width: '56px',
+                              height: '56px',
+                              fontSize: '2rem',
+                              fontWeight: '700',
                               cursor: 'pointer',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
                               zIndex: 10,
+                              transition: 'all 0.3s ease',
+                              boxShadow: '0 6px 20px rgba(178, 0, 29, 0.5)',
+                              backdropFilter: 'blur(8px)',
                             }}
                           >
                             ›
-                          </button>
+                          </motion.button>
                           <div style={{
                             position: 'absolute',
                             bottom: '1rem',
