@@ -619,7 +619,8 @@
 }
 
 .btnEdit,
-.btnDelete {
+.btnDelete,
+.btnView {
   flex: 1;
   padding: 0.625rem;
   border: none;
@@ -628,6 +629,15 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
+}
+
+.btnView {
+  background: #28a745;
+  color: white;
+}
+
+.btnView:hover {
+  background: #218838;
 }
 
 .btnEdit {
@@ -800,5 +810,410 @@
   .filterBar {
     justify-content: flex-start;
     overflow-x: auto;
+  }
+}
+
+/* ============================================
+   VIEW DETAILS MODAL - GALLERY STYLE
+   Visual-First Design with Split Layout
+   ============================================ */
+
+/* Modal Overlay */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(10, 26, 58, 0.85);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+  padding: 1rem;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Modal Container */
+.modalContainer {
+  background: white;
+  border-radius: 16px;
+  max-width: 90vw;
+  max-height: 90vh;
+  width: 1400px;
+  height: 85vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: scaleIn 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Close Button */
+.modalClose {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.95);
+  color: #0a1a3a;
+  font-size: 1.25rem;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modalClose:hover {
+  background: #e10600;
+  color: white;
+  transform: rotate(90deg);
+}
+
+/* Modal Content - Split Layout */
+.modalContent {
+  display: grid;
+  grid-template-columns: 60% 40%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Left Side: Image Viewer */
+.modalImageSection {
+  background: #0a1a3a;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  overflow: hidden;
+}
+
+.modalMainImage {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 1rem;
+  overflow: hidden;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.mainImg {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  cursor: zoom-in;
+  transition: transform 0.3s ease;
+}
+
+.mainImg:hover {
+  transform: scale(1.02);
+}
+
+/* Image Counter */
+.imageCounter {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  background: rgba(225, 6, 0, 0.9);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Thumbnail Strip */
+.thumbnailStrip {
+  display: flex;
+  gap: 0.75rem;
+  overflow-x: auto;
+  padding: 0.5rem 0;
+  scrollbar-width: thin;
+  scrollbar-color: #e10600 rgba(255, 255, 255, 0.1);
+}
+
+.thumbnailStrip::-webkit-scrollbar {
+  height: 6px;
+}
+
+.thumbnailStrip::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+.thumbnailStrip::-webkit-scrollbar-thumb {
+  background: #e10600;
+  border-radius: 3px;
+}
+
+.thumbnail {
+  flex-shrink: 0;
+  width: 100px;
+  height: 70px;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 3px solid transparent;
+  transition: all 0.2s ease;
+  opacity: 0.6;
+}
+
+.thumbnail:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+.thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.activeThumbnail {
+  border-color: #e10600;
+  opacity: 1;
+  box-shadow: 0 4px 12px rgba(225, 6, 0, 0.4);
+}
+
+/* Right Side: Content & Metadata */
+.modalInfoSection {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: 2rem;
+  background: white;
+}
+
+.modalInfoSection::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modalInfoSection::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.modalInfoSection::-webkit-scrollbar-thumb {
+  background: #e10600;
+  border-radius: 4px;
+}
+
+/* Modal Header */
+.modalHeader {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.modalTitle {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #0a1a3a;
+  margin: 0 0 0.75rem 0;
+  line-height: 1.3;
+}
+
+.modalBadge {
+  display: inline-block;
+  background: linear-gradient(135deg, #e10600 0%, #c00500 100%);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+/* Modal Sections */
+.modalSection {
+  margin-bottom: 1.5rem;
+}
+
+.sectionLabel {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #6c757d;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+}
+
+.sectionContent {
+  color: #212529;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* Chips List */
+.chipsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.chip {
+  background: #f8f9fa;
+  color: #495057;
+  padding: 0.5rem 0.875rem;
+  border-radius: 16px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: 1px solid #dee2e6;
+}
+
+.chipAchievement {
+  background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+  color: white;
+  padding: 0.5rem 0.875rem;
+  border-radius: 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3);
+}
+
+/* Metadata Card */
+.metadataCard {
+  background: linear-gradient(135deg, #f8f9fb 0%, #e9ecef 100%);
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-top: 1.5rem;
+  border: 1px solid #dee2e6;
+}
+
+.metaItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.metaItem:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.metaItem:first-child {
+  padding-top: 0;
+}
+
+.metaIcon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.metaLabel {
+  font-size: 0.875rem;
+  color: #6c757d;
+  font-weight: 600;
+  min-width: 80px;
+}
+
+.metaValue {
+  font-size: 0.9rem;
+  color: #212529;
+  font-weight: 500;
+}
+
+/* Responsive Design for Modal */
+@media (max-width: 1024px) {
+  .modalContent {
+    grid-template-columns: 55% 45%;
+  }
+}
+
+@media (max-width: 768px) {
+  .modalContainer {
+    max-width: 100vw;
+    max-height: 100vh;
+    height: 100vh;
+    border-radius: 0;
+  }
+
+  .modalContent {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+
+  .modalImageSection {
+    padding: 1rem;
+    max-height: 50vh;
+  }
+
+  .modalInfoSection {
+    padding: 1.5rem 1rem;
+  }
+
+  .modalTitle {
+    font-size: 1.5rem;
+  }
+
+  .thumbnail {
+    width: 80px;
+    height: 56px;
+  }
+}
+
+@media (max-width: 480px) {
+  .modalClose {
+    width: 32px;
+    height: 32px;
+    font-size: 1rem;
+  }
+
+  .modalImageSection {
+    max-height: 40vh;
+  }
+
+  .modalTitle {
+    font-size: 1.25rem;
+  }
+
+  .thumbnail {
+    width: 70px;
+    height: 50px;
+  }
+
+  .metaLabel {
+    min-width: 70px;
+    font-size: 0.8rem;
+  }
+
+  .metaValue {
+    font-size: 0.85rem;
   }
 }

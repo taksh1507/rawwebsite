@@ -64,6 +64,8 @@ export default function RobotsGalleryEnhancedPage() {
   const [multipleImagePreviews, setMultipleImagePreviews] = useState<string[]>([]);
   const [toast, setToast] = useState<{ show: boolean; message: string; type: 'success' | 'error' }>({ show: false, message: '', type: 'success' });
   const [dragOver, setDragOver] = useState(false);
+  const [viewDetailsItem, setViewDetailsItem] = useState<Robot | GalleryItem | null>(null);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
   useEffect(() => {
     fetchData();
@@ -79,6 +81,26 @@ export default function RobotsGalleryEnhancedPage() {
   const showToast = (message: string, type: 'success' | 'error') => {
     setToast({ show: true, message, type });
   };
+
+  const handleViewDetails = (item: Robot | GalleryItem) => {
+    setViewDetailsItem(item);
+    setSelectedImageIndex(0);
+  };
+
+  const closeDetailsModal = () => {
+    setViewDetailsItem(null);
+    setSelectedImageIndex(0);
+  };
+
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && viewDetailsItem) {
+        closeDetailsModal();
+      }
+    };
+    window.addEventListener('keydown', handleEscape);
+    return () => window.removeEventListener('keydown', handleEscape);
+  }, [viewDetailsItem]);
 
   const fetchData = async () => {
     try {
@@ -1064,6 +1086,9 @@ export default function RobotsGalleryEnhancedPage() {
                           {robot.status && <span className={styles.itemMetaItem}>✓ {robot.status}</span>}
                         </div>
                         <div className={styles.itemActions}>
+                          <button onClick={() => handleViewDetails(robot)} className={styles.btnView}>
+                            👁️ View
+                          </button>
                           <button onClick={() => handleEdit(robot)} className={styles.btnEdit}>
                             ✏️ Edit
                           </button>
@@ -1100,6 +1125,9 @@ export default function RobotsGalleryEnhancedPage() {
                           {item.year && <span className={styles.itemMetaItem}>📆 {item.year}</span>}
                         </div>
                         <div className={styles.itemActions}>
+                          <button onClick={() => handleViewDetails(item)} className={styles.btnView}>
+                            👁️ View
+                          </button>
                           <button onClick={() => handleEdit(item)} className={styles.btnEdit}>
                             ✏️ Edit
                           </button>
@@ -1114,6 +1142,231 @@ export default function RobotsGalleryEnhancedPage() {
               </div>
             )}
           </>
+        )}
+
+        {/* View Details Modal */}
+        {viewDetailsItem && (
+          <div className={styles.modalOverlay} onClick={closeDetailsModal}>
+            <div className={styles.modalContainer} onClick={(e) => e.stopPropagation()}>
+              {/* Close Button */}
+              <button className={styles.modalClose} onClick={closeDetailsModal} aria-label="Close modal">
+                ✕
+              </button>
+
+              <div className={styles.modalContent}>
+                {/* Left: Image Viewer (60-65%) */}
+                <div className={styles.modalImageSection}>
+                  {/* Main Image */}
+                  <div className={styles.modalMainImage}>
+                    {viewMode === 'robots' ? (
+                      <img
+                        src={(viewDetailsItem as Robot).imageUrl}
+                        alt={(viewDetailsItem as Robot).name}
+                        className={styles.mainImg}
+                      />
+                    ) : (
+                      <img
+                        src={selectedImageIndex === 0 
+                          ? (viewDetailsItem as GalleryItem).imageUrl 
+                          : ((viewDetailsItem as GalleryItem).images?.[selectedImageIndex - 1] || (viewDetailsItem as GalleryItem).imageUrl)
+                        }
+                        alt={(viewDetailsItem as GalleryItem).title}
+                        className={styles.mainImg}
+                      />
+                    )}
+                    
+                    {/* Image Counter */}
+                    {viewMode === 'gallery' && (viewDetailsItem as GalleryItem).images && (viewDetailsItem as GalleryItem).images!.length > 0 && (
+                      <div className={styles.imageCounter}>
+                        {selectedImageIndex + 1} / {(viewDetailsItem as GalleryItem).images!.length + 1}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Thumbnail Gallery Strip */}
+                  {viewMode === 'gallery' && (viewDetailsItem as GalleryItem).images && (viewDetailsItem as GalleryItem).images!.length > 0 && (
+                    <div className={styles.thumbnailStrip}>
+                      <div 
+                        className={`${styles.thumbnail} ${selectedImageIndex === 0 ? styles.activeThumbnail : ''}`}
+                        onClick={() => setSelectedImageIndex(0)}
+                      >
+                        <img src={(viewDetailsItem as GalleryItem).imageUrl} alt="Main" />
+                      </div>
+                      {(viewDetailsItem as GalleryItem).images!.map((img, idx) => (
+                        <div
+                          key={idx}
+                          className={`${styles.thumbnail} ${selectedImageIndex === idx + 1 ? styles.activeThumbnail : ''}`}
+                          onClick={() => setSelectedImageIndex(idx + 1)}
+                        >
+                          <img src={img} alt={`Image ${idx + 1}`} />
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Right: Content & Metadata (35-40%) */}
+                <div className={styles.modalInfoSection}>
+                  {/* Header */}
+                  <div className={styles.modalHeader}>
+                    <h2 className={styles.modalTitle}>
+                      {viewMode === 'robots' ? (viewDetailsItem as Robot).name : (viewDetailsItem as GalleryItem).title}
+                    </h2>
+                    <span className={styles.modalBadge}>
+                      {viewMode === 'robots' ? '🤖 ' : '📸 '}
+                      {(viewDetailsItem as any).category}
+                    </span>
+                  </div>
+
+                  {/* Description Block */}
+                  <div className={styles.modalSection}>
+                    <h3 className={styles.sectionLabel}>DESCRIPTION</h3>
+                    <p className={styles.sectionContent}>
+                      {viewMode === 'robots' 
+                        ? (viewDetailsItem as Robot).description 
+                        : (viewDetailsItem as GalleryItem).description
+                      }
+                    </p>
+                  </div>
+
+                  {/* Detailed Overview */}
+                  {((viewMode === 'robots' && (viewDetailsItem as Robot).longDescription) || 
+                    (viewMode === 'gallery' && (viewDetailsItem as GalleryItem).detailedDescription)) && (
+                    <div className={styles.modalSection}>
+                      <h3 className={styles.sectionLabel}>DETAILED OVERVIEW</h3>
+                      <p className={styles.sectionContent}>
+                        {viewMode === 'robots' 
+                          ? (viewDetailsItem as Robot).longDescription 
+                          : (viewDetailsItem as GalleryItem).detailedDescription
+                        }
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Highlights/Features */}
+                  {viewMode === 'robots' && (viewDetailsItem as Robot).features && (viewDetailsItem as Robot).features!.length > 0 && (
+                    <div className={styles.modalSection}>
+                      <h3 className={styles.sectionLabel}>FEATURES</h3>
+                      <div className={styles.chipsList}>
+                        {(viewDetailsItem as Robot).features!.map((feature, idx) => (
+                          <span key={idx} className={styles.chip}>• {feature}</span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {viewMode === 'gallery' && (viewDetailsItem as GalleryItem).highlights && (viewDetailsItem as GalleryItem).highlights!.length > 0 && (
+                    <div className={styles.modalSection}>
+                      <h3 className={styles.sectionLabel}>HIGHLIGHTS</h3>
+                      <div className={styles.chipsList}>
+                        {(viewDetailsItem as GalleryItem).highlights!.map((highlight, idx) => (
+                          <span key={idx} className={styles.chip}>• {highlight}</span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Specifications (Robots only) */}
+                  {viewMode === 'robots' && (viewDetailsItem as Robot).specs && (viewDetailsItem as Robot).specs!.length > 0 && (
+                    <div className={styles.modalSection}>
+                      <h3 className={styles.sectionLabel}>SPECIFICATIONS</h3>
+                      <div className={styles.chipsList}>
+                        {(viewDetailsItem as Robot).specs!.map((spec, idx) => (
+                          <span key={idx} className={styles.chip}>• {spec}</span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Achievements (Robots only) */}
+                  {viewMode === 'robots' && (viewDetailsItem as Robot).achievements && (viewDetailsItem as Robot).achievements!.length > 0 && (
+                    <div className={styles.modalSection}>
+                      <h3 className={styles.sectionLabel}>ACHIEVEMENTS</h3>
+                      <div className={styles.chipsList}>
+                        {(viewDetailsItem as Robot).achievements!.map((achievement, idx) => (
+                          <span key={idx} className={styles.chipAchievement}>🏆 {achievement}</span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Metadata Panel */}
+                  <div className={styles.metadataCard}>
+                    {viewMode === 'robots' ? (
+                      <>
+                        {(viewDetailsItem as Robot).type && (
+                          <div className={styles.metaItem}>
+                            <span className={styles.metaIcon}>🔧</span>
+                            <span className={styles.metaLabel}>Type:</span>
+                            <span className={styles.metaValue}>{(viewDetailsItem as Robot).type}</span>
+                          </div>
+                        )}
+                        {(viewDetailsItem as Robot).status && (
+                          <div className={styles.metaItem}>
+                            <span className={styles.metaIcon}>✓</span>
+                            <span className={styles.metaLabel}>Status:</span>
+                            <span className={styles.metaValue}>{(viewDetailsItem as Robot).status}</span>
+                          </div>
+                        )}
+                        {(viewDetailsItem as Robot).year && (
+                          <div className={styles.metaItem}>
+                            <span className={styles.metaIcon}>📅</span>
+                            <span className={styles.metaLabel}>Year:</span>
+                            <span className={styles.metaValue}>{(viewDetailsItem as Robot).year}</span>
+                          </div>
+                        )}
+                        {(viewDetailsItem as Robot).teamLead && (
+                          <div className={styles.metaItem}>
+                            <span className={styles.metaIcon}>👤</span>
+                            <span className={styles.metaLabel}>Team Lead:</span>
+                            <span className={styles.metaValue}>{(viewDetailsItem as Robot).teamLead}</span>
+                          </div>
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        {(viewDetailsItem as GalleryItem).date && (
+                          <div className={styles.metaItem}>
+                            <span className={styles.metaIcon}>📅</span>
+                            <span className={styles.metaLabel}>Date:</span>
+                            <span className={styles.metaValue}>{new Date((viewDetailsItem as GalleryItem).date!).toLocaleDateString()}</span>
+                          </div>
+                        )}
+                        {(viewDetailsItem as GalleryItem).location && (
+                          <div className={styles.metaItem}>
+                            <span className={styles.metaIcon}>📍</span>
+                            <span className={styles.metaLabel}>Location:</span>
+                            <span className={styles.metaValue}>{(viewDetailsItem as GalleryItem).location}</span>
+                          </div>
+                        )}
+                        {(viewDetailsItem as GalleryItem).participants && (
+                          <div className={styles.metaItem}>
+                            <span className={styles.metaIcon}>👥</span>
+                            <span className={styles.metaLabel}>Participants:</span>
+                            <span className={styles.metaValue}>{(viewDetailsItem as GalleryItem).participants}</span>
+                          </div>
+                        )}
+                        {(viewDetailsItem as GalleryItem).year && (
+                          <div className={styles.metaItem}>
+                            <span className={styles.metaIcon}>📆</span>
+                            <span className={styles.metaLabel}>Year:</span>
+                            <span className={styles.metaValue}>{(viewDetailsItem as GalleryItem).year}</span>
+                          </div>
+                        )}
+                        {(viewDetailsItem as GalleryItem).uploadedBy && (
+                          <div className={styles.metaItem}>
+                            <span className={styles.metaIcon}>👤</span>
+                            <span className={styles.metaLabel}>Uploaded By:</span>
+                            <span className={styles.metaValue}>{(viewDetailsItem as GalleryItem).uploadedBy}</span>
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         )}
 
         {/* Toast Notification */}
