@@ -415,59 +415,67 @@ export default function RegisterPage() {
                   {selectedCompetition?.customFields && selectedCompetition.customFields.length > 0 && (
                     <div className={styles.formSection}>
                       <h3 className={styles.sectionTitle}>Additional Information</h3>
+                      <p className={styles.sectionDescription}>Complete the required fields below</p>
                       
-                      {selectedCompetition.customFields.map((field) => (
-                        <div key={field.id} className={styles.formGroup}>
-                          <label htmlFor={field.id}>
-                            {field.label} {field.required && '*'}
-                          </label>
-                          
-                          {field.type === 'textarea' ? (
-                            <textarea
-                              id={field.id}
-                              value={customFieldValues[field.id] || ''}
-                              onChange={(e) => handleCustomFieldChange(field.id, e.target.value)}
-                              required={field.required}
-                              placeholder={field.placeholder}
-                              rows={4}
-                            />
-                          ) : field.type === 'select' ? (
-                            <select
-                              id={field.id}
-                              value={customFieldValues[field.id] || ''}
-                              onChange={(e) => handleCustomFieldChange(field.id, e.target.value)}
-                              required={field.required}
-                            >
-                              <option value="">Select an option</option>
-                              {field.options?.map((option) => (
-                                <option key={option} value={option}>
-                                  {option}
-                                </option>
-                              ))}
-                            </select>
-                          ) : field.type === 'checkbox' ? (
-                            <label className={styles.checkboxLabel}>
-                              <input
-                                type="checkbox"
-                                id={field.id}
-                                checked={customFieldValues[field.id] || false}
-                                onChange={(e) => handleCustomFieldChange(field.id, e.target.checked)}
-                                required={field.required}
-                              />
-                              <span>{field.placeholder || field.label}</span>
+                      <div className={styles.additionalFieldsGrid}>
+                        {selectedCompetition.customFields.map((field) => (
+                          <div 
+                            key={field.id} 
+                            className={`${styles.formGroup} ${
+                              field.type === 'textarea' ? styles.formGroupFull : ''
+                            }`}
+                          >
+                            <label htmlFor={field.id}>
+                              {field.label} {field.required && <span className={styles.required}>*</span>}
                             </label>
-                          ) : (
-                            <input
-                              type={field.type}
-                              id={field.id}
-                              value={customFieldValues[field.id] || ''}
-                              onChange={(e) => handleCustomFieldChange(field.id, e.target.value)}
-                              required={field.required}
-                              placeholder={field.placeholder}
-                            />
-                          )}
-                        </div>
-                      ))}
+                            
+                            {field.type === 'textarea' ? (
+                              <textarea
+                                id={field.id}
+                                value={customFieldValues[field.id] || ''}
+                                onChange={(e) => handleCustomFieldChange(field.id, e.target.value)}
+                                required={field.required}
+                                placeholder={field.placeholder}
+                                rows={4}
+                              />
+                            ) : field.type === 'select' ? (
+                              <select
+                                id={field.id}
+                                value={customFieldValues[field.id] || ''}
+                                onChange={(e) => handleCustomFieldChange(field.id, e.target.value)}
+                                required={field.required}
+                              >
+                                <option value="">Select an option</option>
+                                {field.options?.map((option) => (
+                                  <option key={option} value={option}>
+                                    {option}
+                                  </option>
+                                ))}
+                              </select>
+                            ) : field.type === 'checkbox' ? (
+                              <label className={styles.checkboxLabel}>
+                                <input
+                                  type="checkbox"
+                                  id={field.id}
+                                  checked={customFieldValues[field.id] || false}
+                                  onChange={(e) => handleCustomFieldChange(field.id, e.target.checked)}
+                                  required={field.required}
+                                />
+                                <span>{field.placeholder || field.label}</span>
+                              </label>
+                            ) : (
+                              <input
+                                type={field.type}
+                                id={field.id}
+                                value={customFieldValues[field.id] || ''}
+                                onChange={(e) => handleCustomFieldChange(field.id, e.target.value)}
+                                required={field.required}
+                                placeholder={field.placeholder}
+                              />
+                            )}
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   )}
 
