@@ -102,7 +102,7 @@ export default function Hero() {
             </motion.a>
 
             <motion.a
-              href="/robots"
+              href="/robots-gallery"
               className={`${styles.button} ${styles.secondaryButton}`}
               whileHover={{ scale: 1.05, backgroundColor: 'var(--color-navy)' }}
               whileTap={{ scale: 0.95 }}
