@@ -115,15 +115,15 @@ export default function Hero() {
           {/* Stats */}
           <motion.div variants={itemVariants} className={styles.stats}>
             <div className={styles.stat}>
-              <span className={styles.statNumber}>15+</span>
+              <span className={styles.statNumber}>2+</span>
               <span className={styles.statLabel}>Competitions</span>
             </div>
             <div className={styles.stat}>
-              <span className={styles.statNumber}>50+</span>
+              <span className={styles.statNumber}>20+</span>
               <span className={styles.statLabel}>Members</span>
             </div>
             <div className={styles.stat}>
-              <span className={styles.statNumber}>5+</span>
+              <span className={styles.statNumber}>4+</span>
               <span className={styles.statLabel}>Robots</span>
             </div>
           </motion.div>
