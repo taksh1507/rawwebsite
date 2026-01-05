@@ -92,6 +92,7 @@ export const teamMembers: TeamMember[] = [
     department: 'Coder',
     category: 'core',
     imageUrl: '/nandini.jpg',
+    phone: '8329324952',
     createdAt: '2024-01-15',
   },
   {
@@ -119,6 +120,7 @@ export const teamMembers: TeamMember[] = [
     department: 'PR',
     category: 'members',
     imageUrl: '/pal.jpg',
+    phone: '7208697241',
     createdAt: '2024-01-15',
   },
   {
