@@ -212,6 +212,20 @@ export default function RegisterPage() {
       <section className={styles.section}>
         <div className={styles.gridBackground}></div>
         
+        {/* Mobile Desktop View Notice */}
+        <motion.div
+          className={styles.mobileNotice}
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+        >
+          <span className={styles.mobileNoticeIcon}>💡</span>
+          <div className={styles.mobileNoticeContent}>
+            <strong>Better Experience on Desktop View</strong>
+            <p>For the best experience, we recommend switching to desktop view on your mobile browser.</p>
+          </div>
+        </motion.div>
+        
         {submitStatus === 'success' ? (
           /* Success Confirmation */
           <motion.div
