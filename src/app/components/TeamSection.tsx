@@ -11,7 +11,7 @@ import { motion } from 'framer-motion';
 import { teamMembers, TeamMember } from '@/data/teamData';
 import styles from '../styles/TeamSection.module.css';
 
-type CategoryType = 'all' | 'core' | 'mentors' | 'members' | 'alumni';
+type CategoryType = 'all' | 'core' | 'mentors' | 'members';
 
 const TeamSection: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<CategoryType>('all');
@@ -22,12 +22,32 @@ const TeamSection: React.FC = () => {
     { id: 'core', label: 'Core Team', count: teamMembers.filter(m => m.category === 'core').length },
     { id: 'mentors', label: 'Mentors', count: teamMembers.filter(m => m.category === 'mentors').length },
     { id: 'members', label: 'Members', count: teamMembers.filter(m => m.category === 'members').length },
-    { id: 'alumni', label: 'Alumni', count: teamMembers.filter(m => m.category === 'alumni').length },
   ];
 
-  const filteredMembers = activeCategory === 'all' 
-    ? teamMembers 
-    : teamMembers.filter(member => member.category === activeCategory);
+  // Custom sort function to order members: Faculty -> Core -> Mentors -> Members
+  const sortMembers = (members: TeamMember[]) => {
+    return [...members].sort((a, b) => {
+      // Define role priority (lower number = higher priority)
+      const getRolePriority = (member: TeamMember) => {
+        if (member.role === 'FACULTY IN-CHARGE') return 0;
+        if (member.category === 'core') return 1;
+        if (member.category === 'mentors') return 2;
+        if (member.category === 'members') return 3;
+        return 4;
+      };
+      
+      const priorityA = getRolePriority(a);
+      const priorityB = getRolePriority(b);
+      
+      return priorityA - priorityB;
+    });
+  };
+
+  const filteredMembers = sortMembers(
+    activeCategory === 'all' 
+      ? teamMembers 
+      : teamMembers.filter(member => member.category === activeCategory)
+  );
 
   const handleCategoryChange = (category: CategoryType) => {
     setIsLoading(true);
@@ -149,7 +169,6 @@ const TeamSection: React.FC = () => {
                 <div className={styles.cardContent}>
                   <h3 className={styles.memberName}>{member.name}</h3>
                   <p className={styles.memberRole}>{member.role}</p>
-                  <p className={styles.memberDepartment}>{member.department}</p>
                 </div>
               </motion.div>
             ))}

@@ -16,7 +16,7 @@ export interface TeamMember {
   email?: string;
   phone?: string;
   imageUrl: string;
-  category: 'core' | 'mentors' | 'members' | 'alumni';
+  category: 'core' | 'mentors' | 'members';
   createdAt?: string;
 }
 
@@ -78,10 +78,10 @@ export const teamMembers: TeamMember[] = [
   },
   {
     _id: 'core7',
-    name: 'Samruddhi Khuarl',
+    name: 'Samruddhi Khural',
     role: 'CO-SECRETARY',
     department: 'Coder',
-    category: 'core',
+    category: 'members',
     imageUrl: '/samruddhi.jpg',
     createdAt: '2024-01-15',
   },
@@ -97,9 +97,9 @@ export const teamMembers: TeamMember[] = [
   {
     _id: 'core9',
     name: 'Aryan Wasnik',
-    role: 'CO-EVENT HEAD',
+    role: 'CO-PUBLICITY HEAD',
     department: 'Electronics',
-    category: 'core',
+    category: 'members',
     imageUrl: '/aryan.jpg',
     createdAt: '2024-01-15',
   },
@@ -115,9 +115,9 @@ export const teamMembers: TeamMember[] = [
   {
     _id: 'core11',
     name: 'Pal Rajak',
-    role: 'CO-PUBLICITY HEAD',
+    role: 'CO-EVENT HEAD',
     department: 'PR',
-    category: 'core',
+    category: 'members',
     imageUrl: '/pal.jpg',
     createdAt: '2024-01-15',
   },
@@ -135,7 +135,7 @@ export const teamMembers: TeamMember[] = [
     name: 'Jash Mewada',
     role: 'INVENTORY MANAGER',
     department: 'Coder',
-    category: 'core',
+    category: 'members',
     imageUrl: '/Jash.jpg',
     createdAt: '2024-01-15',
   },
