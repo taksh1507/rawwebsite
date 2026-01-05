@@ -462,26 +462,215 @@
 }
 
 /* Responsive */
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+}
+
 @media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
   .header {
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
   }
 
+  .header h1 {
+    font-size: 1.5rem;
+  }
+
+  .formContainer {
+    padding: 1.5rem;
+  }
+
+  .formContainer h2 {
+    font-size: 1.5rem;
+  }
+
+  .formSection {
+    padding: 1rem;
+  }
+
+  .formSection h3 {
+    font-size: 1.1rem;
+  }
+
   .formRow {
     grid-template-columns: 1fr;
   }
 
-  .grid {
-    grid-template-columns: 1fr;
+  .formGroup input,
+  .formGroup textarea,
+  .formGroup select {
+    font-size: 0.95rem;
+  }
+
+  .customFieldsList {
+    gap: 0.5rem;
+  }
+
+  .customFieldItem {
+    flex-wrap: wrap;
+    padding: 0.875rem;
+  }
+
+  .fieldOrder {
+    min-width: 32px;
+  }
+
+  .orderNumber {
+    width: 28px;
+    height: 28px;
+    font-size: 0.85rem;
+  }
+
+  .fieldInfo {
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+
+  .fieldActions {
+    flex: 1 1 100%;
+    justify-content: flex-end;
+    margin-top: 0.5rem;
+  }
+
+  .btnMove,
+  .btnEdit,
+  .btnDelete {
+    min-width: 36px;
+    height: 36px;
+    padding: 0.5rem;
+  }
+
+  .addFieldForm {
+    padding: 1rem;
   }
 
   .formActions {
     flex-direction: column;
+    gap: 0.75rem;
   }
 
   .formActions button {
     width: 100%;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .card {
+    padding: 1.25rem;
+  }
+
+  .cardHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .cardBody p {
+    font-size: 0.9rem;
+  }
+
+  .cardActions {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .cardActions button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0.75rem;
+  }
+
+  .header h1 {
+    font-size: 1.25rem;
+  }
+
+  .btnPrimary,
+  .btnSecondary {
+    padding: 0.65rem 1.25rem;
+    font-size: 0.9rem;
+  }
+
+  .formContainer {
+    padding: 1rem;
+  }
+
+  .formContainer h2 {
+    font-size: 1.25rem;
+  }
+
+  .formSection {
+    padding: 0.875rem;
+  }
+
+  .formSection h3 {
+    font-size: 1rem;
+  }
+
+  .helpText {
+    font-size: 0.85rem;
+  }
+
+  .formGroup label {
+    font-size: 0.85rem;
+  }
+
+  .formGroup input,
+  .formGroup textarea,
+  .formGroup select {
+    font-size: 0.9rem;
+    padding: 0.65rem;
+  }
+
+  .customFieldItem {
+    padding: 0.75rem;
+  }
+
+  .fieldInfo strong {
+    font-size: 0.9rem;
+  }
+
+  .fieldMeta,
+  .fieldPlaceholder,
+  .fieldOptions {
+    font-size: 0.75rem;
+  }
+
+  .addFieldForm h4 {
+    font-size: 0.95rem;
+  }
+
+  .card {
+    padding: 1rem;
+  }
+
+  .cardHeader h3 {
+    font-size: 1rem;
+  }
+
+  .badge {
+    font-size: 0.7rem;
+    padding: 0.3rem 0.6rem;
+  }
+
+  .cardBody p {
+    font-size: 0.85rem;
+  }
+
+  .description {
+    font-size: 0.85rem;
   }
 }
