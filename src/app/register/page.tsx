@@ -436,7 +436,7 @@ export default function RegisterPage() {
                                 onChange={(e) => handleCustomFieldChange(field.id, e.target.value)}
                                 required={field.required}
                                 placeholder={field.placeholder}
-                                rows={4}
+                                rows={3}
                               />
                             ) : field.type === 'select' ? (
                               <select
@@ -491,7 +491,7 @@ export default function RegisterPage() {
                           <span className={styles.notesToggleIcon}>⚠️</span>
                           <span className={styles.notesToggleText}>
                             <strong>Important Instructions</strong>
-                            <span className={styles.notesToggleHint}>Click to {notesExpanded ? 'hide' : 'view'}</span>
+                            <span className={styles.notesToggleHint}>{notesExpanded ? 'Tap to hide' : 'Tap to expand'}</span>
                           </span>
                           <span className={styles.notesToggleArrow}>{notesExpanded ? '▲' : '▼'}</span>
                         </button>
