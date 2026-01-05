@@ -60,7 +60,6 @@ export default function RegisterPage() {
   const [customFieldValues, setCustomFieldValues] = useState<Record<string, any>>({});
   const [notesAgreed, setNotesAgreed] = useState(false);
   const [expandedDescriptions, setExpandedDescriptions] = useState<Record<string, boolean>>({});
-  const [notesExpanded, setNotesExpanded] = useState(false);
 
   // Fetch competitions from API
   useEffect(() => {
@@ -497,30 +496,14 @@ export default function RegisterPage() {
                   {selectedCompetition?.notes && selectedCompetition.notes.trim() !== '' && (
                     <div className={styles.formSection}>
                       <div className={styles.notesAgreement}>
-                        <button
-                          type="button"
-                          className={styles.notesToggle}
-                          onClick={toggleNotes}
-                        >
+                        <div className={styles.notesHeader}>
                           <span className={styles.notesToggleIcon}>⚠️</span>
-                          <span className={styles.notesToggleText}>
-                            <strong>Important Instructions</strong>
-                            <span className={styles.notesToggleHint}>{notesExpanded ? 'Tap to hide' : 'Tap to expand'}</span>
-                          </span>
-                          <span className={styles.notesToggleArrow}>{notesExpanded ? '▲' : '▼'}</span>
-                        </button>
+                          <strong>Important Instructions</strong>
+                        </div>
                         
-                        {notesExpanded && (
-                          <motion.div
-                            className={styles.notesContent}
-                            initial={{ opacity: 0, height: 0 }}
-                            animate={{ opacity: 1, height: 'auto' }}
-                            exit={{ opacity: 0, height: 0 }}
-                            transition={{ duration: 0.3 }}
-                          >
-                            <p className={styles.notesText}>{selectedCompetition.notes}</p>
-                          </motion.div>
-                        )}
+                        <div className={styles.notesContent}>
+                          <p className={styles.notesText}>{selectedCompetition.notes}</p>
+                        </div>
                         
                         <label className={styles.notesCheckboxLabel}>
                           <input

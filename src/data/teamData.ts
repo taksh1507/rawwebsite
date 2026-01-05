@@ -141,6 +141,15 @@ export const teamMembers: TeamMember[] = [
     imageUrl: '/Jash.jpg',
     createdAt: '2024-01-15',
   },
+  {
+    _id: 'core14',
+    name: 'Shaun Mascherenus',
+    role: 'CORE MEMBER',
+    department: 'Technical',
+    category: 'core',
+    imageUrl: '/logo.png',
+    createdAt: '2024-01-15',
+  },
   // MENTORS
   {
     _id: 'mentor1',
