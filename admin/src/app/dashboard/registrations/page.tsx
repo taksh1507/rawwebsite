@@ -38,6 +38,11 @@ export default function RegistrationsPage() {
   const [selectedStatus, setSelectedStatus] = useState<string>('all');
   const [selectedRegistration, setSelectedRegistration] = useState<Registration | null>(null);
   const [showDetails, setShowDetails] = useState(false);
+  const [showEmailModal, setShowEmailModal] = useState(false);
+  const [selectedRegistrations, setSelectedRegistrations] = useState<string[]>([]);
+  const [emailSubject, setEmailSubject] = useState('');
+  const [emailMessage, setEmailMessage] = useState('');
+  const [sendingEmail, setSendingEmail] = useState(false);
 
   useEffect(() => {
     fetchRegistrations();
@@ -147,6 +152,67 @@ export default function RegistrationsPage() {
     });
   };
 
+  const toggleSelectRegistration = (registrationId: string) => {
+    setSelectedRegistrations(prev =>
+      prev.includes(registrationId)
+        ? prev.filter(id => id !== registrationId)
+        : [...prev, registrationId]
+    );
+  };
+
+  const toggleSelectAll = () => {
+    if (selectedRegistrations.length === registrations.length) {
+      setSelectedRegistrations([]);
+    } else {
+      setSelectedRegistrations(registrations.map(r => r._id));
+    }
+  };
+
+  const openEmailModal = () => {
+    if (selectedRegistrations.length === 0) {
+      alert('Please select at least one registration to send email');
+      return;
+    }
+    setShowEmailModal(true);
+  };
+
+  const sendEmails = async () => {
+    if (!emailSubject.trim() || !emailMessage.trim()) {
+      alert('Please fill in both subject and message');
+      return;
+    }
+
+    setSendingEmail(true);
+    try {
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          registrationIds: selectedRegistrations,
+          subject: emailSubject,
+          message: emailMessage,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        alert(`Email sent successfully to ${result.sentCount} recipients`);
+        setShowEmailModal(false);
+        setEmailSubject('');
+        setEmailMessage('');
+        setSelectedRegistrations([]);
+      } else {
+        alert('Failed to send emails: ' + (result.error || 'Unknown error'));
+      }
+    } catch (error) {
+      console.error('Error sending emails:', error);
+      alert('Error sending emails. Please try again.');
+    } finally {
+      setSendingEmail(false);
+    }
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -198,6 +264,14 @@ export default function RegistrationsPage() {
         <button onClick={fetchRegistrations} className={styles.refreshBtn}>
           🔄 Refresh
         </button>
+
+        <button 
+          onClick={openEmailModal} 
+          className={styles.emailBtn}
+          disabled={selectedRegistrations.length === 0}
+        >
+          📧 Send Email ({selectedRegistrations.length})
+        </button>
       </div>
 
       {loading ? (
@@ -211,6 +285,13 @@ export default function RegistrationsPage() {
           <table className={styles.table}>
             <thead>
               <tr>
+                <th>
+                  <input
+                    type="checkbox"
+                    checked={selectedRegistrations.length === registrations.length && registrations.length > 0}
+                    onChange={toggleSelectAll}
+                  />
+                </th>
                 <th>Student Name</th>
                 <th>Email</th>
                 <th>Phone</th>
@@ -223,6 +304,13 @@ export default function RegistrationsPage() {
             <tbody>
               {registrations.map((reg) => (
                 <tr key={reg._id}>
+                  <td>
+                    <input
+                      type="checkbox"
+                      checked={selectedRegistrations.includes(reg._id)}
+                      onChange={() => toggleSelectRegistration(reg._id)}
+                    />
+                  </td>
                   <td className={styles.nameCell}>{reg.fullName}</td>
                   <td>{reg.email}</td>
                   <td>{reg.phone}</td>
@@ -346,6 +434,80 @@ export default function RegistrationsPage() {
               </select>
               <button onClick={() => handleDelete(selectedRegistration._id)} className={styles.deleteBtnLarge}>
                 Delete Registration
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Email Modal */}
+      {showEmailModal && (
+        <div className={styles.modal} onClick={() => setShowEmailModal(false)}>
+          <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.modalHeader}>
+              <h2>📧 Send Email to Selected Registrations</h2>
+              <button onClick={() => setShowEmailModal(false)} className={styles.closeBtn}>
+                ✕
+              </button>
+            </div>
+
+            <div className={styles.modalBody}>
+              <div className={styles.emailSection}>
+                <p className={styles.recipientCount}>
+                  Sending to <strong>{selectedRegistrations.length}</strong> recipient(s)
+                </p>
+
+                <div className={styles.formGroup}>
+                  <label htmlFor="emailSubject">Subject *</label>
+                  <input
+                    type="text"
+                    id="emailSubject"
+                    value={emailSubject}
+                    onChange={(e) => setEmailSubject(e.target.value)}
+                    placeholder="Enter email subject"
+                    className={styles.emailInput}
+                    disabled={sendingEmail}
+                  />
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label htmlFor="emailMessage">Message *</label>
+                  <textarea
+                    id="emailMessage"
+                    value={emailMessage}
+                    onChange={(e) => setEmailMessage(e.target.value)}
+                    placeholder="Compose your email message here..."
+                    className={styles.emailTextarea}
+                    rows={12}
+                    disabled={sendingEmail}
+                  />
+                </div>
+
+                <div className={styles.emailTemplateHints}>
+                  <p><strong>Tips:</strong></p>
+                  <ul>
+                    <li>Be clear and professional in your communication</li>
+                    <li>Include relevant competition details if applicable</li>
+                    <li>Add contact information for follow-up questions</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div className={styles.modalFooter}>
+              <button 
+                onClick={() => setShowEmailModal(false)} 
+                className={styles.cancelBtn}
+                disabled={sendingEmail}
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={sendEmails} 
+                className={styles.sendEmailBtn}
+                disabled={sendingEmail || !emailSubject.trim() || !emailMessage.trim()}
+              >
+                {sendingEmail ? '⏳ Sending...' : '📨 Send Email'}
               </button>
             </div>
           </div>

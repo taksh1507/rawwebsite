@@ -202,12 +202,40 @@
   padding: 1rem;
   border-radius: 8px;
   border: 2px solid rgba(10, 26, 58, 0.1);
+  gap: 1rem;
+  transition: all 0.3s ease;
+}
+
+.customFieldItem:hover {
+  border-color: rgba(225, 6, 0, 0.3);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.fieldOrder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+}
+
+.orderNumber {
+  background: var(--color-navy);
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9rem;
 }
 
 .fieldInfo {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+  flex: 1;
 }
 
 .fieldInfo strong {
@@ -218,6 +246,96 @@
 .fieldMeta {
   color: #666;
   font-size: 0.85rem;
+}
+
+.fieldPlaceholder {
+  color: #888;
+  font-size: 0.8rem;
+  font-style: italic;
+}
+
+.fieldOptions {
+  color: #555;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+}
+
+.fieldActions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.btnMove {
+  background: var(--color-navy);
+  color: white;
+  padding: 0.4rem 0.6rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.85rem;
+  min-width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btnMove:hover:not(:disabled) {
+  background: #162d52;
+  transform: scale(1.1);
+}
+
+.btnMove:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.btnEdit {
+  background: #4CAF50;
+  color: white;
+  padding: 0.4rem 0.6rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  min-width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btnEdit:hover {
+  background: #45a049;
+  transform: scale(1.1);
+}
+
+.btnDelete {
+  background: #f44336;
+  color: white;
+  padding: 0.4rem 0.6rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  min-width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btnDelete:hover {
+  background: #da190b;
+  transform: scale(1.1);
 }
 
 .addFieldForm {

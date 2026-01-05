@@ -126,6 +126,38 @@ export default function CompetitionsPage() {
     }));
   };
 
+  const handleMoveFieldUp = (index: number) => {
+    if (index === 0) return; // Already at top
+    
+    setFormData(prev => {
+      const newFields = [...prev.customFields];
+      [newFields[index - 1], newFields[index]] = [newFields[index], newFields[index - 1]];
+      return {
+        ...prev,
+        customFields: newFields,
+      };
+    });
+  };
+
+  const handleMoveFieldDown = (index: number) => {
+    if (index === formData.customFields.length - 1) return; // Already at bottom
+    
+    setFormData(prev => {
+      const newFields = [...prev.customFields];
+      [newFields[index], newFields[index + 1]] = [newFields[index + 1], newFields[index]];
+      return {
+        ...prev,
+        customFields: newFields,
+      };
+    });
+  };
+
+  const handleEditField = (index: number) => {
+    const field = formData.customFields[index];
+    setNewField(field);
+    handleRemoveField(field.id);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -352,21 +384,63 @@ export default function CompetitionsPage() {
               {/* Display existing custom fields */}
               {formData.customFields.length > 0 && (
                 <div className={styles.customFieldsList}>
-                  {formData.customFields.map((field) => (
+                  {formData.customFields.map((field, index) => (
                     <div key={field.id} className={styles.customFieldItem}>
+                      <div className={styles.fieldOrder}>
+                        <span className={styles.orderNumber}>{index + 1}</span>
+                      </div>
                       <div className={styles.fieldInfo}>
                         <strong>{field.label}</strong>
                         <span className={styles.fieldMeta}>
                           Type: {field.type} • {field.required ? 'Required' : 'Optional'}
                         </span>
+                        {field.placeholder && (
+                          <span className={styles.fieldPlaceholder}>
+                            Placeholder: "{field.placeholder}"
+                          </span>
+                        )}
+                        {field.options && field.options.length > 0 && (
+                          <span className={styles.fieldOptions}>
+                            Options: {field.options.join(', ')}
+                          </span>
+                        )}
                       </div>
-                      <button
-                        type="button"
-                        onClick={() => handleRemoveField(field.id)}
-                        className={styles.btnDelete}
-                      >
-                        Remove
-                      </button>
+                      <div className={styles.fieldActions}>
+                        <button
+                          type="button"
+                          onClick={() => handleMoveFieldUp(index)}
+                          className={styles.btnMove}
+                          disabled={index === 0}
+                          title="Move Up"
+                        >
+                          ▲
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleMoveFieldDown(index)}
+                          className={styles.btnMove}
+                          disabled={index === formData.customFields.length - 1}
+                          title="Move Down"
+                        >
+                          ▼
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleEditField(index)}
+                          className={styles.btnEdit}
+                          title="Edit Field"
+                        >
+                          ✏️
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveField(field.id)}
+                          className={styles.btnDelete}
+                          title="Remove Field"
+                        >
+                          🗑️
+                        </button>
+                      </div>
                     </div>
                   ))}
                 </div>

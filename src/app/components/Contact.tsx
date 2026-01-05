@@ -106,7 +106,7 @@ export default function Contact() {
     {
       icon: '📧',
       title: 'Email Us',
-      value: 'contact@teamraw.com',
+      value: 'teamraw@sfit.ac.in',
       description: 'Send us your queries',
     },
     {
