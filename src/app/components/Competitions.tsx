@@ -7,6 +7,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 import styles from '../styles/Competitions.module.css';
 
 const competitionsData = [
@@ -18,6 +19,7 @@ const competitionsData = [
     achievement: 'Coming Soon',
     description: 'Multi-stage national robotics competition focusing on embedded systems, control algorithms, and real-world problem solving. E-Yantra is an initiative by IIT Bombay to promote robotics education and innovation.',
     tags: ['Embedded Systems', 'Control', 'Algorithms'],
+    imageUrl: '/eyantra.png',
   },
   {
     id: 2,
@@ -27,6 +29,7 @@ const competitionsData = [
     achievement: 'Coming Soon',
     description: 'Premier national robotics olympiad promoting innovation in mechanical and autonomous systems. DD Robocon is India\'s most prestigious robotics competition bringing together the best engineering colleges across the nation.',
     tags: ['Mechanical Design', 'Autonomous Control', 'Electronics'],
+    imageUrl: '/Robococon.png',
   },
   {
     id: 3,
@@ -36,6 +39,7 @@ const competitionsData = [
     achievement: 'Coming Soon',
     description: 'Asia\'s largest science and technology festival featuring multiple robotics challenges including autonomous navigation, speed competitions, and innovative design events. IIT Techfest brings together brilliant minds from across the world.',
     tags: ['Design', 'Innovation', 'Autonomous'],
+    imageUrl: '/Techfeast.jpg',
   },
 ];
 
@@ -316,6 +320,17 @@ export default function Competitions() {
                   borderColor: 'var(--color-red)',
                 }}
               >
+                {comp.imageUrl && (
+                  <div className={styles.imageContainer}>
+                    <Image
+                      src={comp.imageUrl}
+                      alt={comp.name}
+                      width={400}
+                      height={250}
+                      className={styles.competitionImage}
+                    />
+                  </div>
+                )}
                 <div className={styles.cardHeader}>
                   <span className={styles.year}>{comp.year}</span>
                   <span className={styles.achievement} data-type={comp.achievement.toLowerCase().replace(/ /g, '-')}>{ACHIEVEMENT_BADGES[comp.achievement as keyof typeof ACHIEVEMENT_BADGES]}</span>
