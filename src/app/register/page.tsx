@@ -444,7 +444,10 @@ export default function RegisterPage() {
                   <motion.button
                     type="submit"
                     className={styles.submitBtn}
-                    disabled={isSubmitting || (selectedCompetition?.notes && selectedCompetition.notes.trim() !== '' && !Boolean(notesAgreed))}
+                    disabled={
+                      isSubmitting || 
+                      (!!selectedCompetition?.notes && selectedCompetition.notes.trim() !== '' && !notesAgreed)
+                    }
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
