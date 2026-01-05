@@ -140,6 +140,32 @@
   opacity: 0.6;
 }
 
+.warningIcon {
+  color: #ff9800;
+  font-size: 1rem;
+}
+
+.warningBanner {
+  background: #fff3cd;
+  border: 2px solid #ffc107;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #856404;
+  font-size: 0.95rem;
+}
+
+.warningBanner .warningIcon {
+  font-size: 1.5rem;
+}
+
+.warningBanner strong {
+  color: #0A1A3A;
+}
+
 .loading {
   text-align: center;
   padding: 3rem;
@@ -445,6 +471,105 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+}
+
+.recipientSelection {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 2px solid #e0e0e0;
+}
+
+.recipientSelection h3 {
+  color: var(--color-navy);
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+.helpTextSmall {
+  color: #666;
+  font-size: 0.85rem;
+  margin: 0 0 1rem 0;
+}
+
+.recipientCard {
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  margin-bottom: 1rem;
+}
+
+.recipientCard:last-child {
+  margin-bottom: 0;
+}
+
+.recipientHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.recipientHeader strong {
+  color: var(--color-navy);
+  font-size: 1rem;
+}
+
+.competitionBadge {
+  background: #e3f2fd;
+  color: #1976d2;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.emailCheckboxes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.emailCheckbox {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.emailCheckbox:hover {
+  background: #f8f9fa;
+}
+
+.emailCheckbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.emailLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  flex: 1;
+}
+
+.emailAddress {
+  color: var(--color-navy);
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.emailSource {
+  color: #666;
+  font-size: 0.8rem;
+  font-style: italic;
 }
 
 .recipientCount {

@@ -43,11 +43,25 @@ export default function RegistrationsPage() {
   const [emailSubject, setEmailSubject] = useState('');
   const [emailMessage, setEmailMessage] = useState('');
   const [sendingEmail, setSendingEmail] = useState(false);
+  const [emailConfigured, setEmailConfigured] = useState<boolean | null>(null);
+  const [selectedEmailAddresses, setSelectedEmailAddresses] = useState<Record<string, string[]>>({});
 
   useEffect(() => {
     fetchRegistrations();
     fetchCompetitions();
+    checkEmailConfig();
   }, [selectedCompetition, selectedStatus]);
+
+  const checkEmailConfig = async () => {
+    try {
+      const response = await fetch('/api/check-email-config');
+      const result = await response.json();
+      setEmailConfigured(result.configured);
+    } catch (error) {
+      console.error('Error checking email config:', error);
+      setEmailConfigured(false);
+    }
+  };
 
   const fetchRegistrations = async () => {
     try {
@@ -98,6 +112,39 @@ export default function RegistrationsPage() {
     
     const field = competition.customFields?.find(f => f.id === fieldId);
     return field ? field.label : fieldId;
+  };
+
+  const getAllEmailsFromRegistration = (reg: Registration): Array<{email: string, source: string}> => {
+    const emails: Array<{email: string, source: string}> = [];
+    
+    // Add primary email
+    emails.push({ email: reg.email, source: 'Primary Email' });
+    
+    // Add email fields from custom fields
+    const competition = competitions.find(c => c._id === reg.competitionId);
+    if (competition?.customFields) {
+      Object.entries(reg.customFields).forEach(([fieldId, value]) => {
+        const field = competition.customFields.find(f => f.id === fieldId);
+        if (field?.type === 'email' && value && typeof value === 'string') {
+          emails.push({ email: value, source: field.label });
+        }
+      });
+    }
+    
+    return emails;
+  };
+
+  const initializeEmailSelections = () => {
+    const selections: Record<string, string[]> = {};
+    selectedRegistrations.forEach(regId => {
+      const reg = registrations.find(r => r._id === regId);
+      if (reg) {
+        const allEmails = getAllEmailsFromRegistration(reg);
+        // By default, select all email addresses
+        selections[regId] = allEmails.map(e => e.email);
+      }
+    });
+    setSelectedEmailAddresses(selections);
   };
 
   const handleStatusChange = async (registrationId: string, newStatus: string) => {
@@ -176,17 +223,53 @@ export default function RegistrationsPage() {
     }
   };
 
-  const openEmailModal = () => {
+  const openEmailModal = async () => {
     if (selectedRegistrations.length === 0) {
       alert('Please select at least one registration to send email');
       return;
     }
+    
+    // Check if email is configured
+    try {
+      const response = await fetch('/api/check-email-config');
+      const result = await response.json();
+      
+      if (!result.configured) {
+        alert('Email is not configured. Please set EMAIL_USER and EMAIL_PASS environment variables in your admin panel settings before sending emails. See EMAIL_SETUP.md for instructions.');
+        return;
+      }
+    } catch (error) {
+      console.error('Error checking email config:', error);
+    }
+    
+    initializeEmailSelections();
     setShowEmailModal(true);
+  };
+
+  const toggleEmailSelection = (regId: string, email: string) => {
+    setSelectedEmailAddresses(prev => {
+      const current = prev[regId] || [];
+      const updated = current.includes(email)
+        ? current.filter(e => e !== email)
+        : [...current, email];
+      return { ...prev, [regId]: updated };
+    });
   };
 
   const sendEmails = async () => {
     if (!emailSubject.trim() || !emailMessage.trim()) {
       alert('Please fill in both subject and message');
+      return;
+    }
+
+    // Collect all selected email addresses
+    const totalSelectedEmails = Object.values(selectedEmailAddresses).reduce(
+      (sum, emails) => sum + emails.length, 
+      0
+    );
+
+    if (totalSelectedEmails === 0) {
+      alert('Please select at least one email address to send to');
       return;
     }
 
@@ -199,17 +282,19 @@ export default function RegistrationsPage() {
           registrationIds: selectedRegistrations,
           subject: emailSubject,
           message: emailMessage,
+          selectedEmails: selectedEmailAddresses,
         }),
       });
 
       const result = await response.json();
 
       if (result.success) {
-        alert(`Email sent successfully to ${result.sentCount} recipients`);
+        alert(`Email sent successfully to ${result.sentCount} recipient(s)`);
         setShowEmailModal(false);
         setEmailSubject('');
         setEmailMessage('');
         setSelectedRegistrations([]);
+        setSelectedEmailAddresses({});
       } else {
         alert('Failed to send emails: ' + (result.error || 'Unknown error'));
       }
@@ -276,11 +361,23 @@ export default function RegistrationsPage() {
         <button 
           onClick={openEmailModal} 
           className={styles.emailBtn}
-          disabled={selectedRegistrations.length === 0}
+          disabled={selectedRegistrations.length === 0 || emailConfigured === false}
+          title={emailConfigured === false ? 'Email not configured. Check EMAIL_SETUP.md' : ''}
         >
           📧 Send Email ({selectedRegistrations.length})
+          {emailConfigured === false && <span className={styles.warningIcon}> ⚠️</span>}
         </button>
       </div>
+
+      {emailConfigured === false && (
+        <div className={styles.warningBanner}>
+          <span className={styles.warningIcon}>⚠️</span>
+          <span>
+            Email is not configured. To send emails, please set up EMAIL_USER and EMAIL_PASS environment variables. 
+            See <strong>EMAIL_SETUP.md</strong> for instructions.
+          </span>
+        </div>
+      )}
 
       {loading ? (
         <div className={styles.loading}>Loading registrations...</div>
@@ -461,8 +558,50 @@ export default function RegistrationsPage() {
 
             <div className={styles.modalBody}>
               <div className={styles.emailSection}>
+                <div className={styles.recipientSelection}>
+                  <h3>Select Recipients</h3>
+                  <p className={styles.helpTextSmall}>
+                    Choose which email addresses to send to for each registration
+                  </p>
+                  
+                  {selectedRegistrations.map(regId => {
+                    const reg = registrations.find(r => r._id === regId);
+                    if (!reg) return null;
+                    
+                    const allEmails = getAllEmailsFromRegistration(reg);
+                    const selectedEmails = selectedEmailAddresses[regId] || [];
+                    
+                    return (
+                      <div key={regId} className={styles.recipientCard}>
+                        <div className={styles.recipientHeader}>
+                          <strong>{reg.fullName}</strong>
+                          <span className={styles.competitionBadge}>{reg.competition}</span>
+                        </div>
+                        <div className={styles.emailCheckboxes}>
+                          {allEmails.map(({ email, source }) => (
+                            <label key={email} className={styles.emailCheckbox}>
+                              <input
+                                type="checkbox"
+                                checked={selectedEmails.includes(email)}
+                                onChange={() => toggleEmailSelection(regId, email)}
+                                disabled={sendingEmail}
+                              />
+                              <span className={styles.emailLabel}>
+                                <span className={styles.emailAddress}>{email}</span>
+                                <span className={styles.emailSource}>({source})</span>
+                              </span>
+                            </label>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
                 <p className={styles.recipientCount}>
-                  Sending to <strong>{selectedRegistrations.length}</strong> recipient(s)
+                  Total recipients: <strong>
+                    {Object.values(selectedEmailAddresses).reduce((sum, emails) => sum + emails.length, 0)}
+                  </strong>
                 </p>
 
                 <div className={styles.formGroup}>
