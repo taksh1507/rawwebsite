@@ -298,6 +298,43 @@
   color: var(--color-navy);
 }
 
+/* Competition Notes Agreement */
+.notesAgreement {
+  background: linear-gradient(135deg, rgba(225, 6, 0, 0.05) 0%, rgba(225, 6, 0, 0.02) 100%);
+  border: 2px solid rgba(225, 6, 0, 0.2);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.notesCheckboxLabel {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  cursor: pointer;
+}
+
+.notesCheckboxLabel input[type="checkbox"] {
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  accent-color: var(--color-red);
+  margin-top: 0.2rem;
+  flex-shrink: 0;
+}
+
+.notesText {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-navy);
+}
+
+.notesText strong {
+  color: var(--color-red);
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 1.05rem;
+}
+
 .formRow {
   display: grid;
   grid-template-columns: 1fr 1fr;

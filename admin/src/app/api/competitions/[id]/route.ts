@@ -29,6 +29,7 @@ export async function PATCH(
       deadline: body.deadline,
       teamSize: body.teamSize,
       imageUrl: body.imageUrl || null,
+      notes: body.notes || '',
       isActive: body.isActive ?? true,
       customFields: body.customFields || [],
       updatedAt: new Date().toISOString(),

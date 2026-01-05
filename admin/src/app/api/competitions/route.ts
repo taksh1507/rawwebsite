@@ -55,6 +55,7 @@ export async function POST(request: NextRequest) {
       deadline: body.deadline,
       teamSize: body.teamSize,
       imageUrl: body.imageUrl || null,
+      notes: body.notes || '',
       isActive: body.isActive ?? true,
       customFields: body.customFields || [],
       createdAt: new Date().toISOString(),

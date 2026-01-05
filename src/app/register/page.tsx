@@ -31,6 +31,7 @@ interface Competition {
   deadline: string;
   teamSize: string;
   imageUrl?: string;
+  notes?: string;
   isActive: boolean;
   customFields: CustomField[];
 }
@@ -57,6 +58,7 @@ export default function RegisterPage() {
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [selectedCompetition, setSelectedCompetition] = useState<Competition | null>(null);
   const [customFieldValues, setCustomFieldValues] = useState<Record<string, any>>({});
+  const [notesAgreed, setNotesAgreed] = useState(false);
 
   // Fetch competitions from API
   useEffect(() => {
@@ -110,6 +112,7 @@ export default function RegisterPage() {
   const handleCompetitionSelect = (competition: Competition) => {
     setSelectedCompetition(competition);
     setCustomFieldValues({});
+    setNotesAgreed(false);
     setFormData((prev) => ({
       ...prev,
       competition: competition.name,
@@ -395,11 +398,30 @@ export default function RegisterPage() {
                     </div>
                   )}
 
+                  {/* Competition Notes Agreement */}
+                  {selectedCompetition?.notes && selectedCompetition.notes.trim() !== '' && (
+                    <div className={styles.formSection}>
+                      <div className={styles.notesAgreement}>
+                        <label className={styles.notesCheckboxLabel}>
+                          <input
+                            type="checkbox"
+                            checked={notesAgreed}
+                            onChange={(e) => setNotesAgreed(e.target.checked)}
+                            required
+                          />
+                          <span className={styles.notesText}>
+                            <strong>Important Note:</strong> {selectedCompetition.notes}
+                          </span>
+                        </label>
+                      </div>
+                    </div>
+                  )}
+
                   {/* Submit Button */}
                   <motion.button
                     type="submit"
                     className={styles.submitBtn}
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || (selectedCompetition?.notes && selectedCompetition.notes.trim() !== '' && !notesAgreed)}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >

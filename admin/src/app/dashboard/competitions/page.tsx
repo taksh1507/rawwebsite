@@ -27,6 +27,7 @@ interface Competition {
   deadline: string;
   teamSize: string;
   imageUrl?: string;
+  notes?: string;
   isActive: boolean;
   customFields: CustomField[];
   createdAt: string;
@@ -47,6 +48,7 @@ export default function CompetitionsPage() {
     deadline: '',
     teamSize: '',
     imageUrl: '',
+    notes: '',
     isActive: true,
     customFields: [] as CustomField[],
   });
@@ -165,6 +167,7 @@ export default function CompetitionsPage() {
       deadline: competition.deadline,
       teamSize: competition.teamSize,
       imageUrl: competition.imageUrl || '',
+      notes: competition.notes || '',
       isActive: competition.isActive,
       customFields: competition.customFields || [],
     });
@@ -199,6 +202,7 @@ export default function CompetitionsPage() {
       deadline: '',
       teamSize: '',
       imageUrl: '',
+      notes: '',
       isActive: true,
       customFields: [],
     });
@@ -311,6 +315,17 @@ export default function CompetitionsPage() {
                   value={formData.imageUrl}
                   onChange={handleInputChange}
                   placeholder="https://example.com/image.jpg"
+                />
+              </div>
+
+              <div className={styles.formGroup}>
+                <label>Notes (Optional)</label>
+                <textarea
+                  name="notes"
+                  value={formData.notes}
+                  onChange={handleInputChange}
+                  rows={3}
+                  placeholder="Additional notes or instructions for this competition..."
                 />
               </div>
 
