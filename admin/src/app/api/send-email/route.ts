@@ -10,6 +10,19 @@ interface Registration {
   fullName: string;
   email: string;
   competition: string;
+  competitionId: ObjectId;
+  phone?: string;
+  customFields?: Record<string, any>;
+}
+
+interface Competition {
+  _id: ObjectId;
+  name: string;
+  customFields?: Array<{
+    id: string;
+    label: string;
+    type: string;
+  }>;
 }
 
 export async function POST(request: NextRequest) {
@@ -42,6 +55,7 @@ export async function POST(request: NextRequest) {
     await client.connect();
     const database = client.db('teamraw');
     const registrationsCollection = database.collection('registrations');
+    const competitionsCollection = database.collection('competitions');
 
     // Fetch registrations
     const objectIds = registrationIds.map((id: string) => new ObjectId(id));
@@ -55,6 +69,15 @@ export async function POST(request: NextRequest) {
         { status: 404 }
       );
     }
+
+    // Fetch all related competitions to get field labels
+    const competitionIds = [...new Set(registrations.map(r => r.competitionId))];
+    const competitions = await competitionsCollection
+      .find({ _id: { $in: competitionIds } })
+      .toArray() as unknown as Competition[];
+
+    // Create a map for quick lookup
+    const competitionMap = new Map(competitions.map(c => [c._id.toString(), c]));
 
     // Create email transporter
     const transporter = nodemailer.createTransport({
@@ -71,6 +94,21 @@ export async function POST(request: NextRequest) {
 
     for (const registration of registrations) {
       try {
+        // Get field labels for this registration's competition
+        const competition = competitionMap.get(registration.competitionId.toString());
+        let customFieldsHtml = '';
+        
+        if (registration.customFields && Object.keys(registration.customFields).length > 0 && competition?.customFields) {
+          customFieldsHtml = '<p><strong>Additional Information:</strong></p><ul>';
+          for (const [fieldId, value] of Object.entries(registration.customFields)) {
+            const field = competition.customFields.find(f => f.id === fieldId);
+            const label = field ? field.label : fieldId;
+            const displayValue = typeof value === 'boolean' ? (value ? 'Yes' : 'No') : value;
+            customFieldsHtml += `<li>${label}: ${displayValue}</li>`;
+          }
+          customFieldsHtml += '</ul>';
+        }
+
         const mailOptions = {
           from: {
             name: 'Team RAW - SFIT',
@@ -125,6 +163,12 @@ export async function POST(request: NextRequest) {
                   font-weight: bold;
                   letter-spacing: 2px;
                 }
+                ul {
+                  padding-left: 20px;
+                }
+                li {
+                  margin-bottom: 5px;
+                }
               </style>
             </head>
             <body>
@@ -142,7 +186,10 @@ export async function POST(request: NextRequest) {
                   <ul>
                     <li>Competition: ${registration.competition}</li>
                     <li>Email: ${registration.email}</li>
+                    ${registration.phone ? `<li>Phone: ${registration.phone}</li>` : ''}
                   </ul>
+                  
+                  ${customFieldsHtml}
                   
                   <div class="footer">
                     <p>

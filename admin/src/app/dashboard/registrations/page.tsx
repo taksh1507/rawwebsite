@@ -92,6 +92,14 @@ export default function RegistrationsPage() {
     }
   };
 
+  const getFieldLabel = (fieldId: string, competitionId: string): string => {
+    const competition = competitions.find(c => c._id === competitionId);
+    if (!competition) return fieldId;
+    
+    const field = competition.customFields?.find(f => f.id === fieldId);
+    return field ? field.label : fieldId;
+  };
+
   const handleStatusChange = async (registrationId: string, newStatus: string) => {
     try {
       const response = await fetch(`/api/registrations/${registrationId}`, {
@@ -397,7 +405,7 @@ export default function RegistrationsPage() {
                   <div className={styles.detailGrid}>
                     {Object.entries(selectedRegistration.customFields).map(([key, value]) => (
                       <div key={key} className={styles.detailItem}>
-                        <label>{key}</label>
+                        <label>{getFieldLabel(key, selectedRegistration.competitionId)}</label>
                         <p>{typeof value === 'boolean' ? (value ? 'Yes' : 'No') : value}</p>
                       </div>
                     ))}
