@@ -1024,16 +1024,19 @@
   }
 
   .formGroup input,
-  .formGroup select,
-  .formGroup textarea {
-    font-size: 16px; /* Prevents zoom on iOS */
-    padding: 1rem 1.1rem;
-    min-height: 50px;
+  .formGroup select {
+    font-size: 15px;
+    padding: 0.75rem 1rem;
+    min-height: 44px;
     border-radius: 10px;
   }
 
   .formGroup textarea {
-    min-height: 110px;
+    min-height: 72px;
+    max-height: 120px;
+    padding: 0.7rem 1rem;
+    font-size: 14px;
+    line-height: 1.45;
   }
 
   /* Competition Cards - Mobile Optimized */
@@ -1098,6 +1101,7 @@
     gap: 0.85rem;
     min-height: 54px;
     border-radius: 10px;
+    align-items: center;
   }
 
   .checkboxLabel input[type=\"checkbox\"] {
@@ -1112,7 +1116,7 @@
 
   /* Notes Section - Accordion Mobile */
   .notesToggle {
-    padding: 1.1rem 1.25rem;
+    padding: 0.9rem 1.1rem;
   }
 
   .notesToggleIcon {
@@ -1327,7 +1331,7 @@
   }
 
   .formGroup textarea {
-    min-height: 100px;
+    min-height: 64px;
   }
 
   /* Competition Cards - Small Mobile */
@@ -1420,7 +1424,7 @@
   }
 
   .notesText {
-    font-size: 0.88rem;
+    font-size: 0.85rem;
     line-height: 1.7;
     padding: 0.85rem;
   }
@@ -1436,7 +1440,7 @@
   }
 
   .notesCheckboxText {
-    font-size: 0.9rem;
+    font-size: 0.88rem;
     line-height: 1.6;
   }
 
