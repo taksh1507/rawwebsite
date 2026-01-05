@@ -10,23 +10,26 @@ import { useEffect } from 'react';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { useCountUp } from '../hooks/useCountUp';
+import { LucideIcon } from 'lucide-react';
 
 interface AnimatedStatProps {
-  icon: string;
+  icon: LucideIcon;
   value: number;
   suffix: string;
   label: string;
   description: string;
   delay?: number;
+  ariaLabel?: string;
 }
 
 export default function AnimatedStat({ 
-  icon, 
+  icon: Icon, 
   value, 
   suffix, 
   label, 
   description,
-  delay = 0 
+  delay = 0,
+  ariaLabel
 }: AnimatedStatProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
@@ -60,13 +63,24 @@ export default function AnimatedStat({
         boxShadow: '0 8px 25px rgba(225, 6, 0, 0.2), 0 0 15px rgba(225, 6, 0, 0.15)',
       }}
     >
-      <div style={{
-        fontSize: '2.5rem',
-        marginBottom: '1rem',
-        paddingTop: '0.5rem',
-        filter: 'grayscale(0.2)',
-      }}>
-        {icon}
+      <div 
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginBottom: '1rem',
+          paddingTop: '0.5rem',
+        }}
+        aria-label={ariaLabel || label}
+      >
+        <Icon 
+          size={44}
+          strokeWidth={2}
+          style={{
+            color: '#E10600',
+            filter: 'drop-shadow(0 2px 8px rgba(225, 6, 0, 0.3))',
+          }}
+        />
       </div>
       
       <h3 style={{

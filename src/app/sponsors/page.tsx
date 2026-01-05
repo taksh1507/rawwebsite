@@ -48,6 +48,7 @@ const SponsorHeroBanner = () => {
             className={styles.ctaButtonSecondary}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            onClick={() => alert('Coming Soon! Our sponsorship deck will be available shortly.')}
           >
             Download Sponsorship Deck
           </motion.button>
@@ -377,6 +378,7 @@ const ContactCTA = () => {
             <motion.button
               className={styles.contactMethod}
               whileHover={{ scale: 1.05 }}
+              onClick={() => alert('Coming Soon! Our sponsorship deck will be available shortly.')}
             >
               <span className={styles.icon}>📋</span>
               <div>
@@ -426,6 +428,7 @@ const ContactCTA = () => {
             className={styles.downloadButton}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            onClick={() => alert('Coming Soon! Our sponsorship deck will be available shortly.')}
           >
             Download Sponsorship Packet 📥
           </motion.button>

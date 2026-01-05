@@ -7,8 +7,10 @@
 
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
+import { Trophy, Users, Bot, BarChart3 } from 'lucide-react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
+import AboutUs from './components/AboutUs';
 import UpdatesPopup from './components/UpdatesPopup';
 import AnimatedStat from './components/AnimatedStat';
 import Footer from './components/Footer';
@@ -104,7 +106,7 @@ export default function Home() {
               { icon: '🎯', title: 'Our Mission', text: 'To provide a supportive environment for students to develop technical skills, conduct robotics research, and work on long-term innovative projects, while collaborating with industries and institutions to enhance learning and exposure in the field of robotics.', link: '/about#mission' },
               { icon: '🚀', title: 'Our Vision', text: 'To be a leading student robotics committee that drives innovation, represents SFIT globally, and cultivates a strong and lasting robotics culture within the institute.', link: '/about#vision' },
               { icon: '🧠', title: 'What We Do', text: 'Autonomous robotics, embedded systems, mechanical design, AI & computer vision, ROS, mechatronics, and industrial automation.', link: '/team' },
-              { icon: '🏆', title: 'Competitions', text: 'ABU Robocon, eYRC, IRC, SAE AeroX, National Robotics Championship, and Technovation Project Expo.', link: '/competitions' },
+              { icon: '🏆', title: 'Competitions', text: 'e-Yantra Robotics Competition (IIT Bombay), ABU Robocon, and Techfest IIT Bombay.', link: '/competitions' },
             ].map((item, idx) => (
               <motion.a
                 key={idx}
@@ -151,7 +153,7 @@ export default function Home() {
         </div>
       </motion.section>
 
-
+      <AboutUs />
 
       {/* Highlights Section */}
       <motion.section
@@ -204,35 +206,39 @@ export default function Home() {
             transition={{ delay: 0.2 }}
           >
             <AnimatedStat 
-              icon="🏆" 
+              icon={Trophy}
               value={15} 
               suffix="+" 
               label="Competitions Participated" 
               description="National & inter-university robotics events"
+              ariaLabel="Trophy icon representing competitions"
               delay={0}
             />
             <AnimatedStat 
-              icon="👥" 
+              icon={Users}
               value={20} 
               suffix="+" 
               label="Active Members" 
               description="Multidisciplinary engineering team"
+              ariaLabel="Users icon representing team members"
               delay={100}
             />
             <AnimatedStat 
-              icon="🤖" 
+              icon={Bot}
               value={4} 
               suffix="" 
               label="Competition Robots Built" 
               description="Mechanical, autonomous, and control systems"
+              ariaLabel="Robot icon representing built robots"
               delay={200}
             />
             <AnimatedStat 
-              icon="📊" 
+              icon={BarChart3}
               value={90} 
               suffix="%+" 
               label="Task Completion Rate" 
               description="Reliable on-field performance"
+              ariaLabel="Bar chart icon representing success rate"
               delay={300}
             />
           </motion.div>
