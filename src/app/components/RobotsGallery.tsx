@@ -46,9 +46,15 @@ export default function RobotsGallery() {
           name: item.name,
           type: item.type,
           description: item.description || 'High-performance robot',
+          longDescription: item.longDescription,
           imageUrl: item.imageUrl,
-          specs: item.specs?.slice(0, 3) || ['Autonomous', 'Precision Control', 'Advanced Sensors'],
-          tags: item.tags?.slice(0, 2) || ['Innovation', 'Engineering'],
+          images: item.imageUrl ? [item.imageUrl] : [],
+          specs: item.specs || [],
+          tags: item.tags || [],
+          features: item.features || [],
+          achievements: item.achievements || [],
+          status: item.status,
+          teamLead: item.teamLead,
           category: 'robots',
           year: item.year,
         }))
@@ -60,6 +66,7 @@ export default function RobotsGallery() {
             type: 'Robot',
             description: item.description || 'High-performance robot',
             imageUrl: item.imageUrl,
+            images: item.imageUrl ? [item.imageUrl] : [],
             specs: ['Autonomous', 'Precision Control', 'Advanced Sensors'],
             tags: ['Innovation', 'Engineering'],
             category: 'robots',
@@ -1262,7 +1269,26 @@ export default function RobotsGallery() {
                 padding: isMobile ? '1.5rem 1rem' : '2.5rem 2rem 2rem 2rem',
                 background: '#ffffff',
                 borderLeft: isMobile ? 'none' : '1px solid #e9ecef',
-              }}>
+                maxHeight: isMobile ? '45vh' : '92vh',
+                scrollbarWidth: 'thin',
+                scrollbarColor: '#e10600 #f1f1f1',
+              } as React.CSSProperties & { scrollbarWidth?: string; scrollbarColor?: string }}>
+                <style dangerouslySetInnerHTML={{ __html: `
+                  div::-webkit-scrollbar {
+                    width: 8px;
+                  }
+                  div::-webkit-scrollbar-track {
+                    background: #f1f1f1;
+                    border-radius: 10px;
+                  }
+                  div::-webkit-scrollbar-thumb {
+                    background: #e10600;
+                    border-radius: 10px;
+                  }
+                  div::-webkit-scrollbar-thumb:hover {
+                    background: #c00500;
+                  }
+                ` }} />
                 {/* Header with Title and Badge */}
                 <div style={{
                   marginBottom: '2rem',
@@ -1296,7 +1322,7 @@ export default function RobotsGallery() {
                 </div>
 
                 {/* Metadata Row */}
-                {(detailViewItem.date || detailViewItem.location || detailViewItem.participants || detailViewItem.category) && (
+                {(detailViewItem.date || detailViewItem.location || detailViewItem.participants || detailViewItem.category || detailViewItem.status || detailViewItem.teamLead || detailViewItem.year) && (
                   <div style={{
                     background: 'linear-gradient(135deg, #f8f9fb 0%, #e9ecef 100%)',
                     borderRadius: '14px',
@@ -1326,6 +1352,78 @@ export default function RobotsGallery() {
                           fontWeight: 500,
                         }}>
                           {detailViewItem.category.charAt(0).toUpperCase() + detailViewItem.category.slice(1)}
+                        </span>
+                      </div>
+                    )}
+                    {detailViewItem.year && (
+                      <div style={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        gap: '1rem',
+                        padding: '0.875rem 0',
+                        borderBottom: '1px solid rgba(0, 0, 0, 0.06)',
+                      }}>
+                        <span style={{ fontSize: '1.375rem', flexShrink: 0 }}>📆</span>
+                        <span style={{ 
+                          fontSize: '0.9rem', 
+                          color: '#6c757d',
+                          fontWeight: 600,
+                          minWidth: '90px',
+                        }}>Year</span>
+                        <span style={{ 
+                          fontSize: '0.95rem', 
+                          color: '#212529',
+                          fontWeight: 500,
+                        }}>
+                          {detailViewItem.year}
+                        </span>
+                      </div>
+                    )}
+                    {detailViewItem.status && (
+                      <div style={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        gap: '1rem',
+                        padding: '0.875rem 0',
+                        borderBottom: '1px solid rgba(0, 0, 0, 0.06)',
+                      }}>
+                        <span style={{ fontSize: '1.375rem', flexShrink: 0 }}>🔄</span>
+                        <span style={{ 
+                          fontSize: '0.9rem', 
+                          color: '#6c757d',
+                          fontWeight: 600,
+                          minWidth: '90px',
+                        }}>Status</span>
+                        <span style={{ 
+                          fontSize: '0.95rem', 
+                          color: '#212529',
+                          fontWeight: 500,
+                        }}>
+                          {detailViewItem.status}
+                        </span>
+                      </div>
+                    )}
+                    {detailViewItem.teamLead && (
+                      <div style={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        gap: '1rem',
+                        padding: '0.875rem 0',
+                        borderBottom: detailViewItem.date || detailViewItem.location || detailViewItem.participants ? '1px solid rgba(0, 0, 0, 0.06)' : 'none',
+                      }}>
+                        <span style={{ fontSize: '1.375rem', flexShrink: 0 }}>👤</span>
+                        <span style={{ 
+                          fontSize: '0.9rem', 
+                          color: '#6c757d',
+                          fontWeight: 600,
+                          minWidth: '90px',
+                        }}>Team Lead</span>
+                        <span style={{ 
+                          fontSize: '0.95rem', 
+                          color: '#212529',
+                          fontWeight: 500,
+                        }}>
+                          {detailViewItem.teamLead}
                         </span>
                       </div>
                     )}
@@ -1454,6 +1552,31 @@ export default function RobotsGallery() {
                   </div>
                 )}
 
+                {/* Long Description Section (for robots) */}
+                {detailViewItem.longDescription && (
+                  <div style={{ marginBottom: '2rem' }}>
+                    <h3 style={{
+                      fontSize: '0.8rem',
+                      color: '#6c757d',
+                      fontWeight: 700,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.12em',
+                      marginBottom: '0.75rem',
+                    }}>
+                      Full Description
+                    </h3>
+                    <p style={{
+                      fontSize: '1rem',
+                      color: '#212529',
+                      lineHeight: 1.8,
+                      margin: 0,
+                      whiteSpace: 'pre-wrap',
+                    }}>
+                      {detailViewItem.longDescription}
+                    </p>
+                  </div>
+                )}
+
                 {/* Highlights Section */}
                 {detailViewItem.highlights && detailViewItem.highlights.length > 0 && (
                   <div style={{ marginBottom: '2rem' }}>
@@ -1493,6 +1616,98 @@ export default function RobotsGallery() {
                             lineHeight: 1.6,
                           }}>
                             {highlight}
+                          </span>
+                        </motion.li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* Features Section (for robots) */}
+                {detailViewItem.features && detailViewItem.features.length > 0 && (
+                  <div style={{ marginBottom: '2rem' }}>
+                    <h3 style={{
+                      fontSize: '0.8rem',
+                      color: '#6c757d',
+                      fontWeight: 700,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.12em',
+                      marginBottom: '0.75rem',
+                    }}>
+                      Features
+                    </h3>
+                    <ul style={{
+                      listStyle: 'none',
+                      padding: 0,
+                      margin: 0,
+                    }}>
+                      {detailViewItem.features.map((feature: string, idx: number) => (
+                        <motion.li
+                          key={idx}
+                          style={{
+                            padding: '0.75rem 0',
+                            borderBottom: idx < detailViewItem.features.length - 1 ? '1px solid rgba(0, 0, 0, 0.1)' : 'none',
+                            display: 'flex',
+                            alignItems: 'flex-start',
+                            gap: '0.75rem',
+                          }}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: idx * 0.05 }}
+                        >
+                          <span style={{ color: '#e10600', fontSize: '1.2rem', marginTop: '0.1rem' }}>✓</span>
+                          <span style={{
+                            fontSize: '1rem',
+                            color: '#212529',
+                            lineHeight: 1.6,
+                          }}>
+                            {feature}
+                          </span>
+                        </motion.li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* Achievements Section (for robots) */}
+                {detailViewItem.achievements && detailViewItem.achievements.length > 0 && (
+                  <div style={{ marginBottom: '2rem' }}>
+                    <h3 style={{
+                      fontSize: '0.8rem',
+                      color: '#6c757d',
+                      fontWeight: 700,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.12em',
+                      marginBottom: '0.75rem',
+                    }}>
+                      Achievements
+                    </h3>
+                    <ul style={{
+                      listStyle: 'none',
+                      padding: 0,
+                      margin: 0,
+                    }}>
+                      {detailViewItem.achievements.map((achievement: string, idx: number) => (
+                        <motion.li
+                          key={idx}
+                          style={{
+                            padding: '0.75rem 0',
+                            borderBottom: idx < detailViewItem.achievements.length - 1 ? '1px solid rgba(0, 0, 0, 0.1)' : 'none',
+                            display: 'flex',
+                            alignItems: 'flex-start',
+                            gap: '0.75rem',
+                          }}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: idx * 0.05 }}
+                        >
+                          <span style={{ color: '#e10600', fontSize: '1.2rem', marginTop: '0.1rem' }}>🏆</span>
+                          <span style={{
+                            fontSize: '1rem',
+                            color: '#212529',
+                            lineHeight: 1.6,
+                          }}>
+                            {achievement}
                           </span>
                         </motion.li>
                       ))}
