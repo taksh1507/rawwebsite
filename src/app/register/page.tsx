@@ -59,6 +59,8 @@ export default function RegisterPage() {
   const [selectedCompetition, setSelectedCompetition] = useState<Competition | null>(null);
   const [customFieldValues, setCustomFieldValues] = useState<Record<string, any>>({});
   const [notesAgreed, setNotesAgreed] = useState(false);
+  const [expandedDescriptions, setExpandedDescriptions] = useState<Record<string, boolean>>({});
+  const [notesExpanded, setNotesExpanded] = useState(false);
 
   // Fetch competitions from API
   useEffect(() => {
@@ -134,6 +136,17 @@ export default function RegisterPage() {
       ...prev,
       [fieldId]: value,
     }));
+  };
+
+  const toggleDescription = (competitionId: string) => {
+    setExpandedDescriptions(prev => ({
+      ...prev,
+      [competitionId]: !prev[competitionId],
+    }));
+  };
+
+  const toggleNotes = () => {
+    setNotesExpanded(!notesExpanded);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -330,31 +343,68 @@ export default function RegisterPage() {
                 <p className={styles.sectionDescription}>Choose the competition you want to register for</p>
                 
                 <div className={styles.competitionsGrid}>
-                  {competitionsData.map((comp) => (
-                    <motion.div
-                      key={comp._id}
-                      className={`${styles.competitionCard} ${
-                        selectedCompetition?._id === comp._id ? styles.competitionCardActive : ''
-                      }`}
-                      onClick={() => handleCompetitionSelect(comp)}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      <div className={styles.competitionHeader}>
-                        <h4>{comp.name}</h4>
+                  {competitionsData.map((comp) => {
+                    const isExpanded = expandedDescriptions[comp._id];
+                    const descriptionLines = comp.description.split('\n');
+                    const shouldTruncate = comp.description.length > 120;
+                    const displayDescription = isExpanded || !shouldTruncate 
+                      ? comp.description 
+                      : comp.description.substring(0, 120) + '...';
+                    
+                    return (
+                      <motion.div
+                        key={comp._id}
+                        className={`${styles.competitionCard} ${
+                          selectedCompetition?._id === comp._id ? styles.competitionCardActive : ''
+                        }`}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
                         {selectedCompetition?._id === comp._id && (
                           <span className={styles.selectedBadge}>✓ Selected</span>
                         )}
-                      </div>
-                      <p className={styles.competitionOrganizer}>{comp.organizer}</p>
-                      <p className={styles.competitionDate}>📅 {comp.date}</p>
-                      <p className={styles.competitionDescription}>{comp.description}</p>
-                      <div className={styles.competitionFooter}>
-                        <span className={styles.competitionDeadline}>Deadline: {comp.deadline}</span>
-                        <span className={styles.competitionTeamSize}>Team: {comp.teamSize}</span>
-                      </div>
-                    </motion.div>
-                  ))}
+                        
+                        <div onClick={() => handleCompetitionSelect(comp)} style={{ cursor: 'pointer' }}>
+                          <div className={styles.competitionHeader}>
+                            <h4>{comp.name}</h4>
+                          </div>
+                          <p className={styles.competitionOrganizer}>{comp.organizer}</p>
+                          
+                          <div className={styles.competitionMeta}>
+                            <span className={styles.competitionMetaItem}>
+                              <span className={styles.metaIcon}>📅</span>
+                              <span>{comp.date}</span>
+                            </span>
+                            <span className={styles.competitionMetaItem}>
+                              <span className={styles.metaIcon}>⏰</span>
+                              <span>{comp.deadline}</span>
+                            </span>
+                            <span className={styles.competitionMetaItem}>
+                              <span className={styles.metaIcon}>👥</span>
+                              <span>{comp.teamSize}</span>
+                            </span>
+                          </div>
+                          
+                          <p className={styles.competitionDescription}>
+                            {displayDescription}
+                          </p>
+                        </div>
+                        
+                        {shouldTruncate && (
+                          <button
+                            type="button"
+                            className={styles.readMoreBtn}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              toggleDescription(comp._id);
+                            }}
+                          >
+                            {isExpanded ? '▲ Show less' : '▼ Read more'}
+                          </button>
+                        )}
+                      </motion.div>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -425,6 +475,31 @@ export default function RegisterPage() {
                   {selectedCompetition?.notes && selectedCompetition.notes.trim() !== '' && (
                     <div className={styles.formSection}>
                       <div className={styles.notesAgreement}>
+                        <button
+                          type="button"
+                          className={styles.notesToggle}
+                          onClick={toggleNotes}
+                        >
+                          <span className={styles.notesToggleIcon}>⚠️</span>
+                          <span className={styles.notesToggleText}>
+                            <strong>Important Instructions</strong>
+                            <span className={styles.notesToggleHint}>Click to {notesExpanded ? 'hide' : 'view'}</span>
+                          </span>
+                          <span className={styles.notesToggleArrow}>{notesExpanded ? '▲' : '▼'}</span>
+                        </button>
+                        
+                        {notesExpanded && (
+                          <motion.div
+                            className={styles.notesContent}
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.3 }}
+                          >
+                            <p className={styles.notesText}>{selectedCompetition.notes}</p>
+                          </motion.div>
+                        )}
+                        
                         <label className={styles.notesCheckboxLabel}>
                           <input
                             type="checkbox"
@@ -432,8 +507,8 @@ export default function RegisterPage() {
                             onChange={(e) => setNotesAgreed(e.target.checked)}
                             required
                           />
-                          <span className={styles.notesText}>
-                            <strong>Important Note:</strong> {selectedCompetition.notes}
+                          <span className={styles.notesCheckboxText}>
+                            I have read and agree to the competition requirements
                           </span>
                         </label>
                       </div>
