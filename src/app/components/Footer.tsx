@@ -65,7 +65,7 @@ export default function Footer() {
           <motion.div className={styles.brandSection} variants={itemVariants}>
             <div className={styles.logoWrapper}>
               <Image
-                src="/logo.png"
+                src="/logo 1.png"
                 alt="Team RAW Logo"
                 width={180}
                 height={120}

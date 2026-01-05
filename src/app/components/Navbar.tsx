@@ -42,7 +42,7 @@ export default function Navbar() {
             <Link href="/">
               <div className={styles.logoWrapper}>
                 <Image 
-                  src="/logo.png" 
+                  src="/logo 1.png" 
                   alt="Team RAW" 
                   width={45} 
                   height={45}
