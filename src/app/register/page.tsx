@@ -471,6 +471,37 @@ export default function RegisterPage() {
                       ✗ Something went wrong. Please try again.
                     </motion.div>
                   )}
+
+                  {/* Need Help Section */}
+                  <motion.div
+                    className={styles.needHelpSection}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 }}
+                  >
+                    <div className={styles.needHelpCard}>
+                      <div className={styles.needHelpIcon}>💬</div>
+                      <div className={styles.needHelpContent}>
+                        <h4>Need Help with Registration?</h4>
+                        <p>
+                          If you have any questions or need assistance, feel free to reach out to us:
+                        </p>
+                        <div className={styles.contactList}>
+                          <div className={styles.contactItem}>
+                            <span className={styles.contactIcon}>📧</span>
+                            <a href="mailto:teamraw@sfit.ac.in">teamraw@sfit.ac.in</a>
+                          </div>
+                          <div className={styles.contactItem}>
+                            <span className={styles.contactIcon}>📞</span>
+                            <div className={styles.contactNumbers}>
+                              <a href="tel:+918329324952">Nandini: 8329324952</a>
+                              <a href="tel:+917208697241">Pal: 7208697241</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
                 </>
               )}
             </form>
