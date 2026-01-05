@@ -590,27 +590,6 @@ export default function RegisterPage() {
             </form>
           </motion.div>
 
-          {/* Info Sidebar */}
-          <motion.div
-            className={styles.infoSidebar}
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.5 }}
-          >
-            <div className={styles.infoCard}>
-              <div className={styles.infoIcon}>📞</div>
-              <h3>Need Help?</h3>
-              <p>
-                For any queries regarding registration, feel free to contact us at{' '}
-                <a href="mailto:teamraw@sfit.ac.in">teamraw@sfit.ac.in</a>
-              </p>
-              <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
-                <p style={{ marginBottom: '0.5rem', fontWeight: '500' }}>Contact:</p>
-                <p style={{ marginBottom: '0.3rem' }}>Nandini Salunke: <a href="tel:+918329324952">8329324952</a></p>
-                <p>Pal Rajak: <a href="tel:+917208697241">7208697241</a></p>
-              </div>
-            </div>
-          </motion.div>
         </div>
         )}
       </section>
