@@ -1,0 +1,759 @@
+/**
+ * Competition Registration Page Styles
+ * Author: Taksh Gandhi
+ * Email: takshgandhi4@gmail.com
+ */
+
+/* Hero Section */
+.hero {
+  padding-top: 100px;
+  padding-bottom: 2rem;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  min-height: 30vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(225, 6, 0, 0.05) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.heroContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.heroContent h1 {
+  font-size: 3.5rem;
+  font-family: 'Orbitron', sans-serif;
+  color: var(--color-navy);
+  margin-bottom: 1rem;
+  letter-spacing: 0.02em;
+}
+
+.heroContent p {
+  font-size: 1.2rem;
+  color: var(--color-gray-dark);
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.redAccent {
+  color: var(--color-red);
+  text-shadow: 0 0 10px rgba(225, 6, 0, 0.15);
+}
+
+/* Main Section */
+.section {
+  padding: 6rem 0;
+  background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+}
+
+/* Blueprint Grid Background */
+.gridBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image:
+    linear-gradient(rgba(10, 26, 58, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(10, 26, 58, 0.02) 1px, transparent 1px);
+  background-size: 60px 60px;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.section::before {
+  content: '';
+  position: absolute;
+  top: -30%;
+  left: -20%;
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(circle, rgba(225, 6, 0, 0.03) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 4rem;
+  align-items: start;
+  position: relative;
+  z-index: 1;
+}
+
+/* Form Container */
+.formContainer {
+  position: relative;
+}
+
+.formHeader {
+  margin-bottom: 2.5rem;
+}
+
+.formHeader h2 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--color-navy);
+  margin-bottom: 0.75rem;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+}
+
+.tagline {
+  font-size: 1.05rem;
+  color: var(--color-gray-dark);
+  line-height: 1.6;
+}
+
+/* Form Styling */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.formSection {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 2.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(10, 26, 58, 0.08);
+  transition: all 0.3s ease;
+}
+
+.formSection:hover {
+  box-shadow: 0 8px 30px rgba(225, 6, 0, 0.08);
+  border-color: rgba(225, 6, 0, 0.15);
+}
+
+.sectionTitle {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-navy);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--color-red);
+  display: inline-block;
+}
+
+.sectionDescription {
+  color: var(--color-gray-dark);
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+/* Competition Cards */
+.competitionsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.competitionCard {
+  background: #ffffff;
+  border: 2px solid rgba(10, 26, 58, 0.12);
+  border-radius: 12px;
+  padding: 1.75rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.competitionCard:hover {
+  border-color: var(--color-red);
+  box-shadow: 0 6px 20px rgba(225, 6, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+.competitionCardActive {
+  border-color: var(--color-red);
+  background: linear-gradient(135deg, rgba(225, 6, 0, 0.02) 0%, rgba(225, 6, 0, 0.05) 100%);
+  box-shadow: 0 6px 24px rgba(225, 6, 0, 0.2);
+}
+
+.competitionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+  gap: 1rem;
+}
+
+.competitionHeader h4 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-navy);
+  margin: 0;
+  line-height: 1.3;
+  flex: 1;
+}
+
+.selectedBadge {
+  background: var(--color-red);
+  color: #ffffff;
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.competitionOrganizer {
+  font-size: 0.95rem;
+  color: var(--color-red);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.competitionDate {
+  font-size: 0.9rem;
+  color: var(--color-gray-dark);
+  margin-bottom: 0.75rem;
+}
+
+.competitionDescription {
+  font-size: 0.95rem;
+  color: var(--color-gray-dark);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.competitionFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(10, 26, 58, 0.1);
+  font-size: 0.85rem;
+  font-weight: 600;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.competitionDeadline {
+  color: var(--color-navy);
+}
+
+.competitionTeamSize {
+  color: var(--color-gray-dark);
+}
+
+/* Checkbox Label for Custom Fields */
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  padding: 0.75rem;
+  background: rgba(10, 26, 58, 0.02);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.checkboxLabel:hover {
+  background: rgba(10, 26, 58, 0.05);
+}
+
+.checkboxLabel input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: var(--color-red);
+}
+
+.checkboxLabel span {
+  font-weight: 500;
+  color: var(--color-navy);
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.formRow:last-child {
+  margin-bottom: 0;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.formGroup label {
+  font-weight: 600;
+  color: var(--color-navy);
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+}
+
+.formGroup input,
+.formGroup select,
+.formGroup textarea {
+  padding: 0.875rem 1.25rem;
+  border: 2px solid rgba(10, 26, 58, 0.12);
+  border-radius: 10px;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: all 0.3s ease;
+  background: #ffffff;
+  color: var(--color-dark-steel);
+}
+
+.formGroup input:focus,
+.formGroup select:focus,
+.formGroup textarea:focus {
+  outline: none;
+  border-color: var(--color-red);
+  box-shadow: 0 0 0 3px rgba(225, 6, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+.formGroup input::placeholder,
+.formGroup textarea::placeholder {
+  color: #999;
+}
+
+.formGroup textarea {
+  resize: vertical;
+  min-height: 100px;
+  line-height: 1.6;
+}
+
+/* Submit Button */
+.submitBtn {
+  width: 100%;
+  padding: 1.25rem 2rem;
+  background: linear-gradient(135deg, var(--color-red) 0%, #b20500 100%);
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  font-family: 'Orbitron', sans-serif;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(225, 6, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  letter-spacing: 0.02em;
+  margin-top: 2rem;
+}
+
+.submitBtn:hover:not(:disabled) {
+  box-shadow: 0 8px 30px rgba(225, 6, 0, 0.4);
+  transform: translateY(-2px);
+}
+
+.submitBtn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.submitBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Spinner */
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Status Messages */
+.successMessage,
+.errorMessage {
+  padding: 1rem 1.5rem;
+  border-radius: 10px;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.successMessage {
+  background: #d4edda;
+  color: #155724;
+  border: 2px solid #c3e6cb;
+}
+
+.errorMessage {
+  background: #f8d7da;
+  color: #721c24;
+  border: 2px solid #f5c6cb;
+}
+
+/* Info Sidebar */
+.infoSidebar {
+  position: sticky;
+  top: 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.infoCard {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(10, 26, 58, 0.08);
+  transition: all 0.3s ease;
+}
+
+.infoCard:hover {
+  box-shadow: 0 8px 30px rgba(225, 6, 0, 0.08);
+  border-color: rgba(225, 6, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.infoIcon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  display: inline-block;
+}
+
+.infoCard h3 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-navy);
+  margin-bottom: 1rem;
+}
+
+.infoCard ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.infoCard ul li {
+  padding: 0.5rem 0;
+  color: var(--color-gray-dark);
+  position: relative;
+  padding-left: 1.5rem;
+  line-height: 1.6;
+}
+
+.infoCard ul li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--color-red);
+  font-weight: bold;
+}
+
+.infoCard ul li strong {
+  color: var(--color-navy);
+}
+
+.infoCard p {
+  color: var(--color-gray-dark);
+  line-height: 1.6;
+}
+
+.infoCard a {
+  color: var(--color-red);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.infoCard a:hover {
+  color: #b20500;
+  text-decoration: underline;
+}
+
+/* Success Confirmation Styles */
+.successContainer {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.successCard {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 4rem 3rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+  border: 2px solid rgba(225, 6, 0, 0.1);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.successCard::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(225, 6, 0, 0.05) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.successIcon {
+  width: 100px;
+  height: 100px;
+  background: linear-gradient(135deg, #E10600 0%, #b00500 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+  color: white;
+  margin: 0 auto 2rem;
+  box-shadow: 0 10px 30px rgba(225, 6, 0, 0.3);
+  position: relative;
+  z-index: 1;
+}
+
+.successCard h2 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2.5rem;
+  color: #0A1A3A;
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.successMessage {
+  font-size: 1.1rem;
+  color: #666;
+  line-height: 1.8;
+  margin-bottom: 3rem;
+  position: relative;
+  z-index: 1;
+}
+
+.successActions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+
+.primaryBtn {
+  padding: 1rem 2.5rem;
+  background: linear-gradient(135deg, #E10600 0%, #b00500 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+  box-shadow: 0 4px 15px rgba(225, 6, 0, 0.3);
+}
+
+.primaryBtn:hover {
+  box-shadow: 0 6px 25px rgba(225, 6, 0, 0.4);
+  transform: translateY(-2px);
+}
+
+.secondaryBtn {
+  padding: 1rem 2.5rem;
+  background: white;
+  color: #E10600;
+  border: 2px solid #E10600;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.secondaryBtn:hover {
+  background: #E10600;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(225, 6, 0, 0.2);
+}
+
+.autoRedirect {
+  font-size: 0.95rem;
+  color: #999;
+  font-style: italic;
+  margin-top: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.autoRedirect span {
+  font-weight: 700;
+  color: #E10600;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .container {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .infoSidebar {
+    position: relative;
+    top: 0;
+    grid-row: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .heroContent h1 {
+    font-size: 2.5rem;
+  }
+
+  .heroContent p {
+    font-size: 1rem;
+  }
+
+  .formHeader h2 {
+    font-size: 2rem;
+  }
+
+  .formSection {
+    padding: 1.5rem;
+  }
+
+  .formRow {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .skillsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .infoSidebar {
+    grid-template-columns: 1fr;
+  }
+
+  .section {
+    padding: 3rem 0;
+  }
+
+  .successCard {
+    padding: 3rem 2rem;
+  }
+
+  .successCard h2 {
+    font-size: 2rem;
+  }
+
+  .successMessage {
+    font-size: 1rem;
+  }
+
+  .successActions {
+    flex-direction: column;
+  }
+
+  .primaryBtn,
+  .secondaryBtn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .heroContent h1 {
+    font-size: 2rem;
+  }
+
+  .formHeader h2 {
+    font-size: 1.75rem;
+  }
+
+  .sectionTitle {
+    font-size: 1.25rem;
+  }
+
+  .formSection {
+    padding: 1.25rem;
+  }
+
+  .submitBtn {
+    font-size: 1rem;
+    padding: 1rem 1.5rem;
+  }
+
+  .successCard {
+    padding: 2rem 1.5rem;
+  }
+
+  .successIcon {
+    width: 80px;
+    height: 80px;
+    font-size: 3rem;
+  }
+
+  .successCard h2 {
+    font-size: 1.75rem;
+  }
+
+  .primaryBtn,
+  .secondaryBtn {
+    font-size: 1rem;
+    padding: 0.875rem 2rem;
+  }
+}

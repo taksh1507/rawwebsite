@@ -16,6 +16,8 @@ export default function Sidebar() {
     { label: 'Analytics', href: '/dashboard/analytics', icon: '📈' },
     { label: 'Contact', href: '/dashboard/contact', icon: '💬' },
     { label: 'Updates', href: '/dashboard/updates', icon: '📢' },
+    { label: 'Competitions', href: '/dashboard/competitions', icon: '🏆' },
+    { label: 'Registrations', href: '/dashboard/registrations', icon: '📝' },
     { label: 'Robots & Gallery', href: '/dashboard/robots-gallery', icon: '🤖📸' },
     { label: 'Profile', href: '/dashboard/profile', icon: '👤' },
     { label: 'Settings', href: '/dashboard/settings', icon: '⚙️' },
