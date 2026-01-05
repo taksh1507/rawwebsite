@@ -109,6 +109,16 @@ export default function RegisterPage() {
     }));
   };
 
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/[^0-9]/g, '');
+    if (value.length <= 10) {
+      setFormData((prev) => ({
+        ...prev,
+        phone: value,
+      }));
+    }
+  };
+
   const handleCompetitionSelect = (competition: Competition) => {
     setSelectedCompetition(competition);
     setCustomFieldValues({});
@@ -134,6 +144,7 @@ export default function RegisterPage() {
       // Submit to actual API endpoint
       const submissionData = {
         ...formData,
+        phone: `+91${formData.phone}`, // Add +91 prefix to phone number
         customFields: customFieldValues,
         competitionId: selectedCompetition?._id,
       };
@@ -289,15 +300,27 @@ export default function RegisterPage() {
 
                 <div className={styles.formGroup}>
                   <label htmlFor="phone">Phone Number *</label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    required
-                    placeholder="+91 98765 43210"
-                  />
+                  <div className={styles.phoneInputWrapper}>
+                    <span className={styles.phonePrefix}>+91</span>
+                    <input
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handlePhoneChange}
+                      required
+                      placeholder="9876543210"
+                      pattern="[0-9]{10}"
+                      title="Please enter exactly 10 digits"
+                      maxLength={10}
+                      className={styles.phoneInput}
+                    />
+                  </div>
+                  {formData.phone && formData.phone.length < 10 && (
+                    <span className={styles.phoneHint}>
+                      {10 - formData.phone.length} more digit{10 - formData.phone.length !== 1 ? 's' : ''} required
+                    </span>
+                  )}
                 </div>
               </div>
 
