@@ -60,6 +60,7 @@ export default function RegisterPage() {
   const [customFieldValues, setCustomFieldValues] = useState<Record<string, any>>({});
   const [notesAgreed, setNotesAgreed] = useState(false);
   const [expandedDescriptions, setExpandedDescriptions] = useState<Record<string, boolean>>({});
+  const [formProgress, setFormProgress] = useState(0);
 
   // Fetch competitions from API
   useEffect(() => {
@@ -77,6 +78,19 @@ export default function RegisterPage() {
 
     fetchCompetitions();
   }, []);
+
+  // Calculate form progress for mobile indicator
+  useEffect(() => {
+    let progress = 0;
+    const totalFields = 4; // name, email, phone, competition
+    
+    if (formData.fullName) progress += 25;
+    if (formData.email) progress += 25;
+    if (formData.phone && formData.phone.length === 10) progress += 25;
+    if (selectedCompetition) progress += 25;
+    
+    setFormProgress(progress);
+  }, [formData, selectedCompetition]);
 
   // Auto-redirect countdown after successful submission
   useEffect(() => {
@@ -128,6 +142,16 @@ export default function RegisterPage() {
       ...prev,
       competition: competition.name,
     }));
+    
+    // Smooth scroll to next section on mobile
+    if (window.innerWidth <= 768) {
+      setTimeout(() => {
+        const nextSection = document.querySelector('#additional-fields');
+        if (nextSection) {
+          nextSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 300);
+    }
   };
 
   const handleCustomFieldChange = (fieldId: string, value: any) => {
@@ -144,9 +168,7 @@ export default function RegisterPage() {
     }));
   };
 
-  const toggleNotes = () => {
-    setNotesExpanded(!notesExpanded);
-  };
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -188,6 +210,14 @@ export default function RegisterPage() {
   return (
     <main>
       <Navbar />
+      
+      {/* Mobile Progress Indicator */}
+      <div className={styles.mobileProgressBar}>
+        <div 
+          className={styles.mobileProgressFill} 
+          style={{ width: `${formProgress}%` }}
+        />
+      </div>
       
       {/* Hero Section */}
       <motion.section
@@ -423,7 +453,7 @@ export default function RegisterPage() {
 
               {/* Additional Fields - Show only after competition selection */}
               {selectedCompetition && (
-                <>
+                <div id="additional-fields">
                   {/* Custom Fields from Competition */}
                   {selectedCompetition?.customFields && selectedCompetition.customFields.length > 0 && (
                     <div className={styles.formSection}>
@@ -582,7 +612,7 @@ export default function RegisterPage() {
                       </div>
                     </div>
                   </motion.div>
-                </>
+                </div>
               )}
             </form>
           </motion.div>
