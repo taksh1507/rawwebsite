@@ -78,7 +78,7 @@ export const teamMembers: TeamMember[] = [
   },
   {
     _id: 'core7',
-    name: 'Samruddhi Khural',
+    name: 'Samruddhi Kharul',
     role: 'CO-SECRETARY',
     department: 'Coder',
     category: 'members',
