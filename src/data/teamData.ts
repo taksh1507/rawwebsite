@@ -28,7 +28,7 @@ export const teamMembers: TeamMember[] = [
     role: 'FACULTY IN-CHARGE',
     department: 'Management',
     category: 'core',
-    imageUrl: '/logo.png',
+    imageUrl: '/ramjee.jpeg',
     createdAt: '2024-01-15',
   },
   {
@@ -110,7 +110,7 @@ export const teamMembers: TeamMember[] = [
     role: 'PUBLICITY HEAD',
     department: 'Designer',
     category: 'core',
-    imageUrl: '/logo.png',
+    imageUrl: '/amisha.jpeg',
     createdAt: '2024-01-15',
   },
   {
@@ -248,7 +248,7 @@ export const teamMembers: TeamMember[] = [
     role: 'TEAM MEMBER',
     department: 'Technical',
     category: 'members',
-    imageUrl: '/logo.png',
+    imageUrl: '/paarth.jpeg',
     createdAt: '2024-03-10',
   },
   {
