@@ -73,23 +73,37 @@
   text-shadow: 0 0 10px rgba(225, 6, 0, 0.1);
 }
 
-.sfitLogoWrapper {
+.logoDivider {
+  width: 1px;
+  height: 30px;
+  background: linear-gradient(to bottom, transparent, rgba(10, 26, 58, 0.2), transparent);
+  margin: 0 0.75rem;
+}
+
+.sfitLogoContainer {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 35px;
-  height: 35px;
-  margin-left: 0.5rem;
-  border-radius: 6px;
-  overflow: hidden;
+  width: 38px;
+  height: 38px;
+  padding: 4px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2px 8px rgba(10, 26, 58, 0.08);
+  border: 1px solid rgba(10, 26, 58, 0.08);
   transition: all 0.3s ease;
+}
+
+.sfitLogoContainer:hover {
+  box-shadow: 0 4px 12px rgba(225, 6, 0, 0.15);
+  transform: translateY(-1px);
 }
 
 .sfitLogo {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  filter: brightness(0.95);
+  object-fit: contain;
+  border-radius: 4px;
 }
 
 .desktopMenu {
@@ -252,10 +266,15 @@
     font-size: 1.1rem;
   }
 
-  .sfitLogoWrapper {
-    width: 28px;
-    height: 28px;
-    margin-left: 0.3rem;
+  .logoDivider {
+    height: 24px;
+    margin: 0 0.5rem;
+  }
+
+  .sfitLogoContainer {
+    width: 32px;
+    height: 32px;
+    padding: 3px;
   }
 
   .desktopMenu {
@@ -282,9 +301,14 @@
     letter-spacing: 0.1em;
   }
 
-  .sfitLogoWrapper {
-    width: 24px;
-    height: 24px;
-    margin-left: 0.25rem;
+  .logoDivider {
+    height: 20px;
+    margin: 0 0.4rem;
+  }
+
+  .sfitLogoContainer {
+    width: 28px;
+    height: 28px;
+    padding: 2px;
   }
 }

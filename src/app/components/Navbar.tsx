@@ -51,12 +51,13 @@ export default function Navbar() {
                 />
               </div>
               <span className={styles.logoText}>TEAM RAW</span>
-              <div className={styles.sfitLogoWrapper}>
+              <div className={styles.logoDivider}></div>
+              <div className={styles.sfitLogoContainer}>
                 <Image 
                   src="/collegelogo.jpg" 
-                  alt="SFIT" 
-                  width={35} 
-                  height={35}
+                  alt="St. Francis Institute of Technology" 
+                  width={38} 
+                  height={38}
                   priority
                   className={styles.sfitLogo}
                 />

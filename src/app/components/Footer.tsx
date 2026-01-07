@@ -75,20 +75,24 @@ export default function Footer() {
             </div>
             <h3 className={styles.brandTitle}>TEAM RAW</h3>
             <p className={styles.brandSubtitle}>Robotics & Automation Wing</p>
-            <p className={styles.brandInstitution}>St. Francis Institute of Technology</p>
-            <div className={styles.sfitLogoFooter}>
-              <Image
-                src="/collegelogo.jpg"
-                alt="SFIT Logo"
-                width={100}
-                height={100}
-                style={{ width: 'auto', height: 'auto', maxWidth: '120px', opacity: 0.92 }}
-              />
-            </div>
             <p className={styles.description}>
               Building the next generation of autonomous robots through innovation, engineering excellence, and 
               collaborative teamwork.
             </p>
+            
+            <div className={styles.affiliationSection}>
+              <p className={styles.affiliationLabel}>Officially Affiliated With</p>
+              <div className={styles.sfitLogoContainer}>
+                <Image
+                  src="/collegelogo.jpg"
+                  alt="St. Francis Institute of Technology"
+                  width={90}
+                  height={90}
+                  className={styles.sfitLogoFooter}
+                />
+              </div>
+              <p className={styles.institutionName}>St. Francis Institute of Technology</p>
+            </div>
           </motion.div>
 
           {/* Navigation Links */}
