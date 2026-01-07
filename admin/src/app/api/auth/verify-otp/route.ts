@@ -71,13 +71,16 @@ export async function POST(request: NextRequest) {
       role: 'ADMIN',
     });
 
+    console.log('✓ OTP verified successfully for:', email);
+    console.log('✓ Token created, setting cookie...');
+
     // Create response with token
     const response = NextResponse.json({
       success: true,
       message: 'Login successful',
     });
 
-    // Set cookie
+    // Set cookie with explicit settings
     response.cookies.set('admin-token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -85,6 +88,8 @@ export async function POST(request: NextRequest) {
       maxAge: 60 * 60 * 24, // 24 hours
       path: '/',
     });
+
+    console.log('✓ Cookie set successfully');
 
     return response;
   } catch (error) {

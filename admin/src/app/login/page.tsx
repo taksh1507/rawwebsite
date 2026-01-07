@@ -150,15 +150,16 @@ function LoginForm() {
       const data = await response.json();
 
       if (data.success) {
-        // Show success message
-        setSuccessMessage('✓ Login successful! Redirecting to dashboard...');
+        // Show success message briefly
+        setSuccessMessage('✓ Login successful! Redirecting...');
         setError('');
         
-        // Perform immediate redirect
-        const redirect = searchParams.get('redirect') || '/dashboard';
+        // Small delay to ensure cookie is set, then redirect
+        await new Promise(resolve => setTimeout(resolve, 200));
         
-        // Use replace instead of href for cleaner navigation
-        window.location.replace(redirect);
+        // Force a full page reload to the dashboard
+        const redirect = searchParams.get('redirect') || '/dashboard';
+        window.location.href = redirect;
       } else {
         setError(data.message || 'Invalid OTP');
         setIsVerifyingOtp(false);
