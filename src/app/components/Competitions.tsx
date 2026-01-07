@@ -85,6 +85,7 @@ const competitionsData = [
 
 const ACHIEVEMENT_BADGES = {
   'Coming Soon': '⏳ Coming Soon',
+  'Pre-Registration Done': '📝 Pre-Registration',
   'Participated': '✓ Participated',
   'Qualified': '✓ Qualified',
   'Top 15': '🏆 Top 15',
