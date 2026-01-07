@@ -188,28 +188,28 @@ const ImpactNumbers = () => {
 const AchievementsHighlights = () => {
   const achievements = [
     {
-      year: '2024',
-      title: 'Regional Championship Victory',
-      description: 'Won FRC Regional Championship with autonomous scoring record',
-      sponsorValue: '✓ National-level credibility for sponsor brands',
+      year: '2026',
+      title: 'DD Robocon 2026 Registration',
+      description: 'Successfully registered for DD Robocon 2026 competition',
+      sponsorValue: '✓ Opportunity to showcase sponsor brands at national platform',
     },
     {
-      year: '2024',
-      title: 'Innovation Award',
-      description: 'Recognized for advanced vision processing and AI integration',
-      sponsorValue: '✓ Association with cutting-edge technology development',
+      year: '2025',
+      title: 'DD Robocon 2025 - Stage 3 (Top 15)',
+      description: 'Qualified to Stage 3 and secured position in Top 15 teams nationwide',
+      sponsorValue: '✓ National-level recognition and media coverage',
     },
     {
-      year: '2023',
-      title: 'State Tournament Finalists',
-      description: 'Advanced to state competition with perfect pit inspection',
-      sponsorValue: '✓ Demonstrates engineering excellence and discipline',
+      year: '2025',
+      title: 'DD Robocon 2025 - Stage 2 (May)',
+      description: 'Advanced to Stage 2 with outstanding performance - Score: 90 marks',
+      sponsorValue: '✓ Demonstrates consistent excellence and innovation',
     },
     {
-      year: '2023',
-      title: 'Community STEM Champion',
-      description: 'Mentored 500+ students in STEM programs nationwide',
-      sponsorValue: '✓ Powerful brand association with educational impact',
+      year: '2025',
+      title: 'DD Robocon 2025 - Stage 1 (February)',
+      description: 'Qualified Stage 1 with exceptional score of 95 marks',
+      sponsorValue: '✓ Powerful brand association with high-performing team',
     },
   ];
 
