@@ -51,6 +51,16 @@ export default function Navbar() {
                 />
               </div>
               <span className={styles.logoText}>TEAM RAW</span>
+              <div className={styles.sfitLogoWrapper}>
+                <Image 
+                  src="/collegelogo.jpg" 
+                  alt="SFIT" 
+                  width={35} 
+                  height={35}
+                  priority
+                  className={styles.sfitLogo}
+                />
+              </div>
             </Link>
           </motion.div>
 

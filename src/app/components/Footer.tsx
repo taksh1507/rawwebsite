@@ -73,6 +73,18 @@ export default function Footer() {
                 style={{ width: 'auto', height: 'auto' }}
               />
             </div>
+            <h3 className={styles.brandTitle}>TEAM RAW</h3>
+            <p className={styles.brandSubtitle}>Robotics & Automation Wing</p>
+            <p className={styles.brandInstitution}>St. Francis Institute of Technology</p>
+            <div className={styles.sfitLogoFooter}>
+              <Image
+                src="/collegelogo.jpg"
+                alt="SFIT Logo"
+                width={100}
+                height={100}
+                style={{ width: 'auto', height: 'auto', maxWidth: '120px', opacity: 0.92 }}
+              />
+            </div>
             <p className={styles.description}>
               Building the next generation of autonomous robots through innovation, engineering excellence, and 
               collaborative teamwork.

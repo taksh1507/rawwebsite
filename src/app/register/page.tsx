@@ -608,7 +608,7 @@ export default function RegisterPage() {
                             <span className={styles.contactIcon}>📞</span>
                             <div className={styles.contactNumbers}>
                               <a href="tel:+918329324952">Nandini: 8329324952</a>
-                              <a href="tel:+917208697241">Pal: 7208697241</a>
+                              <a href="tel:+919321033408">Dittino: 9321033408</a>
                             </div>
                           </div>
                         </div>
