@@ -120,7 +120,7 @@ export function extractToken(request: Request): string | null {
       return acc;
     }, {} as Record<string, string>);
 
-    return cookies['admin_token'] || null;
+    return cookies['admin-token'] || null;
   }
 
   return null;

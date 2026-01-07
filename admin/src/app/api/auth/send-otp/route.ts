@@ -18,8 +18,13 @@ async function sendOTPEmail(email: string, otp: string): Promise<boolean> {
     // Check if email configuration exists
     if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
       console.error('Email configuration not found');
+      console.error('EMAIL_USER:', process.env.EMAIL_USER ? 'Set' : 'Not set');
+      console.error('EMAIL_PASS:', process.env.EMAIL_PASS ? 'Set (length: ' + process.env.EMAIL_PASS.length + ')' : 'Not set');
       return false;
     }
+
+    console.log('Attempting to send email from:', process.env.EMAIL_USER);
+    console.log('Password length:', process.env.EMAIL_PASS.length);
 
     // Create email transporter
     const transporter = nodemailer.createTransport({

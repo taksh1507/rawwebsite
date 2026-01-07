@@ -21,7 +21,7 @@ export function middleware(request: NextRequest) {
   }
 
   // Check for authentication token
-  const token = request.cookies.get('admin_token')?.value;
+  const token = request.cookies.get('admin-token')?.value;
 
   // If accessing dashboard or admin routes without token, redirect to login
   if (!token && (pathname.startsWith('/dashboard') || pathname === '/')) {

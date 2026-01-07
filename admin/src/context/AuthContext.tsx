@@ -44,8 +44,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         credentials: 'include',
       });
 
+      console.log('Verify response status:', response.status);
+
       if (response.ok) {
         const data = await response.json();
+        console.log('Verify response data:', data);
         if (data.authenticated) {
           setAdmin(data.admin);
         } else {

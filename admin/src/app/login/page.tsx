@@ -18,22 +18,16 @@ function LoginForm() {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isSendingOtp, setIsSendingOtp] = useState(false);
-  const [isVerifyingOtp, setIsVerifyingOtp] = useState(false);
   const [fieldErrors, setFieldErrors] = useState({ email: '', otp: '' });
   const [otpSentMessage, setOtpSentMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { verifyAuth, isAuthenticated } = useAuth();
+  const { verifyAuth, isAuthenticated, isLoading: authLoading } = useAuth();
 
-  // Redirect if already authenticated
-  useEffect(() => {
-    if (isAuthenticated) {
-      const redirect = searchParams.get('redirect') || '/dashboard';
-      router.push(redirect);
-    }
-  }, [isAuthenticated, router, searchParams]);
+  // Don't auto-redirect - let user see they're logged in
+  // Only redirect after explicit login action
 
   // Validate email format
   const validateEmail = (email: string) => {
@@ -136,7 +130,6 @@ function LoginForm() {
     }
 
     setIsLoading(true);
-    setIsVerifyingOtp(true);
 
     try {
       const response = await fetch('/api/auth/verify-otp', {
@@ -154,50 +147,64 @@ function LoginForm() {
         setSuccessMessage('✓ Login successful! Redirecting...');
         setError('');
         
-        // Small delay to ensure cookie is set, then redirect
-        await new Promise(resolve => setTimeout(resolve, 200));
+        // Verify authentication and update context
+        await verifyAuth();
         
-        // Force a full page reload to the dashboard
-        const redirect = searchParams.get('redirect') || '/dashboard';
+        // Small delay to ensure cookie is set and auth state updated
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        // Always redirect to dashboard (avoid root redirect loop)
+        let redirect = searchParams.get('redirect') || '/dashboard';
+        if (redirect === '/' || redirect === '') {
+          redirect = '/dashboard';
+        }
         window.location.href = redirect;
       } else {
         setError(data.message || 'Invalid OTP');
-        setIsVerifyingOtp(false);
       }
     } catch (err) {
       setError('An unexpected error occurred. Please try again.');
-      setIsVerifyingOtp(false);
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Handle Enter key
+  // Handle Enter key press
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && isFormValid && !isLoading && !isSendingOtp) {
       handleSubmit(e as any);
     }
   };
 
-  const isFormValid = email && (showOtpInput ? otp && otp.length === 6 : true) && !isLoading && !isSendingOtp;
+  const isFormValid = email && (showOtpInput ? otp && otp.length === 6 : true);
 
   return (
-    <div className={styles.loginPage}>
+    <div className={styles.loginContainer}>
       <motion.div
-        className={styles.loginContainer}
-        initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, ease: 'easeOut' }}
+        className={styles.loginBox}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
       >
-        <div className={styles.logoSection}>
-          <h1 className={styles.logo}>
-            TEAM <span className={styles.logoHighlight}>RAW</span>
-          </h1>
-          <p className={styles.subtitle}>Secure access to the admin dashboard</p>
+        <div className={styles.header}>
+          <motion.h1
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+          >
+            Team RAW Admin
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+          >
+            Sign in to access the admin dashboard
+          </motion.p>
         </div>
 
-        <form onSubmit={handleSubmit} className={styles.form}>
-          {/* General Error Message */}
+        <form onSubmit={handleSubmit}>
+          {/* Error Message */}
           {error && (
             <motion.div
               className={styles.errorMessage}
@@ -235,61 +242,56 @@ function LoginForm() {
           )}
 
           {/* Email Input */}
-          <div className={styles.inputGroup}>
-            <label htmlFor="email" className={styles.label}>
-              Email Address
-            </label>
-            <div className={styles.inputWrapper}>
-              <span className={styles.inputIcon}>📧</span>
-              <input
-                id="email"
-                type="email"
-                className={styles.input}
-                value={email}
-                onChange={(e) => handleEmailChange(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder="teamraw@sfit.ac.in"
-                disabled={isLoading || isSendingOtp || showOtpInput}
-                autoFocus
-                autoComplete="email"
-              />
-            </div>
+          <motion.div
+            className={styles.formGroup}
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+          >
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={email}
+              onChange={(e) => handleEmailChange(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder="Enter your email"
+              disabled={isLoading || isSendingOtp || showOtpInput}
+              autoComplete="email"
+              autoFocus
+            />
             {fieldErrors.email && (
               <p className={styles.fieldError}>
                 <span>⚠️</span>
                 {fieldErrors.email}
               </p>
             )}
-          </div>
+          </motion.div>
 
-          {/* OTP Input (shown after email verification) */}
+          {/* OTP Input */}
           {showOtpInput && (
             <motion.div
-              className={styles.inputGroup}
+              className={styles.formGroup}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
             >
-              <label htmlFor="otp" className={styles.label}>
-                Enter OTP
-              </label>
-              <div className={styles.inputWrapper}>
-                <span className={styles.inputIcon}>🔒</span>
-                <input
-                  id="otp"
-                  type="text"
-                  inputMode="numeric"
-                  pattern="[0-9]*"
-                  maxLength={6}
-                  className={styles.input}
-                  value={otp}
-                  onChange={(e) => handleOtpChange(e.target.value.replace(/\D/g, ''))}
-                  onKeyDown={handleKeyDown}
-                  placeholder="Enter 6-digit OTP"
-                  disabled={isLoading}
-                  autoComplete="one-time-code"
-                  autoFocus
-                />
-              </div>
+              <label htmlFor="otp">Enter OTP</label>
+              <input
+                type="text"
+                id="otp"
+                name="otp"
+                value={otp}
+                onChange={(e) => handleOtpChange(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder="Enter 6-digit OTP"
+                disabled={isLoading}
+                autoComplete="one-time-code"
+                autoFocus
+                maxLength={6}
+              />
               {fieldErrors.otp && (
                 <p className={styles.fieldError}>
                   <span>⚠️</span>
@@ -311,17 +313,12 @@ function LoginForm() {
           <button
             type="submit"
             className={styles.submitButton}
-            disabled={!isFormValid || isVerifyingOtp}
+            disabled={!isFormValid || isLoading || isSendingOtp}
           >
-            {isVerifyingOtp ? (
+            {isLoading ? (
               <>
                 <div className={styles.spinner} />
                 <span>Verifying OTP...</span>
-              </>
-            ) : isLoading ? (
-              <>
-                <div className={styles.spinner} />
-                <span>Processing...</span>
               </>
             ) : isSendingOtp ? (
               <>
@@ -342,10 +339,14 @@ function LoginForm() {
           </button>
         </form>
 
-        {/* Security Info */}
-        <div className={styles.infoBox}>
-          <strong>🔐 Secure OTP Login</strong>
-          <p>Enter your authorized email address and we'll send you a one-time password to log in securely.</p>
+        <div className={styles.footer}>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+          >
+            © {new Date().getFullYear()} Team RAW. All rights reserved.
+          </motion.p>
         </div>
       </motion.div>
     </div>
@@ -354,7 +355,17 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '100vh',
+        backgroundColor: '#0a0a0a'
+      }}>
+        <div style={{ color: '#fff' }}>Loading...</div>
+      </div>
+    }>
       <LoginForm />
     </Suspense>
   );
