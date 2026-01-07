@@ -154,11 +154,11 @@ function LoginForm() {
         setSuccessMessage('✓ Login successful! Redirecting to dashboard...');
         setError('');
         
-        // Wait 1.5 seconds to show success message, then redirect
-        setTimeout(() => {
-          const redirect = searchParams.get('redirect') || '/dashboard';
-          window.location.href = redirect;
-        }, 1500);
+        // Perform immediate redirect
+        const redirect = searchParams.get('redirect') || '/dashboard';
+        
+        // Use replace instead of href for cleaner navigation
+        window.location.replace(redirect);
       } else {
         setError(data.message || 'Invalid OTP');
         setIsVerifyingOtp(false);
