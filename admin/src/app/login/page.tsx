@@ -23,7 +23,7 @@ function LoginForm() {
   
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { setIsAuthenticated, isAuthenticated } = useAuth();
+  const { verifyAuth, isAuthenticated } = useAuth();
 
   // Redirect if already authenticated
   useEffect(() => {
@@ -147,7 +147,8 @@ function LoginForm() {
       const data = await response.json();
 
       if (data.success) {
-        setIsAuthenticated(true);
+        // Re-verify auth to update the context
+        await verifyAuth();
         const redirect = searchParams.get('redirect') || '/dashboard';
         router.push(redirect);
       } else {
