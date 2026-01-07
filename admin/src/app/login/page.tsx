@@ -18,8 +18,10 @@ function LoginForm() {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isSendingOtp, setIsSendingOtp] = useState(false);
+  const [isVerifyingOtp, setIsVerifyingOtp] = useState(false);
   const [fieldErrors, setFieldErrors] = useState({ email: '', otp: '' });
   const [otpSentMessage, setOtpSentMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
   
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -134,6 +136,7 @@ function LoginForm() {
     }
 
     setIsLoading(true);
+    setIsVerifyingOtp(true);
 
     try {
       const response = await fetch('/api/auth/verify-otp', {
@@ -147,14 +150,22 @@ function LoginForm() {
       const data = await response.json();
 
       if (data.success) {
-        // Use window.location for hard redirect to ensure fresh auth check
-        const redirect = searchParams.get('redirect') || '/dashboard';
-        window.location.href = redirect;
+        // Show success message
+        setSuccessMessage('✓ Login successful! Redirecting to dashboard...');
+        setError('');
+        
+        // Wait 1.5 seconds to show success message, then redirect
+        setTimeout(() => {
+          const redirect = searchParams.get('redirect') || '/dashboard';
+          window.location.href = redirect;
+        }, 1500);
       } else {
         setError(data.message || 'Invalid OTP');
+        setIsVerifyingOtp(false);
       }
     } catch (err) {
       setError('An unexpected error occurred. Please try again.');
+      setIsVerifyingOtp(false);
     } finally {
       setIsLoading(false);
     }
@@ -198,7 +209,7 @@ function LoginForm() {
           )}
 
           {/* Success Message */}
-          {otpSentMessage && (
+          {otpSentMessage && !successMessage && (
             <motion.div
               className={styles.successMessage}
               initial={{ opacity: 0, y: -10 }}
@@ -206,6 +217,19 @@ function LoginForm() {
             >
               <span>✅</span>
               <span>{otpSentMessage}</span>
+            </motion.div>
+          )}
+
+          {/* Login Success Message */}
+          {successMessage && (
+            <motion.div
+              className={styles.successMessage}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              <span>✓</span>
+              <span>{successMessage}</span>
             </motion.div>
           )}
 
@@ -286,12 +310,17 @@ function LoginForm() {
           <button
             type="submit"
             className={styles.submitButton}
-            disabled={!isFormValid}
+            disabled={!isFormValid || isVerifyingOtp}
           >
-            {isLoading ? (
+            {isVerifyingOtp ? (
               <>
                 <div className={styles.spinner} />
-                <span>Verifying...</span>
+                <span>Verifying OTP...</span>
+              </>
+            ) : isLoading ? (
+              <>
+                <div className={styles.spinner} />
+                <span>Processing...</span>
               </>
             ) : isSendingOtp ? (
               <>
