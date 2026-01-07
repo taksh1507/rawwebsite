@@ -149,8 +149,12 @@ function LoginForm() {
       if (data.success) {
         // Re-verify auth to update the context
         await verifyAuth();
-        const redirect = searchParams.get('redirect') || '/dashboard';
-        router.push(redirect);
+        
+        // Small delay to ensure auth state is updated
+        setTimeout(() => {
+          const redirect = searchParams.get('redirect') || '/dashboard';
+          router.push(redirect);
+        }, 100);
       } else {
         setError(data.message || 'Invalid OTP');
       }
