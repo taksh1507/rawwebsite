@@ -5,24 +5,39 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { otpStore } from '@/lib/otpStore';
+import nodemailer from 'nodemailer';
 
 // Generate random 6-digit OTP
 function generateOTP(): string {
   return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
-// Send OTP email
+// Send OTP email using nodemailer
 async function sendOTPEmail(email: string, otp: string): Promise<boolean> {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'}/api/contact/send-email`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
+    // Check if email configuration exists
+    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+      console.error('Email configuration not found');
+      return false;
+    }
+
+    // Create email transporter
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
       },
-      body: JSON.stringify({
-        to: email,
-        subject: 'Team RAW Admin Login - OTP Verification',
-        html: `
+    });
+
+    const mailOptions = {
+      from: {
+        name: 'Team RAW - SFIT',
+        address: process.env.EMAIL_USER,
+      },
+      to: email,
+      subject: 'Team RAW Admin Login - OTP Verification',
+      html: `
           <!DOCTYPE html>
           <html lang="en">
           <head>
@@ -119,10 +134,10 @@ async function sendOTPEmail(email: string, otp: string): Promise<boolean> {
           </body>
           </html>
         `,
-      }),
-    });
+    };
 
-    return response.ok;
+    await transporter.sendMail(mailOptions);
+    return true;
   } catch (error) {
     console.error('Error sending OTP email:', error);
     return false;
