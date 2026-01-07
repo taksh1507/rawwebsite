@@ -13,15 +13,17 @@ import styles from './login.module.css';
 
 function LoginForm() {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
+  const [otp, setOtp] = useState('');
+  const [showOtpInput, setShowOtpInput] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [fieldErrors, setFieldErrors] = useState({ email: '', password: '' });
+  const [isSendingOtp, setIsSendingOtp] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState({ email: '', otp: '' });
+  const [otpSentMessage, setOtpSentMessage] = useState('');
   
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { login, isAuthenticated } = useAuth();
+  const { setIsAuthenticated, isAuthenticated } = useAuth();
 
   // Redirect if already authenticated
   useEffect(() => {
@@ -41,18 +43,59 @@ function LoginForm() {
   const handleEmailChange = (value: string) => {
     setEmail(value);
     setError('');
+    setOtpSentMessage('');
     setFieldErrors({ ...fieldErrors, email: '' });
   };
 
-  const handlePasswordChange = (value: string) => {
-    setPassword(value);
+  const handleOtpChange = (value: string) => {
+    setOtp(value);
     setError('');
-    setFieldErrors({ ...fieldErrors, password: '' });
+    setFieldErrors({ ...fieldErrors, otp: '' });
+  };
+
+  // Send OTP to email
+  const handleSendOtp = async () => {
+    if (!email) {
+      setFieldErrors({ ...fieldErrors, email: 'Email is required' });
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      setFieldErrors({ ...fieldErrors, email: 'Please enter a valid email address' });
+      return;
+    }
+
+    setIsSendingOtp(true);
+    setError('');
+    setOtpSentMessage('');
+
+    try {
+      const response = await fetch('/api/auth/send-otp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setShowOtpInput(true);
+        setOtpSentMessage('OTP sent successfully! Please check your email.');
+      } else {
+        setError(data.message || 'Failed to send OTP');
+      }
+    } catch (err) {
+      setError('Failed to send OTP. Please try again.');
+    } finally {
+      setIsSendingOtp(false);
+    }
   };
 
   // Form validation
   const validateForm = () => {
-    const errors = { email: '', password: '' };
+    const errors = { email: '', otp: '' };
     let isValid = true;
 
     if (!email) {
@@ -63,11 +106,11 @@ function LoginForm() {
       isValid = false;
     }
 
-    if (!password) {
-      errors.password = 'Password is required';
+    if (showOtpInput && !otp) {
+      errors.otp = 'OTP is required';
       isValid = false;
-    } else if (password.length < 6) {
-      errors.password = 'Password must be at least 6 characters';
+    } else if (showOtpInput && otp.length !== 6) {
+      errors.otp = 'OTP must be 6 digits';
       isValid = false;
     }
 
@@ -79,6 +122,12 @@ function LoginForm() {
     e.preventDefault();
     setError('');
 
+    // If OTP not sent yet, send it first
+    if (!showOtpInput) {
+      await handleSendOtp();
+      return;
+    }
+
     // Validate form
     if (!validateForm()) {
       return;
@@ -87,13 +136,22 @@ function LoginForm() {
     setIsLoading(true);
 
     try {
-      const result = await login(email, password);
+      const response = await fetch('/api/auth/verify-otp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, otp }),
+      });
 
-      if (result.success) {
+      const data = await response.json();
+
+      if (data.success) {
+        setIsAuthenticated(true);
         const redirect = searchParams.get('redirect') || '/dashboard';
         router.push(redirect);
       } else {
-        setError(result.message || 'Invalid email or password');
+        setError(data.message || 'Invalid OTP');
       }
     } catch (err) {
       setError('An unexpected error occurred. Please try again.');
@@ -109,7 +167,7 @@ function LoginForm() {
     }
   };
 
-  const isFormValid = email && password && !isLoading;
+  const isFormValid = email && (showOtpInput ? otp && otp.length === 6 : true) && !isLoading && !isSendingOtp;
 
   return (
     <div className={styles.loginPage}>
@@ -139,6 +197,18 @@ function LoginForm() {
             </motion.div>
           )}
 
+          {/* Success Message */}
+          {otpSentMessage && (
+            <motion.div
+              className={styles.successMessage}
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <span>✅</span>
+              <span>{otpSentMessage}</span>
+            </motion.div>
+          )}
+
           {/* Email Input */}
           <div className={styles.inputGroup}>
             <label htmlFor="email" className={styles.label}>
@@ -153,57 +223,64 @@ function LoginForm() {
                 value={email}
                 onChange={(e) => handleEmailChange(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="admin@teamraw.com"
-                disabled={isLoading}
+                placeholder="teamraw@sfit.ac.in"
+                disabled={isLoading || isSendingOtp || showOtpInput}
                 autoFocus
                 autoComplete="email"
               />
             </div>
             {fieldErrors.email && (
-              <p className={styles.errorMessage}>
+              <p className={styles.fieldError}>
                 <span>⚠️</span>
                 {fieldErrors.email}
               </p>
             )}
           </div>
 
-          {/* Password Input */}
-          <div className={styles.inputGroup}>
-            <label htmlFor="password" className={styles.label}>
-              Password
-            </label>
-            <div className={styles.passwordWrapper}>
+          {/* OTP Input (shown after email verification) */}
+          {showOtpInput && (
+            <motion.div
+              className={styles.inputGroup}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <label htmlFor="otp" className={styles.label}>
+                Enter OTP
+              </label>
               <div className={styles.inputWrapper}>
                 <span className={styles.inputIcon}>🔒</span>
                 <input
-                  id="password"
-                  type={showPassword ? 'text' : 'password'}
+                  id="otp"
+                  type="text"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                  maxLength={6}
                   className={styles.input}
-                  value={password}
-                  onChange={(e) => handlePasswordChange(e.target.value)}
+                  value={otp}
+                  onChange={(e) => handleOtpChange(e.target.value.replace(/\D/g, ''))}
                   onKeyDown={handleKeyDown}
-                  placeholder="Enter your password"
+                  placeholder="Enter 6-digit OTP"
                   disabled={isLoading}
-                  autoComplete="current-password"
+                  autoComplete="one-time-code"
+                  autoFocus
                 />
               </div>
+              {fieldErrors.otp && (
+                <p className={styles.fieldError}>
+                  <span>⚠️</span>
+                  {fieldErrors.otp}
+                </p>
+              )}
               <button
                 type="button"
-                className={styles.togglePassword}
-                onClick={() => setShowPassword(!showPassword)}
-                disabled={isLoading}
-                aria-label={showPassword ? 'Hide password' : 'Show password'}
+                className={styles.resendButton}
+                onClick={handleSendOtp}
+                disabled={isSendingOtp}
               >
-                {showPassword ? '👁️' : '👁️‍🗨️'}
+                {isSendingOtp ? 'Sending...' : 'Resend OTP'}
               </button>
-            </div>
-            {fieldErrors.password && (
-              <p className={styles.errorMessage}>
-                <span>⚠️</span>
-                {fieldErrors.password}
-              </p>
-            )}
-          </div>
+            </motion.div>
+          )}
 
           {/* Submit Button */}
           <button
@@ -214,30 +291,31 @@ function LoginForm() {
             {isLoading ? (
               <>
                 <div className={styles.spinner} />
-                <span>Authenticating...</span>
+                <span>Verifying...</span>
+              </>
+            ) : isSendingOtp ? (
+              <>
+                <div className={styles.spinner} />
+                <span>Sending OTP...</span>
+              </>
+            ) : showOtpInput ? (
+              <>
+                <span>🔐</span>
+                <span>Verify & Sign In</span>
               </>
             ) : (
               <>
-                <span>🔐</span>
-                <span>Sign In</span>
+                <span>📧</span>
+                <span>Send OTP</span>
               </>
             )}
           </button>
         </form>
 
-        {/* Demo Credentials Info */}
-        <div className={styles.divider}>
-          <div className={styles.dividerLine} />
-          <span className={styles.dividerText}>Demo Access</span>
-          <div className={styles.dividerLine} />
-        </div>
-
+        {/* Security Info */}
         <div className={styles.infoBox}>
-          <strong>📌 Test Credentials</strong>
-          <div className={styles.credentials}>
-            <p>Email: admin@teamraw.com</p>
-            <p>Password: admin123</p>
-          </div>
+          <strong>🔐 Secure OTP Login</strong>
+          <p>Enter your authorized email address and we'll send you a one-time password to log in securely.</p>
         </div>
       </motion.div>
     </div>

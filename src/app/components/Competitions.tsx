@@ -13,33 +13,73 @@ import styles from '../styles/Competitions.module.css';
 const competitionsData = [
   {
     id: 1,
-    name: 'e-Yantra Robotics Competition',
+    name: 'e-Yantra Robotics Competition 2026',
     organizer: 'IIT Bombay',
-    year: 2024,
-    achievement: 'Coming Soon',
-    description: 'Multi-stage national robotics competition focusing on embedded systems, control algorithms, and real-world problem solving. E-Yantra is an initiative by IIT Bombay to promote robotics education and innovation.',
-    tags: ['Embedded Systems', 'Control', 'Algorithms'],
+    year: 2026,
+    achievement: 'Participated',
+    description: 'Participating in IIT Bombay\'s prestigious e-Yantra 2026 competition. Successfully completed Task 1A with 47/50 marks and Task 1B with 48/50 marks, demonstrating strong capabilities in embedded systems and algorithmic problem-solving.',
+    tags: ['Embedded Systems', 'Control', 'Algorithms', 'High Score'],
     imageUrl: '/eyantra.png',
   },
   {
     id: 2,
-    name: 'DD Robocon India',
+    name: 'DD Robocon 2026',
     organizer: 'Doordarshan & Ministry of Education',
-    year: 2024,
-    achievement: 'Coming Soon',
-    description: 'Premier national robotics olympiad promoting innovation in mechanical and autonomous systems. DD Robocon is India\'s most prestigious robotics competition bringing together the best engineering colleges across the nation.',
+    year: 2026,
+    achievement: 'Qualified',
+    description: 'Successfully registered and qualified for DD Robocon 2026 - India\'s most prestigious robotics competition. Ready to compete at the national level with our innovative robot design.',
     tags: ['Mechanical Design', 'Autonomous Control', 'Electronics'],
-    imageUrl: '/Robococon.png',
+    imageUrl: '/Robocon2026.jpg',
   },
   {
     id: 3,
-    name: 'IIT Techfest',
+    name: 'DD Robocon 2025 - Stage 3',
+    organizer: 'Doordarshan & Ministry of Education',
+    year: 2025,
+    achievement: 'Top 15',
+    description: 'Secured position in Top 15 teams nationwide in DD Robocon 2025. Demonstrated exceptional technical excellence and innovation in mechanical design and autonomous control systems across three challenging stages.',
+    tags: ['Mechanical Design', 'Autonomous Control', 'Electronics', 'Top 15'],
+    imageUrl: '/robocon2025.png',
+  },
+  {
+    id: 4,
+    name: 'DD Robocon 2025 - Stage 2',
+    organizer: 'Doordarshan & Ministry of Education',
+    year: 2025,
+    achievement: 'Qualified',
+    description: 'Advanced to Stage 2 in May 2025 with outstanding performance score of 90/100 marks. Showcased superior robotics skills in autonomous navigation, precision control, and mechanical reliability.',
+    tags: ['Mechanical Design', 'Autonomous Control', 'High Score'],
+    imageUrl: '/robocon2025.png',
+  },
+  {
+    id: 5,
+    name: 'DD Robocon 2025 - Stage 1',
+    organizer: 'Doordarshan & Ministry of Education',
+    year: 2025,
+    achievement: 'Qualified',
+    description: 'Qualified Stage 1 in February 2025 with exceptional score of 95/100 marks. Demonstrated outstanding performance in initial qualification round, showcasing strong fundamentals in robotics design and execution.',
+    tags: ['Mechanical Design', 'Autonomous Control', 'High Score'],
+    imageUrl: '/robocon2025.png',
+  },
+  {
+    id: 6,
+    name: 'IIT Techfest 2025',
     organizer: 'IIT Bombay',
-    year: 2024,
-    achievement: 'Coming Soon',
-    description: 'Asia\'s largest science and technology festival featuring multiple robotics challenges including autonomous navigation, speed competitions, and innovative design events. IIT Techfest brings together brilliant minds from across the world.',
+    year: 2025,
+    achievement: 'Participated',
+    description: 'Participated in Asia\'s largest science and technology festival featuring multiple robotics challenges including autonomous navigation, speed competitions, and innovative design events. Gained valuable experience competing against top teams.',
     tags: ['Design', 'Innovation', 'Autonomous'],
     imageUrl: '/Techfeast.jpg',
+  },
+  {
+    id: 7,
+    name: 'e-Yantra Robotics Competition 2025',
+    organizer: 'IIT Bombay',
+    year: 2025,
+    achievement: 'Participated',
+    description: 'Participated in IIT Bombay\'s prestigious e-Yantra multi-stage national robotics competition focusing on embedded systems, control algorithms, and real-world problem solving. An initiative promoting robotics education and innovation.',
+    tags: ['Embedded Systems', 'Control', 'Algorithms'],
+    imageUrl: '/eyantra.png',
   },
 ];
 
@@ -47,6 +87,7 @@ const ACHIEVEMENT_BADGES = {
   'Coming Soon': '⏳ Coming Soon',
   'Participated': '✓ Participated',
   'Qualified': '✓ Qualified',
+  'Top 15': '🏆 Top 15',
   'Top 10': '🏆 Top 10',
   'Finalist': '⭐ Finalist',
   'Winner': '🥇 Winner',
@@ -57,6 +98,7 @@ export default function Competitions() {
   const [selectedYear, setSelectedYear] = useState<number | null>(null);
   const [selectedDomains, setSelectedDomains] = useState<string[]>([]);
   const [showFilterModal, setShowFilterModal] = useState(false);
+  const [selectedCompetition, setSelectedCompetition] = useState<typeof competitionsData[0] | null>(null);
   
   // Temporary filter states for modal
   const [tempYear, setTempYear] = useState<number | null>(null);
@@ -89,7 +131,7 @@ export default function Competitions() {
 
   // Lock body scroll when modal is open
   useEffect(() => {
-    if (showFilterModal) {
+    if (showFilterModal || selectedCompetition) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';
@@ -97,7 +139,23 @@ export default function Competitions() {
     return () => {
       document.body.style.overflow = 'unset';
     };
-  }, [showFilterModal]);
+  }, [showFilterModal, selectedCompetition]);
+
+  // Handle ESC key to close modal
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        if (selectedCompetition) {
+          setSelectedCompetition(null);
+        } else if (showFilterModal) {
+          setShowFilterModal(false);
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [selectedCompetition, showFilterModal]);
 
   const openFilterModal = () => {
     setTempYear(selectedYear);
@@ -314,11 +372,14 @@ export default function Competitions() {
                 key={comp.id}
                 className={styles.card}
                 variants={itemVariants}
+                onClick={() => setSelectedCompetition(comp)}
                 whileHover={{
                   y: -10,
                   boxShadow: '0 20px 40px rgba(225, 6, 0, 0.2)',
                   borderColor: 'var(--color-red)',
+                  cursor: 'pointer',
                 }}
+                whileTap={{ scale: 0.98 }}
               >
                 {comp.imageUrl && (
                   <div className={styles.imageContainer}>
@@ -486,6 +547,112 @@ export default function Competitions() {
               </div>
             </motion.div>
           </>
+        )}
+      </AnimatePresence>
+
+      {/* Competition Details Modal */}
+      <AnimatePresence>
+        {selectedCompetition && (
+          <motion.div
+            className={styles.detailsModalBackdrop}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedCompetition(null)}
+          >
+            {/* Details Modal */}
+            <motion.div
+              className={styles.detailsModal}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ type: 'spring', damping: 30, stiffness: 400 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close Button */}
+              <button
+                className={styles.detailsCloseButton}
+                onClick={() => setSelectedCompetition(null)}
+                aria-label="Close details"
+              >
+                ✕
+              </button>
+
+              {/* Modal Content */}
+              <div className={styles.detailsContent}>
+                {selectedCompetition.imageUrl && (
+                  <div className={styles.detailsImageContainer}>
+                    <Image
+                      src={selectedCompetition.imageUrl}
+                      alt={selectedCompetition.name}
+                      width={800}
+                      height={400}
+                      className={styles.detailsImage}
+                    />
+                  </div>
+                )}
+
+                <div className={styles.detailsInfo}>
+                  <div className={styles.detailsHeader}>
+                    <div>
+                      <h2 className={styles.detailsTitle}>{selectedCompetition.name}</h2>
+                      <p className={styles.detailsOrganizer}>Organized by {selectedCompetition.organizer}</p>
+                    </div>
+                    <div className={styles.detailsBadges}>
+                      <span className={styles.detailsYear}>{selectedCompetition.year}</span>
+                      <span 
+                        className={styles.detailsAchievement}
+                        data-type={selectedCompetition.achievement.toLowerCase().replace(/ /g, '-')}
+                      >
+                        {ACHIEVEMENT_BADGES[selectedCompetition.achievement as keyof typeof ACHIEVEMENT_BADGES]}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className={styles.detailsDescription}>
+                    <h3>About the Competition</h3>
+                    <p>{selectedCompetition.description}</p>
+                  </div>
+
+                  <div className={styles.detailsTags}>
+                    <h3>Focus Areas</h3>
+                    <div className={styles.detailsTagsGrid}>
+                      {selectedCompetition.tags.map((tag) => (
+                        <span key={tag} className={styles.detailsTag}>
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Additional Details */}
+                  <div className={styles.detailsStats}>
+                    <div className={styles.detailsStatItem}>
+                      <span className={styles.detailsStatIcon}>📅</span>
+                      <div>
+                        <h4>Year</h4>
+                        <p>{selectedCompetition.year}</p>
+                      </div>
+                    </div>
+                    <div className={styles.detailsStatItem}>
+                      <span className={styles.detailsStatIcon}>🏆</span>
+                      <div>
+                        <h4>Achievement</h4>
+                        <p>{selectedCompetition.achievement}</p>
+                      </div>
+                    </div>
+                    <div className={styles.detailsStatItem}>
+                      <span className={styles.detailsStatIcon}>🎓</span>
+                      <div>
+                        <h4>Organizer</h4>
+                        <p>{selectedCompetition.organizer}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
         )}
       </AnimatePresence>
     </section>
