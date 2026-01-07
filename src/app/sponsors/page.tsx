@@ -189,8 +189,8 @@ const AchievementsHighlights = () => {
   const achievements = [
     {
       year: '2026',
-      title: 'DD Robocon 2026 Registration',
-      description: 'Successfully registered for DD Robocon 2026 competition',
+      title: 'DD Robocon 2026 Pre-Registration',
+      description: 'Completed pre-registration for DD Robocon 2026 competition',
       sponsorValue: '✓ Opportunity to showcase sponsor brands at national platform',
     },
     {
