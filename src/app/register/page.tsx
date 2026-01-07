@@ -11,6 +11,7 @@ import { motion } from 'framer-motion';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import styles from '../styles/Register.module.css';
+import '../styles/mobile-registration.css';
 
 interface FormData {
   // Student Information
@@ -307,7 +308,7 @@ export default function RegisterPage() {
           </motion.div>
         ) : (
           /* Registration Form */
-        <div className={styles.container}>
+        <div className={`${styles.container} registration-container`}>
           <motion.div
             className={styles.formContainer}
             initial={{ opacity: 0, y: 30 }}
@@ -397,7 +398,7 @@ export default function RegisterPage() {
                     return (
                       <motion.div
                         key={comp._id}
-                        className={`${styles.competitionCard} ${
+                        className={`${styles.competitionCard} competition-card ${
                           selectedCompetition?._id === comp._id ? styles.competitionCardActive : ''
                         }`}
                         whileHover={{ scale: 1.02 }}
@@ -409,11 +410,11 @@ export default function RegisterPage() {
                         
                         <div onClick={() => handleCompetitionSelect(comp)} style={{ cursor: 'pointer' }}>
                           <div className={styles.competitionHeader}>
-                            <h4>{comp.name}</h4>
+                            <h4 className="competition-title">{comp.name}</h4>
                           </div>
                           <p className={styles.competitionOrganizer}>{comp.organizer}</p>
                           
-                          <div className={styles.competitionMeta}>
+                          <div className={`${styles.competitionMeta} competition-meta`}>
                             <span className={styles.competitionMetaItem}>
                               <span className={styles.metaIcon}>📅</span>
                               <span>{comp.date}</span>
@@ -428,7 +429,7 @@ export default function RegisterPage() {
                             </span>
                           </div>
                           
-                          <p className={styles.competitionDescription}>
+                          <p className={`${styles.competitionDescription} competition-description ${isExpanded ? 'expanded' : ''}`}>
                             {displayDescription}
                           </p>
                         </div>
@@ -436,7 +437,7 @@ export default function RegisterPage() {
                         {shouldTruncate && (
                           <button
                             type="button"
-                            className={styles.readMoreBtn}
+                            className={`${styles.readMoreBtn} read-more-btn`}
                             onClick={(e) => {
                               e.stopPropagation();
                               toggleDescription(comp._id);
@@ -525,17 +526,17 @@ export default function RegisterPage() {
                   {/* Competition Notes Agreement */}
                   {selectedCompetition?.notes && selectedCompetition.notes.trim() !== '' && (
                     <div className={styles.formSection}>
-                      <div className={styles.notesAgreement}>
+                      <div className={`${styles.notesAgreement} instructions-box`}>
                         <div className={styles.notesHeader}>
                           <span className={styles.notesToggleIcon}>⚠️</span>
                           <strong>Important Instructions</strong>
                         </div>
                         
-                        <div className={styles.notesContent}>
+                        <div className={`${styles.notesContent} note-box`}>
                           <p className={styles.notesText}>{selectedCompetition.notes}</p>
                         </div>
                         
-                        <label className={styles.notesCheckboxLabel}>
+                        <label className={`${styles.notesCheckboxLabel} checkbox-row`}>
                           <input
                             type="checkbox"
                             checked={notesAgreed}
@@ -551,25 +552,27 @@ export default function RegisterPage() {
                   )}
 
                   {/* Submit Button */}
-                  <motion.button
-                    type="submit"
-                    className={styles.submitBtn}
-                    disabled={
-                      isSubmitting || 
-                      (!!selectedCompetition?.notes && selectedCompetition.notes.trim() !== '' && !notesAgreed)
-                    }
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <span className={styles.spinner}></span>
-                        Submitting...
-                      </>
-                    ) : (
-                      'Submit Registration'
-                    )}
-                  </motion.button>
+                  <div className="submit-wrapper">
+                    <motion.button
+                      type="submit"
+                      className={`${styles.submitBtn} submit-btn`}
+                      disabled={
+                        isSubmitting || 
+                        (!!selectedCompetition?.notes && selectedCompetition.notes.trim() !== '' && !notesAgreed)
+                      }
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <span className={styles.spinner}></span>
+                          Submitting...
+                        </>
+                      ) : (
+                        'Submit Registration'
+                      )}
+                    </motion.button>
+                  </div>
 
                   {/* Error Message */}
                   {submitStatus === 'error' && (

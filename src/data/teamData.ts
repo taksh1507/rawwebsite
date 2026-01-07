@@ -191,7 +191,7 @@ export const teamMembers: TeamMember[] = [
   {
     _id: 'member1',
     name: 'Swanand Deshpande',
-    role: 'TEAM MEMBER',
+    role: 'EXECUTIVE MEMBER',
     department: 'Technical',
     category: 'members',
     imageUrl: '/Swanand.jpg',
@@ -200,7 +200,7 @@ export const teamMembers: TeamMember[] = [
   {
     _id: 'member2',
     name: 'Jhoshua Coutinho',
-    role: 'TEAM MEMBER',
+    role: 'EXECUTIVE MEMBER',
     department: 'Technical',
     category: 'members',
     imageUrl: '/Joshua.jpg',
@@ -209,7 +209,7 @@ export const teamMembers: TeamMember[] = [
   {
     _id: 'member3',
     name: 'Siddha Shete',
-    role: 'TEAM MEMBER',
+    role: 'EXECUTIVE MEMBER',
     department: 'Technical',
     category: 'members',
     imageUrl: '/siddha.jpg',
@@ -218,7 +218,7 @@ export const teamMembers: TeamMember[] = [
   {
     _id: 'member4',
     name: 'Sarthak Chaurasiya',
-    role: 'TEAM MEMBER',
+    role: 'EXECUTIVE MEMBER',
     department: 'Technical',
     category: 'members',
     imageUrl: '/sarthak.jpg',
@@ -227,7 +227,7 @@ export const teamMembers: TeamMember[] = [
   {
     _id: 'member5',
     name: 'Jay Lohar',
-    role: 'TEAM MEMBER',
+    role: 'EXECUTIVE MEMBER',
     department: 'Technical',
     category: 'members',
     imageUrl: '/Jay.jpg',
@@ -236,7 +236,7 @@ export const teamMembers: TeamMember[] = [
   {
     _id: 'member6',
     name: 'Riyan Gonsalves',
-    role: 'TEAM MEMBER',
+    role: 'EXECUTIVE MEMBER',
     department: 'Technical',
     category: 'members',
     imageUrl: '/Riyan.jpg',
@@ -245,7 +245,7 @@ export const teamMembers: TeamMember[] = [
   {
     _id: 'member7',
     name: 'Paarth Pradhan',
-    role: 'TEAM MEMBER',
+    role: 'EXECUTIVE MEMBER',
     department: 'Technical',
     category: 'members',
     imageUrl: '/paarth.jpeg',
@@ -254,7 +254,7 @@ export const teamMembers: TeamMember[] = [
   {
     _id: 'member8',
     name: 'Sakshi Virani',
-    role: 'TEAM MEMBER',
+    role: 'EXECUTIVE MEMBER',
     department: 'Technical',
     category: 'members',
     imageUrl: '/sakshi.jpg',
@@ -263,7 +263,7 @@ export const teamMembers: TeamMember[] = [
   {
     _id: 'member9',
     name: 'Vansh Singh',
-    role: 'TEAM MEMBER',
+    role: 'EXECUTIVE MEMBER',
     department: 'Technical',
     category: 'members',
     imageUrl: '/Vansh.jpg',
@@ -272,7 +272,7 @@ export const teamMembers: TeamMember[] = [
   {
     _id: 'member10',
     name: 'Jwen Lobo',
-    role: 'TEAM MEMBER',
+    role: 'EXECUTIVE MEMBER',
     department: 'Technical',
     category: 'members',
     imageUrl: '/Jwen.jpg',
@@ -281,7 +281,7 @@ export const teamMembers: TeamMember[] = [
   {
     _id: 'member11',
     name: 'Parth Sutar',
-    role: 'TEAM MEMBER',
+    role: 'EXECUTIVE MEMBER',
     department: 'Technical',
     category: 'members',
     imageUrl: '/parth.jpg',
@@ -290,7 +290,7 @@ export const teamMembers: TeamMember[] = [
   {
     _id: 'member12',
     name: 'Gunjan Patil',
-    role: 'TEAM MEMBER',
+    role: 'EXECUTIVE MEMBER',
     department: 'Technical',
     category: 'members',
     imageUrl: '/gunjan.jpg',
@@ -299,7 +299,7 @@ export const teamMembers: TeamMember[] = [
   {
     _id: 'member13',
     name: 'Niyant Tiwari',
-    role: 'TEAM MEMBER',
+    role: 'EXECUTIVE MEMBER',
     department: 'Technical',
     category: 'members',
     imageUrl: '/logo.png',

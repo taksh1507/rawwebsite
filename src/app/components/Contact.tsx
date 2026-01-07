@@ -112,7 +112,7 @@ export default function Contact() {
     {
       icon: '📍',
       title: 'Location',
-      value: 'SFIT, Mumbai',
+      value: 'SFIT, Mumbai - Room 027',
       description: 'Visit our workshop',
     },
     {
