@@ -245,9 +245,6 @@ export default function FloatingChatbot() {
               <button onClick={() => { setInputValue('Tell me about TeamRAW'); }}>
                 👥 About TeamRAW
               </button>
-              <button onClick={() => { setInputValue('How can I join the team?'); }}>
-                📧 Join Us
-              </button>
             </div>
           </motion.div>
         )}

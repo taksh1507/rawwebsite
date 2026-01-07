@@ -95,9 +95,10 @@ export default function Contact() {
     }
   };
 
+
+
   const interestOptions = [
     { value: 'general', label: 'General Inquiry' },
-    { value: 'membership', label: 'Join as Member' },
     { value: 'sponsorship', label: 'Sponsorship' },
     { value: 'collaboration', label: 'Collaboration' },
   ];
