@@ -26,7 +26,7 @@ export const teamMembers: TeamMember[] = [
   {
     _id: 'core1',
     name: 'Ramjee Yadav',
-    role: 'FACULTY IN-CHARGE',
+    role: 'Convener',
     department: 'Management',
     category: 'core',
     imageUrl: '/ramjee.jpeg',
