@@ -526,27 +526,30 @@ export default function RegisterPage() {
                   {/* Competition Notes Agreement */}
                   {selectedCompetition?.notes && selectedCompetition.notes.trim() !== '' && (
                     <div className={styles.formSection}>
-                      <div className={`${styles.notesAgreement} instructions-box`}>
-                        <div className={styles.notesHeader}>
-                          <span className={styles.notesToggleIcon}>⚠️</span>
-                          <strong>Important Instructions</strong>
+                      <div className={styles.instructionCard}>
+                        <div className={styles.instructionHeader}>
+                          <span className={styles.instructionIcon}>📋</span>
+                          <h3 className={styles.instructionTitle}>Important Instructions</h3>
                         </div>
                         
-                        <div className={`${styles.notesContent} note-box`}>
-                          <p className={styles.notesText}>{selectedCompetition.notes}</p>
+                        <div className={styles.instructionBody}>
+                          <p className={styles.instructionText}>{selectedCompetition.notes}</p>
                         </div>
                         
-                        <label className={`${styles.notesCheckboxLabel} checkbox-row`}>
-                          <input
-                            type="checkbox"
-                            checked={notesAgreed}
-                            onChange={(e) => setNotesAgreed(e.target.checked)}
-                            required
-                          />
-                          <span className={styles.notesCheckboxText}>
-                            I have read and agree to the competition requirements
-                          </span>
-                        </label>
+                        <div className={styles.consentSection}>
+                          <label className={styles.consentLabel}>
+                            <input
+                              type="checkbox"
+                              className={styles.consentCheckbox}
+                              checked={notesAgreed}
+                              onChange={(e) => setNotesAgreed(e.target.checked)}
+                              required
+                            />
+                            <span className={styles.consentText}>
+                              I have read and agree to follow the competition requirements and instructions outlined above
+                            </span>
+                          </label>
+                        </div>
                       </div>
                     </div>
                   )}

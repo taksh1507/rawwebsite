@@ -432,105 +432,162 @@
   font-size: 0.95rem;
 }
 
-/* Competition Notes Agreement */
-.notesAgreement {
-  background: linear-gradient(135deg, rgba(255, 152, 0, 0.03) 0%, rgba(255, 152, 0, 0.01) 100%);
-  border: 2px solid rgba(255, 152, 0, 0.15);
-  border-radius: 12px;
+/* Competition Instructions Card */
+.instructionCard {
+  background: #ffffff;
+  border: 2px solid rgba(10, 26, 58, 0.12);
+  border-radius: 16px;
   padding: 0;
   overflow: hidden;
+  box-shadow: 0 2px 8px rgba(10, 26, 58, 0.06);
 }
 
-.notesToggle {
-  width: 100%;
+.instructionHeader {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 1rem 1.25rem;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-align: left;
+  gap: 0.75rem;
+  padding: 1.25rem 1.5rem;
+  background: linear-gradient(135deg, rgba(10, 26, 58, 0.04) 0%, rgba(225, 6, 0, 0.02) 100%);
+  border-bottom: 2px solid rgba(10, 26, 58, 0.08);
 }
 
-.notesToggle:hover {
-  background: rgba(255, 152, 0, 0.05);
-}
-
-.notesToggleIcon {
+.instructionIcon {
   font-size: 1.5rem;
   flex-shrink: 0;
 }
 
-.notesToggleText {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.notesToggleText strong {
-  color: var(--color-navy);
-  font-size: 1.05rem;
+.instructionTitle {
+  margin: 0;
+  font-size: 1.15rem;
   font-family: 'Orbitron', sans-serif;
-}
-
-.notesToggleHint {
-  color: var(--color-gray-dark);
-  font-size: 0.85rem;
-  font-weight: 500;
-}
-
-.notesToggleArrow {
-  font-size: 1.25rem;
-  color: var(--color-red);
-  flex-shrink: 0;
-}
-
-.notesContent {
-  padding: 0 1.25rem 1rem 1.25rem;
-  border-top: 1px solid rgba(255, 152, 0, 0.15);
-  max-height: 400px;
-  overflow-y: auto;
-}
-
-.notesText {
-  font-size: 0.92rem;
-  line-height: 1.6;
-  color: var(--color-navy);
-  margin: 1rem 0 0 0;
-  padding: 0.9rem;
-  background: white;
-  border-radius: 8px;
-  border-left: 4px solid #ff9800;
-  white-space: pre-wrap;
-}
-
-.notesCheckboxLabel {
-  display: flex;
-  align-items: flex-start;
-  gap: 1rem;
-  cursor: pointer;
-  padding: 1rem 1.25rem;
-  background: white;
-  border-top: 2px dashed rgba(255, 152, 0, 0.15);
-}
-
-.notesCheckboxLabel input[type="checkbox"] {
-  width: 26px;
-  height: 26px;
-  cursor: pointer;
-  accent-color: var(--color-red);
-  margin-top: 0.1rem;
-  flex-shrink: 0;
-}
-
-.notesCheckboxText {
-  font-size: 1rem;
-  line-height: 1.6;
   color: var(--color-navy);
   font-weight: 600;
+}
+
+.instructionBody {
+  padding: 1.5rem;
+  background: #fafbfc;
+}
+
+.instructionText {
+  font-size: 0.95rem;
+  line-height: 1.8;
+  color: var(--color-navy);
+  margin: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.consentSection {
+  padding: 1.25rem 1.5rem;
+  background: #ffffff;
+  border-top: 2px solid rgba(10, 26, 58, 0.08);
+}
+
+.consentLabel {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.875rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.consentCheckbox {
+  width: 22px;
+  height: 22px;
+  min-width: 22px;
+  min-height: 22px;
+  cursor: pointer;
+  accent-color: var(--color-red);
+  margin-top: 0.125rem;
+  flex-shrink: 0;
+}
+
+.consentText {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--color-navy);
+  font-weight: 500;
+  flex: 1;
+}
+
+/* Mobile Responsive Styles for Instruction Card */
+@media (max-width: 768px) {
+  .instructionCard {
+    border-radius: 12px;
+  }
+  
+  .instructionHeader {
+    padding: 1rem 1.25rem;
+    gap: 0.625rem;
+  }
+  
+  .instructionIcon {
+    font-size: 1.35rem;
+  }
+  
+  .instructionTitle {
+    font-size: 1.05rem;
+  }
+  
+  .instructionBody {
+    padding: 1.25rem;
+  }
+  
+  .instructionText {
+    font-size: 0.9rem;
+    line-height: 1.75;
+  }
+  
+  .consentSection {
+    padding: 1rem 1.25rem;
+  }
+  
+  .consentLabel {
+    gap: 0.75rem;
+  }
+  
+  .consentCheckbox {
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    min-height: 20px;
+  }
+  
+  .consentText {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+}
+
+@media (max-width: 480px) {
+  .instructionCard {
+    border-radius: 10px;
+  }
+  
+  .instructionHeader {
+    padding: 0.875rem 1rem;
+  }
+  
+  .instructionTitle {
+    font-size: 1rem;
+  }
+  
+  .instructionBody {
+    padding: 1rem;
+  }
+  
+  .instructionText {
+    font-size: 0.875rem;
+  }
+  
+  .consentSection {
+    padding: 0.875rem 1rem;
+  }
+  
+  .consentText {
+    font-size: 0.875rem;
+  }
 }
 
 .formRow {
