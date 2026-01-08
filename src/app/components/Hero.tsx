@@ -143,7 +143,7 @@ export default function Hero() {
           >
             <Image
               src="/robot.png"
-              alt="Team RAW Robot"
+              alt="TEAM RAW SFIT robotics competition robot - Autonomous robot designed for ABU Robocon"
               width={300}
               height={300}
               priority

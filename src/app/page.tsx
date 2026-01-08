@@ -22,7 +22,7 @@ export default function Home() {
       <Navbar />
       <Hero />
 
-      {/* Team RAW Info Section */}
+      {/* Team RAW Info Section - SEO H1 */}
       <motion.section
         className="team-raw-intro"
         style={{
@@ -43,14 +43,14 @@ export default function Home() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 style={{
+            <h1 style={{
               fontSize: '2.5rem',
               fontFamily: 'Orbitron, sans-serif',
               color: 'var(--color-navy)',
               marginBottom: '1rem',
             }}>
-              Welcome to <span style={{ color: 'var(--color-red)', textShadow: '0 0 10px rgba(225, 6, 0, 0.2)' }}>TEAM RAW</span>
-            </h2>
+              TEAM RAW – Robotics and Automation Wing of <span style={{ color: 'var(--color-red)', textShadow: '0 0 10px rgba(225, 6, 0, 0.2)' }}>SFIT</span>
+            </h1>
             <div style={{ width: '60px', height: '3px', background: 'linear-gradient(90deg, var(--color-red), var(--color-navy))', margin: '1rem auto', borderRadius: '2px' }} />
             <p style={{
               fontSize: '1.1rem',

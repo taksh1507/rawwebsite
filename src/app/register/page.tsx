@@ -4,6 +4,17 @@
  * Email: takshgandhi4@gmail.com
  */
 
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Register for Competitions',
+  description: 'Register your team for robotics competitions organized by TEAM RAW at SFIT Mumbai. Join us for exciting challenges and innovation.',
+  openGraph: {
+    title: 'Competition Registration | TEAM RAW SFIT',
+    description: 'Register for robotics competitions hosted by TEAM RAW at St. Francis Institute of Technology, Mumbai.',
+  },
+};
+
 'use client';
 
 import { useState, useEffect } from 'react';

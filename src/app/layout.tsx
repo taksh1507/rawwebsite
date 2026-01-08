@@ -8,6 +8,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { DataProvider } from "@/context/DataContext";
 import FloatingChatbot from "./components/FloatingChatbot";
+import StructuredData from "./components/StructuredData";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,9 +28,72 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Team RAW - Robotics & Automation Wing",
-  description: "Official website of Team RAW - Robotics & Automation Wing. Building the next generation of autonomous robots.",
-  keywords: "robotics, automation, engineering, competitions, ROBOCON",
+  metadataBase: new URL('https://teamraw.vercel.app'),
+  alternates: {
+    canonical: '/',
+  },
+  title: {
+    default: 'TEAM RAW – Robotics and Automation Wing | SFIT Mumbai',
+    template: '%s | TEAM RAW – SFIT Mumbai'
+  },
+  description: 'TEAM RAW is the Robotics and Automation Wing of St. Francis Institute of Technology (SFIT), Mumbai. We participate in national robotics competitions, build innovative automation projects, and drive technological excellence.',
+  keywords: [
+    'TEAM RAW',
+    'SFIT Robotics',
+    'Robotics and Automation Wing SFIT',
+    'College Robotics Team Mumbai',
+    'St. Francis Institute of Technology',
+    'SFIT Mumbai',
+    'ABU Robocon',
+    'Robotics Competition',
+    'Engineering Projects Mumbai',
+    'Automation Wing SFIT',
+    'Team RAW SFIT'
+  ],
+  authors: [{ name: 'TEAM RAW', url: 'https://teamraw.vercel.app' }],
+  creator: 'TEAM RAW - St. Francis Institute of Technology',
+  publisher: 'TEAM RAW',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'en_IN',
+    url: 'https://teamraw.vercel.app',
+    title: 'TEAM RAW – Robotics and Automation Wing | SFIT Mumbai',
+    description: 'Official website of TEAM RAW - Robotics and Automation Wing of St. Francis Institute of Technology, Mumbai. Building the next generation of autonomous robots.',
+    siteName: 'TEAM RAW',
+    images: [
+      {
+        url: '/logo.png',
+        width: 1200,
+        height: 630,
+        alt: 'TEAM RAW - Robotics and Automation Wing SFIT Mumbai'
+      }
+    ]
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'TEAM RAW – Robotics and Automation Wing | SFIT Mumbai',
+    description: 'TEAM RAW - Robotics and Automation Wing of SFIT Mumbai. National robotics competitions, innovative automation projects, and engineering excellence.',
+    images: ['/logo.png'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  verification: {
+    google: 'google-site-verification-code',
+  },
 };
 
 export default function RootLayout({
@@ -44,6 +108,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#B2001D" />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
+        <StructuredData />
         <DataProvider>
           {children}
           <FloatingChatbot />

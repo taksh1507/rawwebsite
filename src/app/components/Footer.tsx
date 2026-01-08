@@ -163,7 +163,7 @@ export default function Footer() {
           transition={{ delay: 0.5 }}
         >
           <p className={styles.copyright}>
-            © {currentYear} Team RAW - Robotics & Automation Wing. All rights reserved.
+            © {currentYear} TEAM RAW – Robotics and Automation Wing, St. Francis Institute of Technology (SFIT), Borivali West, Mumbai. All rights reserved.
           </p>
           <div className={styles.credits}>
             <p>Crafted with ❤️ by the Team RAW Community</p>

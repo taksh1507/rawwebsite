@@ -3,6 +3,17 @@
  * Email: takshgandhi4@gmail.com
  */
 
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Sponsor TEAM RAW',
+  description: 'Partner with TEAM RAW and support innovation in robotics at SFIT Mumbai. Explore sponsorship opportunities and benefits of collaborating with our team.',
+  openGraph: {
+    title: 'Sponsorship Opportunities | TEAM RAW SFIT',
+    description: 'Support TEAM RAW\'s robotics initiatives and innovation at St. Francis Institute of Technology, Mumbai.',
+  },
+};
+
 'use client';
 
 import Navbar from '@/app/components/Navbar';
