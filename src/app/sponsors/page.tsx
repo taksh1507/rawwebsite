@@ -546,26 +546,14 @@ const ContactCTA = () => {
             </motion.button>
 
             <motion.a
-              href="mailto:sponsors@teamraw.org"
+              href="mailto:teamraw@sfit.ac.in"
               className={styles.contactMethod}
               whileHover={{ scale: 1.05 }}
             >
               <span className={styles.icon}>✉️</span>
               <div>
                 <strong>Email</strong>
-                <p>sponsors@teamraw.org</p>
-              </div>
-            </motion.a>
-
-            <motion.a
-              href="tel:+1-555-TEAMRAW"
-              className={styles.contactMethod}
-              whileHover={{ scale: 1.05 }}
-            >
-              <span className={styles.icon}>📞</span>
-              <div>
-                <strong>Schedule Call</strong>
-                <p>+1 (555) 832-6729</p>
+                <p>teamraw@sfit.ac.in</p>
               </div>
             </motion.a>
 
@@ -577,7 +565,7 @@ const ContactCTA = () => {
               <span className={styles.icon}>📍</span>
               <div>
                 <strong>Meet in Person</strong>
-                <p>Schedule a consultation</p>
+                <p>SFIT, Mumbai - Room No. 027</p>
               </div>
             </motion.a>
           </div>
