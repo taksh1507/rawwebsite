@@ -3,17 +3,6 @@
  * Email: takshgandhi4@gmail.com
  */
 
-import type { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'Contact TEAM RAW',
-  description: 'Get in touch with TEAM RAW - Robotics and Automation Wing at SFIT Mumbai. Contact us for collaborations, sponsorships, or queries about our robotics projects.',
-  openGraph: {
-    title: 'Contact TEAM RAW | SFIT Mumbai',
-    description: 'Connect with TEAM RAW for robotics collaborations, sponsorships, and inquiries.',
-  },
-};
-
 'use client';
 
 import { motion } from 'framer-motion';

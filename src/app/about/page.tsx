@@ -3,17 +3,6 @@
  * Email: takshgandhi4@gmail.com
  */
 
-import type { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'About TEAM RAW',
-  description: 'Learn about TEAM RAW - the Robotics and Automation Wing of St. Francis Institute of Technology, Mumbai. Our mission, vision, and journey in robotics innovation.',
-  openGraph: {
-    title: 'About TEAM RAW – Robotics and Automation Wing | SFIT Mumbai',
-    description: 'Discover TEAM RAW\'s mission, vision, and impact in robotics competitions and automation projects at SFIT Mumbai.',
-  },
-};
-
 'use client';
 
 import { motion } from 'framer-motion';

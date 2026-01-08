@@ -3,17 +3,6 @@
  * Email: takshgandhi4@gmail.com
  */
 
-import type { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'Gallery',
-  description: 'Browse through TEAM RAW\'s photo gallery featuring our robots, competitions, workshops, and team events at SFIT Mumbai.',
-  openGraph: {
-    title: 'TEAM RAW Gallery | Robots & Events',
-    description: 'View photos of TEAM RAW\'s robotics projects, competition moments, and team activities.',
-  },
-};
-
 'use client';
 
 import { motion } from 'framer-motion';
