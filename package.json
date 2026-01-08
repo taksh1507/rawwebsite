@@ -1,7 +1,9 @@
 {
   "name": "teamrawwebsite",
-  "version": "0.1.0",
+  "version": "2.0.0",
   "private": true,
+  "license": "UNLICENSED",
+  "author": "TEAM RAW - SFIT Mumbai",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

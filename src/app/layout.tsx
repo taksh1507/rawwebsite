@@ -1,6 +1,13 @@
 /**
  * Author: Taksh Gandhi
  * Email: takshgandhi4@gmail.com
+ * 
+ * Copyright (c) 2024-2026 TEAM RAW - Robotics and Automation Wing, SFIT Mumbai
+ * All Rights Reserved. Proprietary and Confidential.
+ * 
+ * This code is the property of TEAM RAW. Unauthorized copying, modification,
+ * distribution, or use of this code is strictly prohibited without written
+ * permission from TEAM RAW.
  */
 
 import type { Metadata, Viewport } from "next";
