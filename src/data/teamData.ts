@@ -15,6 +15,7 @@ export interface TeamMember {
   department: string;
   email?: string;
   phone?: string;
+  linkedin?: string;
   imageUrl: string;
   category: 'core' | 'mentors' | 'members';
   createdAt?: string;
@@ -29,6 +30,8 @@ export const teamMembers: TeamMember[] = [
     department: 'Management',
     category: 'core',
     imageUrl: '/ramjee.jpeg',
+    email: 'ramjee.yadav@sfit.ac.in',
+    linkedin: 'https://www.linkedin.com/in/ramjee-yadav',
     createdAt: '2024-01-15',
   },
   {
@@ -38,6 +41,8 @@ export const teamMembers: TeamMember[] = [
     department: 'Electronics',
     category: 'core',
     imageUrl: '/siddhant.jpg',
+    email: 'siddhant.monde@student.sfit.ac.in',
+    linkedin: 'https://www.linkedin.com/in/siddhant-monde',
     createdAt: '2024-01-15',
   },
   {
@@ -47,6 +52,8 @@ export const teamMembers: TeamMember[] = [
     department: 'Designer',
     category: 'core',
     imageUrl: '/dittino.jpg',
+    email: 'dittino.thomas@student.sfit.ac.in',
+    linkedin: 'https://www.linkedin.com/in/dittino-thomas',
     createdAt: '2024-01-15',
   },
   {
@@ -56,6 +63,8 @@ export const teamMembers: TeamMember[] = [
     department: 'Coder',
     category: 'core',
     imageUrl: '/Taksh.jpg',
+    email: 'takshgandhi4@gmail.com',
+    linkedin: 'https://www.linkedin.com/in/taksh-gandhi',
     createdAt: '2024-01-15',
   },
   {
@@ -65,6 +74,8 @@ export const teamMembers: TeamMember[] = [
     department: 'Electronics',
     category: 'core',
     imageUrl: '/logo.png',
+    email: 'saish.loke@student.sfit.ac.in',
+    linkedin: 'https://www.linkedin.com/in/saish-loke',
     createdAt: '2024-01-15',
   },
   {
@@ -74,6 +85,8 @@ export const teamMembers: TeamMember[] = [
     department: 'Coder',
     category: 'core',
     imageUrl: '/Dikshi.jpg',
+    email: 'dikshi.adani@student.sfit.ac.in',
+    linkedin: 'https://www.linkedin.com/in/dikshi-adani',
     createdAt: '2024-01-15',
   },
   {
@@ -83,6 +96,8 @@ export const teamMembers: TeamMember[] = [
     department: 'Coder',
     category: 'members',
     imageUrl: '/samruddhi.jpg',
+    email: 'samruddhi.kharul@student.sfit.ac.in',
+    linkedin: 'https://www.linkedin.com/in/samruddhi-kharul',
     createdAt: '2024-01-15',
   },
   {
@@ -93,6 +108,8 @@ export const teamMembers: TeamMember[] = [
     category: 'core',
     imageUrl: '/nandini.jpg',
     phone: '8329324952',
+    email: 'nandini.salunke@student.sfit.ac.in',
+    linkedin: 'https://www.linkedin.com/in/nandini-salunke',
     createdAt: '2024-01-15',
   },
   {
@@ -102,6 +119,8 @@ export const teamMembers: TeamMember[] = [
     department: 'Electronics',
     category: 'members',
     imageUrl: '/aryan.jpg',
+    email: 'aryan.wasnik@student.sfit.ac.in',
+    linkedin: 'https://www.linkedin.com/in/aryan-wasnik',
     createdAt: '2024-01-15',
   },
   {
@@ -111,6 +130,8 @@ export const teamMembers: TeamMember[] = [
     department: 'Designer',
     category: 'core',
     imageUrl: '/amisha.jpeg',
+    email: 'amisha@student.sfit.ac.in',
+    linkedin: 'https://www.linkedin.com/in/amisha-sfit',
     createdAt: '2024-01-15',
   },
   {
@@ -121,6 +142,8 @@ export const teamMembers: TeamMember[] = [
     category: 'members',
     imageUrl: '/pal.jpg',
     phone: '7208697241',
+    email: 'pal.rajak@student.sfit.ac.in',
+    linkedin: 'https://www.linkedin.com/in/pal-rajak',
     createdAt: '2024-01-15',
   },
   {
@@ -130,6 +153,8 @@ export const teamMembers: TeamMember[] = [
     department: 'Designer',
     category: 'core',
     imageUrl: '/Shell.jpg',
+    email: 'shail.raut@student.sfit.ac.in',
+    linkedin: 'https://www.linkedin.com/in/shail-raut',
     createdAt: '2024-01-15',
   },
   {
@@ -139,6 +164,8 @@ export const teamMembers: TeamMember[] = [
     department: 'Coder',
     category: 'members',
     imageUrl: '/Jash.jpg',
+    email: 'jash.mewada@student.sfit.ac.in',
+    linkedin: 'https://www.linkedin.com/in/jash-mewada',
     createdAt: '2024-01-15',
   },
   {
@@ -148,6 +175,8 @@ export const teamMembers: TeamMember[] = [
     department: 'Technical',
     category: 'core',
     imageUrl: '/logo.png',
+    email: 'shaun.mascherenus@student.sfit.ac.in',
+    linkedin: 'https://www.linkedin.com/in/shaun-mascherenus',
     createdAt: '2024-01-15',
   },
   // MENTORS
@@ -158,6 +187,8 @@ export const teamMembers: TeamMember[] = [
     department: 'Electronics',
     category: 'mentors',
     imageUrl: '/shreehari.jpg',
+    email: 'shreehari.punna@alumni.sfit.ac.in',
+    linkedin: 'https://www.linkedin.com/in/shreehari-punna',
     createdAt: '2024-02-01',
   },
   {
@@ -167,6 +198,8 @@ export const teamMembers: TeamMember[] = [
     department: 'Coder Electronics',
     category: 'mentors',
     imageUrl: '/logo.png',
+    email: 'diyanshu.modi@alumni.sfit.ac.in',
+    linkedin: 'https://www.linkedin.com/in/diyanshu-modi',
     createdAt: '2024-02-01',
   },
   {
@@ -176,6 +209,8 @@ export const teamMembers: TeamMember[] = [
     department: 'Designer Coder',
     category: 'mentors',
     imageUrl: '/logo.png',
+    email: 'yash.pathak@alumni.sfit.ac.in',
+    linkedin: 'https://www.linkedin.com/in/yash-pathak',
     createdAt: '2024-02-01',
   },
   {
@@ -185,6 +220,8 @@ export const teamMembers: TeamMember[] = [
     department: 'Designer',
     category: 'mentors',
     imageUrl: '/Hrushikhi.jpg',
+    email: 'hrushikesh.auti@alumni.sfit.ac.in',
+    linkedin: 'https://www.linkedin.com/in/hrushikesh-auti',
     createdAt: '2024-02-01',
   },
   // TEAM MEMBERS
@@ -195,6 +232,8 @@ export const teamMembers: TeamMember[] = [
     department: 'Technical',
     category: 'members',
     imageUrl: '/Swanand.jpg',
+    email: 'swanand.deshpande@student.sfit.ac.in',
+    linkedin: 'https://www.linkedin.com/in/swanand-deshpande',
     createdAt: '2024-03-10',
   },
   {
@@ -204,6 +243,8 @@ export const teamMembers: TeamMember[] = [
     department: 'Technical',
     category: 'members',
     imageUrl: '/Joshua.jpg',
+    email: 'jhoshua.coutinho@student.sfit.ac.in',
+    linkedin: 'https://www.linkedin.com/in/jhoshua-coutinho',
     createdAt: '2024-03-10',
   },
   {
@@ -213,6 +254,8 @@ export const teamMembers: TeamMember[] = [
     department: 'Technical',
     category: 'members',
     imageUrl: '/siddha.jpg',
+    email: 'siddha.shete@student.sfit.ac.in',
+    linkedin: 'https://www.linkedin.com/in/siddha-shete',
     createdAt: '2024-03-10',
   },
   {
@@ -222,6 +265,8 @@ export const teamMembers: TeamMember[] = [
     department: 'Technical',
     category: 'members',
     imageUrl: '/sarthak.jpg',
+    email: 'sarthak.chaurasiya@student.sfit.ac.in',
+    linkedin: 'https://www.linkedin.com/in/sarthak-chaurasiya',
     createdAt: '2024-03-10',
   },
   {
@@ -231,6 +276,8 @@ export const teamMembers: TeamMember[] = [
     department: 'Technical',
     category: 'members',
     imageUrl: '/Jay.jpg',
+    email: 'jay.lohar@student.sfit.ac.in',
+    linkedin: 'https://www.linkedin.com/in/jay-lohar',
     createdAt: '2024-03-10',
   },
   {
@@ -240,6 +287,8 @@ export const teamMembers: TeamMember[] = [
     department: 'Technical',
     category: 'members',
     imageUrl: '/Riyan.jpg',
+    email: 'riyan.gonsalves@student.sfit.ac.in',
+    linkedin: 'https://www.linkedin.com/in/riyan-gonsalves',
     createdAt: '2024-03-10',
   },
   {
@@ -249,6 +298,8 @@ export const teamMembers: TeamMember[] = [
     department: 'Technical',
     category: 'members',
     imageUrl: '/paarth.jpeg',
+    email: 'paarth.pradhan@student.sfit.ac.in',
+    linkedin: 'https://www.linkedin.com/in/paarth-pradhan',
     createdAt: '2024-03-10',
   },
   {
@@ -258,6 +309,8 @@ export const teamMembers: TeamMember[] = [
     department: 'Technical',
     category: 'members',
     imageUrl: '/sakshi.jpg',
+    email: 'sakshi.virani@student.sfit.ac.in',
+    linkedin: 'https://www.linkedin.com/in/sakshi-virani',
     createdAt: '2024-03-10',
   },
   {
@@ -267,6 +320,8 @@ export const teamMembers: TeamMember[] = [
     department: 'Technical',
     category: 'members',
     imageUrl: '/Vansh.jpg',
+    email: 'vansh.singh@student.sfit.ac.in',
+    linkedin: 'https://www.linkedin.com/in/vansh-singh',
     createdAt: '2024-03-10',
   },
   {
@@ -276,6 +331,8 @@ export const teamMembers: TeamMember[] = [
     department: 'Technical',
     category: 'members',
     imageUrl: '/Jwen.jpg',
+    email: 'jwen.lobo@student.sfit.ac.in',
+    linkedin: 'https://www.linkedin.com/in/jwen-lobo',
     createdAt: '2024-03-10',
   },
   {
@@ -285,6 +342,8 @@ export const teamMembers: TeamMember[] = [
     department: 'Technical',
     category: 'members',
     imageUrl: '/parth.jpg',
+    email: 'parth.sutar@student.sfit.ac.in',
+    linkedin: 'https://www.linkedin.com/in/parth-sutar',
     createdAt: '2024-03-10',
   },
   {
@@ -294,6 +353,8 @@ export const teamMembers: TeamMember[] = [
     department: 'Technical',
     category: 'members',
     imageUrl: '/gunjan.jpg',
+    email: 'gunjan.patil@student.sfit.ac.in',
+    linkedin: 'https://www.linkedin.com/in/gunjan-patil',
     createdAt: '2024-03-10',
   },
   {
@@ -303,6 +364,8 @@ export const teamMembers: TeamMember[] = [
     department: 'Technical',
     category: 'members',
     imageUrl: '/logo.png',
+    email: 'niyant.tiwari@student.sfit.ac.in',
+    linkedin: 'https://www.linkedin.com/in/niyant-tiwari',
     createdAt: '2024-03-10',
   },
 ];

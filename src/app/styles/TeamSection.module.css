@@ -495,6 +495,7 @@
   gap: 0.5rem;
   flex-grow: 1;
   background: white;
+  position: relative;
 
   @media (max-width: 768px) {
     padding: 1.25rem;
@@ -502,6 +503,158 @@
 
   @media (max-width: 480px) {
     padding: 1rem;
+  }
+}
+
+/* Social Icons in Card */
+.socialIconsOverlay {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  display: flex;
+  gap: 8px;
+  z-index: 2;
+}
+
+.socialIconButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border: 2px solid rgba(10, 26, 58, 0.1);
+  box-shadow: 0 2px 8px rgba(10, 26, 58, 0.08);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.socialIconButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transition: left 0.5s;
+}
+
+.socialIconButton:hover::before {
+  left: 100%;
+}
+
+.socialIconButton:focus {
+  outline: 2px solid var(--color-red, #E10600);
+  outline-offset: 2px;
+}
+
+.socialIconButton:focus-visible {
+  outline: 2px solid var(--color-red, #E10600);
+  outline-offset: 2px;
+}
+
+/* LinkedIn Icon - Brand Blue */
+.socialIconButton:first-child {
+  color: #0077b5;
+  background: linear-gradient(135deg, rgba(0, 119, 181, 0.05) 0%, rgba(0, 119, 181, 0.02) 100%);
+  border-color: rgba(0, 119, 181, 0.2);
+}
+
+.socialIconButton:first-child:hover {
+  background: linear-gradient(135deg, #0077b5 0%, #005885 100%);
+  color: white;
+  border-color: #0077b5;
+  box-shadow: 0 6px 20px rgba(0, 119, 181, 0.35);
+  transform: translateY(-3px) scale(1.05);
+}
+
+/* Email Icon - Red Accent */
+.socialIconButton:last-child {
+  color: var(--color-red, #E10600);
+  background: linear-gradient(135deg, rgba(225, 6, 0, 0.05) 0%, rgba(225, 6, 0, 0.02) 100%);
+  border-color: rgba(225, 6, 0, 0.2);
+}
+
+.socialIconButton:last-child:hover {
+  background: linear-gradient(135deg, var(--color-red, #E10600) 0%, #b20500 100%);
+  color: white;
+  border-color: var(--color-red, #E10600);
+  box-shadow: 0 6px 20px rgba(225, 6, 0, 0.35);
+  transform: translateY(-3px) scale(1.05);
+}
+
+/* If only one icon exists */
+.socialIconButton:only-child {
+  color: var(--color-navy, #0A1A3A);
+  background: linear-gradient(135deg, rgba(10, 26, 58, 0.05) 0%, rgba(10, 26, 58, 0.02) 100%);
+  border-color: rgba(10, 26, 58, 0.2);
+}
+
+.socialIconButton:only-child:hover {
+  background: linear-gradient(135deg, var(--color-navy, #0A1A3A) 0%, #051020 100%);
+  color: white;
+  box-shadow: 0 6px 20px rgba(10, 26, 58, 0.35);
+  transform: translateY(-3px) scale(1.05);
+}
+
+.socialIconButton svg {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.socialIconButton:hover svg {
+  transform: scale(1.15) rotate(5deg);
+}
+
+@media (max-width: 768px) {
+  .socialIconsOverlay {
+    bottom: 1.25rem;
+    right: 1.25rem;
+    gap: 6px;
+  }
+  
+  .socialIconButton {
+    width: 36px;
+    height: 36px;
+    min-width: 44px;
+    min-height: 44px;
+    border-radius: 8px;
+  }
+  
+  .socialIconButton svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .socialIconsOverlay {
+    bottom: 1rem;
+    right: 1rem;
+    gap: 5px;
+  }
+  
+  .socialIconButton {
+    width: 34px;
+    height: 34px;
+    min-width: 44px;
+    min-height: 44px;
+    border-radius: 8px;
+  }
+  
+  .socialIconButton svg {
+    width: 15px;
+    height: 15px;
   }
 }
 
@@ -527,7 +680,7 @@
   font-size: 0.95rem;
   font-weight: 600;
   color: var(--color-red, #E10600);
-  margin: 0;
+  margin: 0 0 0.75rem 0;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 
