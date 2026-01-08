@@ -92,7 +92,7 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    google: 'google54e20402adf120fc',
+    google: 'google67b4bb5228cd029f',
   },
 };
 
