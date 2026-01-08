@@ -25,7 +25,7 @@ export default function Footer() {
     social: [
       { label: 'Instagram', href: 'https://www.instagram.com/teamraw_sfit', icon: '📷' },
       { label: 'LinkedIn', href: 'https://www.linkedin.com/company/team-raw-sfit', icon: 'in' },
-      { label: 'YouTube', href: 'https://www.youtube.com/@teamrawsfit', icon: 'Y' },
+      { label: 'YouTube', href: 'https://www.youtube.com/@teamrawsfit2026', icon: 'Y' },
     ],
   };
 
