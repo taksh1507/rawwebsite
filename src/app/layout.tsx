@@ -28,7 +28,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://teamraw.vercel.app'),
+  metadataBase: new URL('https://rawwebsite-seven.vercel.app'),
   alternates: {
     canonical: '/',
   },
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     'Automation Wing SFIT',
     'Team RAW SFIT'
   ],
-  authors: [{ name: 'TEAM RAW', url: 'https://teamraw.vercel.app' }],
+  authors: [{ name: 'TEAM RAW', url: 'https://rawwebsite-seven.vercel.app' }],
   creator: 'TEAM RAW - St. Francis Institute of Technology',
   publisher: 'TEAM RAW',
   formatDetection: {
@@ -61,7 +61,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_IN',
-    url: 'https://teamraw.vercel.app',
+    url: 'https://rawwebsite-seven.vercel.app',
     title: 'TEAM RAW – Robotics and Automation Wing | SFIT Mumbai',
     description: 'Official website of TEAM RAW - Robotics and Automation Wing of St. Francis Institute of Technology, Mumbai. Building the next generation of autonomous robots.',
     siteName: 'TEAM RAW',

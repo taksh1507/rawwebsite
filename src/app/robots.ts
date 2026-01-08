@@ -19,6 +19,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/api/', '/admin/'],
       },
     ],
-    sitemap: 'https://teamraw.vercel.app/sitemap.xml',
+    sitemap: 'https://rawwebsite-seven.vercel.app/sitemap.xml',
   }
 }

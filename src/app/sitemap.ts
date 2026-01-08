@@ -6,7 +6,7 @@
 import { MetadataRoute } from 'next'
  
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://teamraw.vercel.app'
+  const baseUrl = 'https://rawwebsite-seven.vercel.app'
   
   return [
     {

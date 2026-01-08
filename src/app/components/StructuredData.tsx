@@ -11,8 +11,8 @@ export default function StructuredData() {
     '@type': 'Organization',
     name: 'TEAM RAW - Robotics and Automation Wing',
     alternateName: 'Team RAW SFIT',
-    url: 'https://teamraw.vercel.app',
-    logo: 'https://teamraw.vercel.app/logo.png',
+    url: 'https://rawwebsite-seven.vercel.app',
+    logo: 'https://rawwebsite-seven.vercel.app/logo.png',
     description: 'TEAM RAW is the Robotics and Automation Wing of St. Francis Institute of Technology (SFIT), Mumbai. We participate in national robotics competitions, build innovative automation projects, and drive technological excellence.',
     address: {
       '@type': 'PostalAddress',
@@ -43,13 +43,13 @@ export default function StructuredData() {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: 'TEAM RAW',
-    url: 'https://teamraw.vercel.app',
+    url: 'https://rawwebsite-seven.vercel.app',
     description: 'Official website of TEAM RAW - Robotics and Automation Wing of SFIT Mumbai',
     potentialAction: {
       '@type': 'SearchAction',
       target: {
         '@type': 'EntryPoint',
-        urlTemplate: 'https://teamraw.vercel.app/search?q={search_term_string}'
+        urlTemplate: 'https://rawwebsite-seven.vercel.app/search?q={search_term_string}'
       },
       'query-input': 'required name=search_term_string'
     }
