@@ -65,14 +65,14 @@ const BenefitsGrid = () => {
   const benefits = [
     // Visibility & Branding
     {
-      icon: '🎯',
+      iconType: 'target',
       title: 'National Brand Visibility',
       description: 'Logo placement on team uniforms, robots, trailers, and digital platforms reaching 50K+ annual impressions.',
       category: 'Visibility',
       color: 'cyan',
     },
     {
-      icon: '🏆',
+      iconType: 'trophy',
       title: 'Competition Exposure',
       description: 'Recognition at 15+ regional/national events with sponsor spotlights and awards ceremonies nationwide.',
       category: 'Visibility',
@@ -80,14 +80,14 @@ const BenefitsGrid = () => {
     },
     // Talent Access
     {
-      icon: '👥',
+      iconType: 'users',
       title: 'Talent Pipeline Access',
       description: 'Direct recruitment access to 200+ top engineering students for internships, co-ops, and full-time roles.',
       category: 'Talent',
       color: 'green',
     },
     {
-      icon: '🎓',
+      iconType: 'education',
       title: 'Educational Partnership',
       description: 'Co-branded workshops and STEM outreach programs reaching 500+ students annually.',
       category: 'Talent',
@@ -95,20 +95,89 @@ const BenefitsGrid = () => {
     },
     // Innovation & Analytics
     {
-      icon: '⚙️',
+      iconType: 'gear',
       title: 'Innovation Collaboration',
       description: 'Joint technology development and exclusive access to cutting-edge robotics research and projects.',
       category: 'Innovation',
       color: 'gold',
     },
     {
-      icon: '📊',
+      iconType: 'analytics',
       title: 'Marketing Analytics & ROI',
       description: 'Detailed metrics on brand exposure, reach, engagement, and measurable sponsorship return on investment.',
       category: 'Innovation',
       color: 'gold',
     },
   ];
+
+  // SVG Icon Components for Benefits
+  const renderBenefitIcon = (iconType: string) => {
+    const iconProps = {
+      width: "40",
+      height: "40",
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: "2",
+      strokeLinecap: "round" as const,
+      strokeLinejoin: "round" as const,
+    };
+
+    switch(iconType) {
+      case 'target':
+        return (
+          <svg {...iconProps}>
+            <circle cx="12" cy="12" r="10" />
+            <circle cx="12" cy="12" r="6" />
+            <circle cx="12" cy="12" r="2" />
+          </svg>
+        );
+      case 'trophy':
+        return (
+          <svg {...iconProps}>
+            <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+            <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+            <path d="M4 22h16" />
+            <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" />
+            <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" />
+            <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" />
+          </svg>
+        );
+      case 'users':
+        return (
+          <svg {...iconProps}>
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+            <circle cx="9" cy="7" r="4" />
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+          </svg>
+        );
+      case 'education':
+        return (
+          <svg {...iconProps}>
+            <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+            <path d="M6 12v5c3 3 9 3 12 0v-5" />
+          </svg>
+        );
+      case 'gear':
+        return (
+          <svg {...iconProps}>
+            <circle cx="12" cy="12" r="3" />
+            <path d="M12 1v6m0 6v6M5.64 5.64l4.24 4.24m4.24 4.24l4.24 4.24M1 12h6m6 0h6M5.64 18.36l4.24-4.24m4.24-4.24l4.24-4.24" />
+          </svg>
+        );
+      case 'analytics':
+        return (
+          <svg {...iconProps}>
+            <line x1="12" y1="20" x2="12" y2="10" />
+            <line x1="18" y1="20" x2="18" y2="4" />
+            <line x1="6" y1="20" x2="6" y2="16" />
+          </svg>
+        );
+      default:
+        return null;
+    }
+  };
 
   return (
     <section className={styles.benefitsSection}>
@@ -131,7 +200,13 @@ const BenefitsGrid = () => {
               className={`${styles.benefitCard} ${styles[`color${benefit.color}`]}`}
               whileHover={{ y: -8, boxShadow: '0 20px 60px rgba(0,0,0,0.15)' }}
             >
-              <div className={styles.benefitIcon}>{benefit.icon}</div>
+              <motion.div 
+                className={styles.benefitIcon}
+                whileHover={{ scale: 1.15, rotate: 10 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                {renderBenefitIcon(benefit.iconType)}
+              </motion.div>
               <div className={styles.benefitCategory}>{benefit.category}</div>
               <h3>{benefit.title}</h3>
               <p>{benefit.description}</p>
@@ -146,11 +221,88 @@ const BenefitsGrid = () => {
 // Impact in Numbers
 const ImpactNumbers = () => {
   const stats = [
-    { number: '200+', label: 'Engineering Students', description: 'Active participation across robotics, electronics, software, and mechanical domains', icon: '�' },
-    { number: '50K+', label: 'Annual Brand Impressions', description: 'National TV broadcasts, YouTube live streams, and technical event exposure', icon: '�️' },
-    { number: '3+', label: 'National Robotics Competitions', description: 'DD Robocon, e-Yantra (IIT Bombay), National Techfest Robotics Events', icon: '🏆' },
-    { number: '500+', label: 'Students Mentored', description: 'Workshops, lab visits, mentoring sessions, and robotics demonstrations', icon: '�' },
+    { 
+      number: '200+', 
+      label: 'Engineering Students', 
+      description: 'Active participation across robotics, electronics, software, and mechanical domains',
+      iconType: 'users'
+    },
+    { 
+      number: '50K+', 
+      label: 'Annual Brand Impressions', 
+      description: 'National TV broadcasts, YouTube live streams, and technical event exposure',
+      iconType: 'chart'
+    },
+    { 
+      number: '3+', 
+      label: 'National Robotics Competitions', 
+      description: 'DD Robocon, e-Yantra (IIT Bombay), National Techfest Robotics Events',
+      iconType: 'trophy'
+    },
+    { 
+      number: '500+', 
+      label: 'Students Mentored', 
+      description: 'Workshops, lab visits, mentoring sessions, and robotics demonstrations',
+      iconType: 'mentorship'
+    },
   ];
+
+  // SVG Icon Components
+  const renderIcon = (iconType: string) => {
+    const iconProps = {
+      width: "48",
+      height: "48",
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: "1.5",
+      strokeLinecap: "round" as const,
+      strokeLinejoin: "round" as const,
+    };
+
+    switch(iconType) {
+      case 'users':
+        return (
+          <svg {...iconProps}>
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+            <circle cx="9" cy="7" r="4" />
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+          </svg>
+        );
+      case 'chart':
+        return (
+          <svg {...iconProps}>
+            <line x1="18" y1="20" x2="18" y2="10" />
+            <line x1="12" y1="20" x2="12" y2="4" />
+            <line x1="6" y1="20" x2="6" y2="14" />
+          </svg>
+        );
+      case 'trophy':
+        return (
+          <svg {...iconProps}>
+            <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+            <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+            <path d="M4 22h16" />
+            <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" />
+            <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" />
+            <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" />
+          </svg>
+        );
+      case 'mentorship':
+        return (
+          <svg {...iconProps}>
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+            <circle cx="9" cy="7" r="4" />
+            <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+            <polyline points="16 12 18 10 20 12" />
+          </svg>
+        );
+      default:
+        return null;
+    }
+  };
 
   return (
     <section className={styles.impactSection}>
@@ -172,7 +324,13 @@ const ImpactNumbers = () => {
               transition={{ duration: 0.6, delay: idx * 0.12 }}
               className={styles.statCard}
             >
-              <div className={styles.statIcon}>{stat.icon}</div>
+              <motion.div 
+                className={styles.statIcon}
+                whileHover={{ scale: 1.1, rotate: 5 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                {renderIcon(stat.iconType)}
+              </motion.div>
               <div className={styles.statNumber}>{stat.number}</div>
               <div className={styles.statLabel}>{stat.label}</div>
               <div className={styles.statDescription}>{stat.description}</div>

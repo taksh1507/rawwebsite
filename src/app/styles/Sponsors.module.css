@@ -184,9 +184,37 @@
 }
 
 .benefitIcon {
-  font-size: 2.8rem;
-  margin-bottom: 0.75rem;
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+}
+
+.benefitIcon svg {
+  width: 40px;
+  height: 40px;
+  stroke-width: 2;
+}
+
+/* Icon colors per category */
+.benefitCard.colorcyan .benefitIcon {
+  color: #00d4ff;
+  filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.3));
+}
+
+.benefitCard.colorgreen .benefitIcon {
+  color: #00ff88;
+  filter: drop-shadow(0 0 8px rgba(0, 255, 136, 0.3));
+}
+
+.benefitCard.colorgold .benefitIcon {
+  color: #ffd700;
+  filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.3));
+}
+
+.benefitCard:hover .benefitIcon {
+  filter: drop-shadow(0 0 15px currentColor);
 }
 
 .benefitCategory {
@@ -242,11 +270,28 @@
 .statCard:hover {
   border-color: rgba(0, 212, 255, 0.6);
   box-shadow: 0 15px 60px rgba(0, 212, 255, 0.2);
+  transform: translateY(-5px);
 }
 
 .statIcon {
-  font-size: 2.2rem;
-  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+  color: #00d4ff;
+  filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.4));
+  transition: all 0.3s ease;
+}
+
+.statIcon svg {
+  width: 48px;
+  height: 48px;
+  stroke-width: 1.5;
+}
+
+.statCard:hover .statIcon {
+  filter: drop-shadow(0 0 20px rgba(0, 212, 255, 0.6));
+  transform: scale(1.05);
 }
 
 .statNumber {
@@ -943,6 +988,12 @@
     grid-template-columns: 1fr;
   }
 
+  .benefitIcon svg,
+  .statIcon svg {
+    width: 36px;
+    height: 36px;
+  }
+
   .contactMethod {
     flex-direction: column;
     text-align: center;
@@ -970,6 +1021,12 @@
   .sectionTitle {
     font-size: 1.5rem;
     margin-bottom: 2rem;
+  }
+
+  .benefitIcon svg,
+  .statIcon svg {
+    width: 32px;
+    height: 32px;
   }
 
   .contactContent h2 {
