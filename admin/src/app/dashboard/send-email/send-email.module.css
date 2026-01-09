@@ -74,7 +74,8 @@
 
 .recipientsInput,
 .subjectInput,
-.messageInput {
+.messageInput,
+.templateSelect {
   width: 100%;
   padding: 0.875rem;
   border: 2px solid rgba(10, 26, 58, 0.15);
@@ -85,9 +86,17 @@
   resize: vertical;
 }
 
+.templateSelect {
+  background: white;
+  cursor: pointer;
+  font-weight: 500;
+  color: #0A1A3A;
+}
+
 .recipientsInput:focus,
 .subjectInput:focus,
-.messageInput:focus {
+.messageInput:focus,
+.templateSelect:focus {
   outline: none;
   border-color: #E10600;
   box-shadow: 0 0 0 3px rgba(225, 6, 0, 0.1);
@@ -95,7 +104,8 @@
 
 .recipientsInput:disabled,
 .subjectInput:disabled,
-.messageInput:disabled {
+.messageInput:disabled,
+.templateSelect:disabled {
   background: #f5f5f5;
   cursor: not-allowed;
   opacity: 0.6;

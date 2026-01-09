@@ -1,0 +1,177 @@
+===============================================================
+TEAM RAW EMAIL TEMPLATES - ADMIN USE
+===============================================================
+
+-----------------------------------------------------------
+TEMPLATE 1: GENERAL INQUIRY RESPONSE
+-----------------------------------------------------------
+
+Subject: Re: [Original Subject] - Team Raw Response
+
+Dear [Name],
+
+Thank you for reaching out to Team Raw - Robotics and Automation Wing at St. Francis Institute of Technology.
+
+[Response to their specific query]
+
+If you have any further questions or would like to discuss this in more detail, please feel free to contact us.
+
+Best Regards,
+
+Team Raw Administration
+Robotics and Automation Wing
+St. Francis Institute of Technology
+Room 027, SFIT, Borivali West, Mumbai 400103
+
+Email: teamraw@sfit.ac.in
+Website: https://rawwebsite-seven.vercel.app
+
+-----------------------------------------------------------
+TEMPLATE 2: COLLABORATION REQUEST RESPONSE
+-----------------------------------------------------------
+
+Subject: Team Raw Collaboration Opportunity
+
+Dear [Institution/Organization Name],
+
+Team Raw - Robotics and Automation Wing at St. Francis Institute of Technology, Mumbai, would like to explore collaboration opportunities with your organization.
+
+[Details about collaboration proposal]
+
+We believe this partnership would be mutually beneficial and look forward to discussing this further.
+
+Please let us know your availability for a meeting or call.
+
+Best Regards,
+
+Team Raw Administration
+Robotics and Automation Wing
+St. Francis Institute of Technology
+Room 027, SFIT, Borivali West, Mumbai 400103
+
+Email: teamraw@sfit.ac.in
+Website: https://rawwebsite-seven.vercel.app
+
+-----------------------------------------------------------
+TEMPLATE 3: LICENSING/PERMISSION REQUEST RESPONSE
+-----------------------------------------------------------
+
+Subject: Re: Code Repository Licensing Inquiry
+
+Dear [Name],
+
+Thank you for your interest in Team Raw's code repository.
+
+Our code is released under a proprietary license with the following key terms:
+- Viewing and reference purposes only
+- No copying, reproduction, or distribution without written permission
+- Educational institutions may reference with proper attribution
+- Commercial use requires a separate license agreement
+
+[Specific response to their request]
+
+For formal licensing inquiries, please provide details about your intended use and we will review your request.
+
+Best Regards,
+
+Team Raw Administration
+Robotics and Automation Wing
+St. Francis Institute of Technology
+Room 027, SFIT, Borivali West, Mumbai 400103
+
+Email: teamraw@sfit.ac.in
+Website: https://rawwebsite-seven.vercel.app
+
+-----------------------------------------------------------
+TEMPLATE 4: EVENT INVITATION
+-----------------------------------------------------------
+
+Subject: Invitation: [Event Name] - Team Raw
+
+Dear [Name/Organization],
+
+Team Raw - Robotics and Automation Wing at St. Francis Institute of Technology is pleased to invite you to [Event Name].
+
+Event Details:
+Date: [Date]
+Time: [Time]
+Venue: [Location]
+
+[Event description and purpose]
+
+Please confirm your attendance by [RSVP Date].
+
+We look forward to your participation.
+
+Best Regards,
+
+Team Raw Administration
+Robotics and Automation Wing
+St. Francis Institute of Technology
+Room 027, SFIT, Borivali West, Mumbai 400103
+
+Email: teamraw@sfit.ac.in
+Website: https://rawwebsite-seven.vercel.app
+
+-----------------------------------------------------------
+TEMPLATE 5: RECRUITMENT/TEAM MEMBER COMMUNICATION
+-----------------------------------------------------------
+
+Subject: Team Raw - [Recruitment/Update Topic]
+
+Dear [Student Name],
+
+Team Raw - Robotics and Automation Wing at St. Francis Institute of Technology, Mumbai.
+
+[Message about recruitment, updates, or team activities]
+
+For more information or to join our team, please visit our workspace at Room 027, SFIT, Borivali West, or contact us via email.
+
+Best Regards,
+
+Team Raw Administration
+Robotics and Automation Wing
+St. Francis Institute of Technology
+Room 027, SFIT, Borivali West, Mumbai 400103
+
+Email: teamraw@sfit.ac.in
+Website: https://rawwebsite-seven.vercel.app
+
+-----------------------------------------------------------
+TEMPLATE 6: QUICK PROFESSIONAL RESPONSE
+-----------------------------------------------------------
+
+Subject: Re: [Subject]
+
+Dear [Name],
+
+[Your concise message here]
+
+Best Regards,
+
+Team Raw
+Robotics and Automation Wing
+St. Francis Institute of Technology
+Mumbai
+
+Email: teamraw@sfit.ac.in
+Website: https://rawwebsite-seven.vercel.app
+
+===============================================================
+INSTRUCTIONS FOR ADMIN USE:
+===============================================================
+
+1. Select the appropriate template above
+2. Copy the entire template section
+3. Replace all [bracketed fields] with actual information
+4. Paste into your email client
+5. Review and send
+
+CONTACT INFORMATION (Always included):
+- Email: teamraw@sfit.ac.in
+- Website: https://rawwebsite-seven.vercel.app
+- Location: Room 027, SFIT, Borivali West, Mumbai 400103
+
+© 2024-2026 Team Raw. All Rights Reserved.
+
+===============================================================

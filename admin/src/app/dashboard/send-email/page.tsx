@@ -7,6 +7,7 @@ export default function SendEmailPage() {
   const [recipients, setRecipients] = useState<string>('');
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
+  const [templateType, setTemplateType] = useState<string>('custom');
   const [sending, setSending] = useState(false);
   const [emailConfigured, setEmailConfigured] = useState<boolean | null>(null);
 
@@ -76,6 +77,7 @@ export default function SendEmailPage() {
           recipients: validEmails,
           subject,
           message,
+          templateType,
         }),
       });
 
@@ -118,6 +120,24 @@ export default function SendEmailPage() {
       )}
 
       <div className={styles.formContainer}>
+        <div className={styles.formSection}>
+          <h3>📝 Select Email Template</h3>
+          <select
+            className={styles.templateSelect}
+            value={templateType}
+            onChange={(e) => setTemplateType(e.target.value)}
+            disabled={sending}
+          >
+            <option value="custom">Custom Message (Basic Template)</option>
+            <option value="inquiry">Template 1: General Inquiry Response</option>
+            <option value="collaboration">Template 2: Collaboration Request</option>
+            <option value="licensing">Template 3: Licensing/Permission Request</option>
+            <option value="event">Template 4: Event Invitation</option>
+            <option value="recruitment">Template 5: Recruitment/Team Communication</option>
+            <option value="quick">Template 6: Quick Professional Response</option>
+          </select>
+        </div>
+
         <div className={styles.formSection}>
           <h3>Recipients</h3>
           <p className={styles.helpText}>
@@ -166,13 +186,26 @@ export default function SendEmailPage() {
         </div>
 
         <div className={styles.templatePreview}>
-          <h4>📋 Template Features</h4>
+          <h4>📋 Email Template Info</h4>
+          <p style={{ fontSize: '14px', marginBottom: '10px', color: '#444' }}>
+            <strong>Selected:</strong> {templateType === 'custom' ? 'Custom Message' : 
+              templateType === 'inquiry' ? 'General Inquiry Response' :
+              templateType === 'collaboration' ? 'Collaboration Request' :
+              templateType === 'licensing' ? 'Licensing/Permission Request' :
+              templateType === 'event' ? 'Event Invitation' :
+              templateType === 'recruitment' ? 'Recruitment Communication' :
+              'Quick Professional Response'}
+          </p>
           <ul>
-            <li>Team RAW branded header with gradient</li>
-            <li>Professional layout with responsive design</li>
-            <li>Contact information footer</li>
-            <li>Mobile-friendly HTML formatting</li>
+            <li>Uses EMAIL_TEMPLATE.txt format</li>
+            <li>Simple, professional plain text</li>
+            <li>Team RAW branding automatically added</li>
+            <li>Complete contact information included</li>
+            <li>Compatible with all email clients</li>
           </ul>
+          <p style={{ fontSize: '12px', marginTop: '10px', color: '#666' }}>
+            Your message will be wrapped with the selected Team RAW template
+          </p>
         </div>
 
         <div className={styles.actions}>
