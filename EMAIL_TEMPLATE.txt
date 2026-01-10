@@ -32,14 +32,9 @@ Subject: [Your Subject Here]
 
 -----------------------------------------------------------
 
+Best Regards,
 [LOGO IMAGE]
 Team RAW Logo: https://rawwebsite-seven.vercel.app/logo.png
-
------------------------------------------------------------
-
-Best Regards,
-
-Team RAW Administration
 Robotics and Automation Wing
 St. Francis Institute of Technology
 Room 027, SFIT, Borivali West, Mumbai 400103
