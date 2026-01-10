@@ -238,7 +238,7 @@ export default function SendEmailPage() {
         <div className={styles.formSection}>
           <h3>📎 Attachments</h3>
           <p className={styles.helpText}>
-            Add files to attach (max 25MB per file). Supports PDF, images, documents, etc.
+            Add files to attach. <strong>Important:</strong> Total size should be under 4MB for reliable delivery on free hosting. Each file max 25MB.
           </p>
           <input
             type="file"
@@ -251,6 +251,16 @@ export default function SendEmailPage() {
                 e.target.value = '';
                 return;
               }
+              
+              // Check total size
+              const currentSize = attachments.reduce((sum, f) => sum + f.size, 0);
+              const newSize = files.reduce((sum, f) => sum + f.size, 0);
+              const totalSize = currentSize + newSize;
+              
+              if (totalSize > 4 * 1024 * 1024) {
+                alert(`Total attachment size would be ${(totalSize / (1024 * 1024)).toFixed(2)}MB. This may fail on deployment. Limit: 4MB recommended.`);
+              }
+              
               setAttachments(prev => [...prev, ...files]);
               e.target.value = '';
             }}

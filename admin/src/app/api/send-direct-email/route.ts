@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
+// Configure route segment
+export const runtime = 'nodejs';
+export const maxDuration = 60;
+
 // Function to generate email body using different templates
 function generateEmailBody(message: string, templateType: string = 'custom'): string {
   const signature = `
