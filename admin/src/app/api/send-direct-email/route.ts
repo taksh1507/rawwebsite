@@ -184,17 +184,22 @@ export async function POST(request: NextRequest) {
           name: 'Team RAW - SFIT',
           address: process.env.EMAIL_USER,
         },
-        to: recipients, // All recipients can see each other
+        to: Array.isArray(recipients) ? recipients.join(', ') : recipients, // Convert array to comma-separated string
         subject: subject,
         text: generateEmailBody(message, templateType || 'custom'),
       };
 
+      console.log('Mail options prepared for', recipients.length, 'recipients');
+
       // Add attachments if present
       if (attachments && attachments.length > 0) {
         mailOptions.attachments = attachments;
+        console.log('Added', attachments.length, 'attachments');
       }
 
+      console.log('Attempting to send email...');
       await transporter.sendMail(mailOptions);
+      console.log('Email sent successfully');
 
       return NextResponse.json({
         success: true,
