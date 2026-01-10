@@ -99,6 +99,8 @@ export async function POST(request: NextRequest) {
     const contentType = request.headers.get('content-type') || '';
     let recipients, subject, message, templateType, attachments;
 
+    console.log('Received request with content-type:', contentType);
+
     // Handle both JSON and FormData requests
     if (contentType.includes('multipart/form-data')) {
       const formData = await request.formData();
@@ -106,6 +108,8 @@ export async function POST(request: NextRequest) {
       subject = formData.get('subject') as string;
       message = formData.get('message') as string;
       templateType = formData.get('templateType') as string;
+      
+      console.log('Parsed FormData - recipients:', recipients.length, 'attachments:', formData.getAll('attachments').length);
       
       // Process multiple attachments
       attachments = [];
@@ -136,7 +140,11 @@ export async function POST(request: NextRequest) {
       message = body.message;
       templateType = body.templateType;
       attachments = body.attachments || [];
+      
+      console.log('Parsed JSON - recipients:', recipients?.length || 0);
     }
+
+    console.log('About to send email - Recipients:', recipients?.length, 'Subject:', subject?.substring(0, 30));
 
     if (!recipients || recipients.length === 0) {
       return NextResponse.json(
@@ -203,8 +211,9 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('Error sending emails:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
     return NextResponse.json(
-      { success: false, error: 'Failed to send emails' },
+      { success: false, error: 'Failed to send emails: ' + errorMessage },
       { status: 500 }
     );
   }
