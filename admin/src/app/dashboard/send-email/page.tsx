@@ -10,6 +10,7 @@ export default function SendEmailPage() {
   const [templateType, setTemplateType] = useState<string>('custom');
   const [sending, setSending] = useState(false);
   const [emailConfigured, setEmailConfigured] = useState<boolean | null>(null);
+  const [attachments, setAttachments] = useState<File[]>([]);
 
   useEffect(() => {
     checkEmailConfig();
@@ -70,15 +71,20 @@ export default function SendEmailPage() {
 
     setSending(true);
     try {
+      const formData = new FormData();
+      formData.append('recipients', JSON.stringify(validEmails));
+      formData.append('subject', subject);
+      formData.append('message', message);
+      formData.append('templateType', templateType);
+
+      // Add attachments
+      attachments.forEach((file) => {
+        formData.append('attachments', file);
+      });
+
       const response = await fetch('/api/send-direct-email', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          recipients: validEmails,
-          subject,
-          message,
-          templateType,
-        }),
+        body: formData,
       });
 
       const result = await response.json();
@@ -89,6 +95,7 @@ export default function SendEmailPage() {
         setRecipients('');
         setSubject('');
         setMessage('');
+        setAttachments([]);
       } else {
         alert('Failed to send emails: ' + (result.error || 'Unknown error'));
       }
@@ -183,6 +190,49 @@ export default function SendEmailPage() {
             rows={12}
             disabled={sending}
           />
+        </div>
+
+        <div className={styles.formSection}>
+          <h3>📎 Attachments</h3>
+          <p className={styles.helpText}>
+            Add files to attach (max 25MB per file). Supports PDF, images, documents, etc.
+          </p>
+          <input
+            type="file"
+            className={styles.fileInput}
+            onChange={(e) => {
+              const files = Array.from(e.target.files || []);
+              const oversized = files.find(f => f.size > 25 * 1024 * 1024);
+              if (oversized) {
+                alert(`File "${oversized.name}" exceeds 25MB limit`);
+                e.target.value = '';
+                return;
+              }
+              setAttachments(prev => [...prev, ...files]);
+              e.target.value = '';
+            }}
+            multiple
+            disabled={sending}
+          />
+          {attachments.length > 0 && (
+            <div className={styles.attachmentsList}>
+              {attachments.map((file, index) => (
+                <div key={index} className={styles.attachmentItem}>
+                  <span className={styles.fileName}>
+                    📄 {file.name} ({(file.size / 1024).toFixed(1)} KB)
+                  </span>
+                  <button
+                    onClick={() => setAttachments(prev => prev.filter((_, i) => i !== index))}
+                    className={styles.removeBtn}
+                    disabled={sending}
+                    type="button"
+                  >
+                    ✕
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className={styles.templatePreview}>
