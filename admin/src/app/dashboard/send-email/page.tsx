@@ -73,8 +73,11 @@ export default function SendEmailPage() {
     try {
       let response;
 
+      console.log('Sending email to', validEmails.length, 'recipients');
+
       // Use FormData if there are attachments, otherwise use JSON
       if (attachments.length > 0) {
+        console.log('Sending with', attachments.length, 'attachments');
         const formData = new FormData();
         formData.append('recipients', JSON.stringify(validEmails));
         formData.append('subject', subject);
@@ -91,6 +94,7 @@ export default function SendEmailPage() {
           body: formData,
         });
       } else {
+        console.log('Sending without attachments');
         response = await fetch('/api/send-direct-email', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -103,7 +107,16 @@ export default function SendEmailPage() {
         });
       }
 
+      console.log('Response status:', response.status);
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Response error:', errorText);
+        throw new Error(`HTTP ${response.status}: ${errorText}`);
+      }
+
       const result = await response.json();
+      console.log('Response result:', result);
 
       if (result.success) {
         alert(`Email sent successfully to ${result.sentCount} recipient(s)!`);
@@ -117,7 +130,8 @@ export default function SendEmailPage() {
       }
     } catch (error) {
       console.error('Error sending emails:', error);
-      alert('Error sending emails. Please try again.');
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      alert('Error sending emails: ' + errorMessage + '\n\nPlease check:\n- Email configuration (EMAIL_USER and EMAIL_PASS)\n- Network connection\n- Browser console for details');
     } finally {
       setSending(false);
     }
