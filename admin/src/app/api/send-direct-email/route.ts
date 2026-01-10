@@ -96,7 +96,47 @@ For more information or to join our team, please visit our workspace at Room 027
 
 export async function POST(request: NextRequest) {
   try {
-    const { recipients, subject, message, templateType } = await request.json();
+    const contentType = request.headers.get('content-type') || '';
+    let recipients, subject, message, templateType, attachments;
+
+    // Handle both JSON and FormData requests
+    if (contentType.includes('multipart/form-data')) {
+      const formData = await request.formData();
+      recipients = JSON.parse(formData.get('recipients') as string || '[]');
+      subject = formData.get('subject') as string;
+      message = formData.get('message') as string;
+      templateType = formData.get('templateType') as string;
+      
+      // Process multiple attachments
+      attachments = [];
+      const files = formData.getAll('attachments');
+      
+      for (const file of files) {
+        if (file instanceof File) {
+          // Check file size (max 25MB per file - Gmail limit)
+          if (file.size > 25 * 1024 * 1024) {
+            return NextResponse.json(
+              { success: false, error: `File ${file.name} exceeds 25MB limit` },
+              { status: 400 }
+            );
+          }
+          
+          const buffer = Buffer.from(await file.arrayBuffer());
+          attachments.push({
+            filename: file.name,
+            content: buffer,
+            contentType: file.type,
+          });
+        }
+      }
+    } else {
+      const body = await request.json();
+      recipients = body.recipients;
+      subject = body.subject;
+      message = body.message;
+      templateType = body.templateType;
+      attachments = body.attachments || [];
+    }
 
     if (!recipients || recipients.length === 0) {
       return NextResponse.json(
@@ -135,7 +175,7 @@ export async function POST(request: NextRequest) {
 
     for (const recipientEmail of recipients) {
       try {
-        const mailOptions = {
+        const mailOptions: any = {
           from: {
             name: 'Team RAW - SFIT',
             address: process.env.EMAIL_USER,
@@ -144,6 +184,11 @@ export async function POST(request: NextRequest) {
           subject: subject,
           text: generateEmailBody(message, templateType || 'custom'),
         };
+
+        // Add attachments if present
+        if (attachments && attachments.length > 0) {
+          mailOptions.attachments = attachments;
+        }
 
         await transporter.sendMail(mailOptions);
         sentCount++;
