@@ -169,41 +169,37 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    // Send emails
-    let sentCount = 0;
-    const failedEmails: string[] = [];
+    // Send single email to all recipients (visible to each other)
+    try {
+      const mailOptions: any = {
+        from: {
+          name: 'Team RAW - SFIT',
+          address: process.env.EMAIL_USER,
+        },
+        to: recipients, // All recipients can see each other
+        subject: subject,
+        text: generateEmailBody(message, templateType || 'custom'),
+      };
 
-    for (const recipientEmail of recipients) {
-      try {
-        const mailOptions: any = {
-          from: {
-            name: 'Team RAW - SFIT',
-            address: process.env.EMAIL_USER,
-          },
-          to: recipientEmail,
-          subject: subject,
-          text: generateEmailBody(message, templateType || 'custom'),
-        };
-
-        // Add attachments if present
-        if (attachments && attachments.length > 0) {
-          mailOptions.attachments = attachments;
-        }
-
-        await transporter.sendMail(mailOptions);
-        sentCount++;
-      } catch (emailError) {
-        console.error(`Failed to send email to ${recipientEmail}:`, emailError);
-        failedEmails.push(recipientEmail);
+      // Add attachments if present
+      if (attachments && attachments.length > 0) {
+        mailOptions.attachments = attachments;
       }
-    }
 
-    return NextResponse.json({
-      success: true,
-      sentCount,
-      totalAttempted: recipients.length,
-      failedEmails: failedEmails.length > 0 ? failedEmails : undefined,
-    });
+      await transporter.sendMail(mailOptions);
+
+      return NextResponse.json({
+        success: true,
+        sentCount: recipients.length,
+        totalAttempted: recipients.length,
+      });
+    } catch (emailError) {
+      console.error('Failed to send email:', emailError);
+      return NextResponse.json(
+        { success: false, error: 'Failed to send email: ' + (emailError as Error).message },
+        { status: 500 }
+      );
+    }
 
   } catch (error) {
     console.error('Error sending emails:', error);
