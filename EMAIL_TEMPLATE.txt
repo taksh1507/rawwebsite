@@ -1,53 +1,53 @@
 ===============================================================
-TEAM RAW EMAIL TEMPLATES - ADMIN USE
+BASIC EMAIL TEMPLATE - ADMIN USE
 ===============================================================
 
 -----------------------------------------------------------
-TEMPLATE 1: GENERAL INQUIRY RESPONSE
+REQUIRED FIELDS
 -----------------------------------------------------------
 
-Subject: Re: [Original Subject] - Team Raw Response
+TO: [Recipient Email]
+SUBJECT: [Email Subject]
+MESSAGE: [Email Message]
 
-Dear [Name],
+-----------------------------------------------------------
+TEMPLATE TYPE OPTIONS
+-----------------------------------------------------------
 
-Thank you for reaching out to Team Raw - Robotics and Automation Wing at St. Francis Institute of Technology.
+- custom (default)
+- inquiry
+- collaboration
+- licensing
+- event
+- recruitment
+- quick
 
-[Response to their specific query]
+-----------------------------------------------------------
+BASIC TEMPLATE STRUCTURE
+-----------------------------------------------------------
 
-If you have any further questions or would like to discuss this in more detail, please feel free to contact us.
+Subject: [Your Subject Here]
+
+[Your Message Content Here]
+
+-----------------------------------------------------------
+
+[LOGO IMAGE]
+Team RAW Logo: https://rawwebsite-seven.vercel.app/logo.png
+
+-----------------------------------------------------------
 
 Best Regards,
 
-Team Raw Administration
+Team RAW Administration
 Robotics and Automation Wing
 St. Francis Institute of Technology
 Room 027, SFIT, Borivali West, Mumbai 400103
 
 Email: teamraw@sfit.ac.in
 Website: https://rawwebsite-seven.vercel.app
-
------------------------------------------------------------
-TEMPLATE 2: COLLABORATION REQUEST RESPONSE
------------------------------------------------------------
-
-Subject: Team Raw Collaboration Opportunity
-
-Dear [Institution/Organization Name],
-
-Team Raw - Robotics and Automation Wing at St. Francis Institute of Technology, Mumbai, would like to explore collaboration opportunities with your organization.
-
-[Details about collaboration proposal]
-
-We believe this partnership would be mutually beneficial and look forward to discussing this further.
-
-Please let us know your availability for a meeting or call.
-
-Best Regards,
-
-Team Raw Administration
-Robotics and Automation Wing
-St. Francis Institute of Technology
-Room 027, SFIT, Borivali West, Mumbai 400103
+Instagram: https://www.instagram.com/teamraw_sfit
+LinkedIn: https://www.linkedin.com/company/team-raw-sfit
 
 Email: teamraw@sfit.ac.in
 Website: https://rawwebsite-seven.vercel.app
