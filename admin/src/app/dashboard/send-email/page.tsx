@@ -156,7 +156,7 @@ export default function SendEmailPage() {
     <div className={styles.container}>
       <div className={styles.header}>
         <h1>📧 Send Email</h1>
-        <p className={styles.subtitle}>Send emails directly with Team RAW template</p>
+        <p className={styles.subtitle}>Send emails directly with Team RAW template to multiple recipients</p>
       </div>
 
       {emailConfigured === false && (
