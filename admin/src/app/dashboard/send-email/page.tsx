@@ -71,21 +71,37 @@ export default function SendEmailPage() {
 
     setSending(true);
     try {
-      const formData = new FormData();
-      formData.append('recipients', JSON.stringify(validEmails));
-      formData.append('subject', subject);
-      formData.append('message', message);
-      formData.append('templateType', templateType);
+      let response;
 
-      // Add attachments
-      attachments.forEach((file) => {
-        formData.append('attachments', file);
-      });
+      // Use FormData if there are attachments, otherwise use JSON
+      if (attachments.length > 0) {
+        const formData = new FormData();
+        formData.append('recipients', JSON.stringify(validEmails));
+        formData.append('subject', subject);
+        formData.append('message', message);
+        formData.append('templateType', templateType);
 
-      const response = await fetch('/api/send-direct-email', {
-        method: 'POST',
-        body: formData,
-      });
+        // Add attachments
+        attachments.forEach((file) => {
+          formData.append('attachments', file);
+        });
+
+        response = await fetch('/api/send-direct-email', {
+          method: 'POST',
+          body: formData,
+        });
+      } else {
+        response = await fetch('/api/send-direct-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            recipients: validEmails,
+            subject,
+            message,
+            templateType,
+          }),
+        });
+      }
 
       const result = await response.json();
 
