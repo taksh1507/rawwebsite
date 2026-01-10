@@ -7,14 +7,7 @@ function generateEmailBody(message: string, templateType: string = 'custom'): st
 
 Best Regards,
 
------------------------------------------------------------
-
-[LOGO]
-Team RAW Logo: https://rawwebsite-seven.vercel.app/logo.png
-
------------------------------------------------------------
-
-Team RAW Administration
+Team RAW
 Robotics and Automation Wing
 St. Francis Institute of Technology
 Room 027, SFIT, Borivali West, Mumbai 400103
@@ -27,13 +20,6 @@ LinkedIn: https://www.linkedin.com/company/team-raw-sfit`;
   const quickSignature = `
 
 Best Regards,
-
------------------------------------------------------------
-
-[LOGO]
-Team RAW Logo: https://rawwebsite-seven.vercel.app/logo.png
-
------------------------------------------------------------
 
 Team RAW
 Robotics and Automation Wing
