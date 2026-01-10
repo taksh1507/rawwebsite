@@ -73,7 +73,20 @@ export default function SendEmailPage() {
     try {
       let response;
 
+      // Calculate total attachment size
+      const totalAttachmentSize = attachments.reduce((sum, file) => sum + file.size, 0);
+      const totalSizeMB = totalAttachmentSize / (1024 * 1024);
+
+      // Warn if total size is large (Vercel has limits)
+      if (totalSizeMB > 10) {
+        if (!confirm(`Total attachment size is ${totalSizeMB.toFixed(2)}MB. Large attachments may fail on deployment. Continue?`)) {
+          setSending(false);
+          return;
+        }
+      }
+
       console.log('Sending email to', validEmails.length, 'recipients');
+      console.log('Total attachment size:', totalSizeMB.toFixed(2), 'MB');
 
       // Use FormData if there are attachments, otherwise use JSON
       if (attachments.length > 0) {
