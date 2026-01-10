@@ -172,6 +172,9 @@ export default function SendEmailPage() {
       <div className={styles.formContainer}>
         <div className={styles.formSection}>
           <h3>📝 Select Email Template</h3>
+          <p className={styles.helpText}>
+            Choose a pre-built template or use custom message format
+          </p>
           <select
             className={styles.templateSelect}
             value={templateType}
