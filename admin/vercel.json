@@ -1,6 +1,6 @@
 {
   "functions": {
-    "api/send-direct-email/route.ts": {
+    "src/app/api/send-direct-email/route.ts": {
       "maxDuration": 60,
       "memory": 3008
     }
