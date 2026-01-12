@@ -21,10 +21,16 @@ export async function OPTIONS() {
 interface GalleryImage {
   title: string;
   description?: string;
+  detailedDescription?: string;
   imageUrl: string;
+  images?: string[]; // Multiple images
   category: string;
   uploadedBy?: string;
   year?: number;
+  location?: string;
+  date?: string;
+  participants?: string;
+  highlights?: string[];
   createdAt: string;
 }
 
@@ -47,10 +53,16 @@ export async function POST(request: NextRequest) {
     const newImage: GalleryImage = {
       title: body.title.trim(),
       description: body.description?.trim() || '',
+      detailedDescription: body.detailedDescription?.trim() || '',
       imageUrl: body.imageUrl.trim(),
+      images: body.images || [],
       category: body.category,
       uploadedBy: body.uploadedBy || 'Admin',
       year: body.year || new Date().getFullYear(),
+      location: body.location?.trim() || '',
+      date: body.date || '',
+      participants: body.participants?.trim() || '',
+      highlights: body.highlights || [],
       createdAt: new Date().toISOString(),
     };
 

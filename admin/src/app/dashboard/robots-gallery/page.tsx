@@ -119,20 +119,55 @@ export default function RobotsGalleryEnhancedPage() {
       setError(null);
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://rawwebsite-seven.vercel.app';
       
+      console.log('🔍 Fetching data from:', apiUrl);
+      console.log('🔍 View mode:', viewMode);
+      
       if (viewMode === 'robots') {
-        const response = await fetch(`${apiUrl}/api/robots`);
-        if (!response.ok) throw new Error('Failed to fetch robots');
+        const url = `${apiUrl}/api/robots`;
+        console.log('🔍 Fetching robots from:', url);
+        
+        const response = await fetch(url, {
+          method: 'GET',
+          headers: { 'Accept': 'application/json' },
+          mode: 'cors',
+          credentials: 'omit',
+        });
+        
+        console.log('📡 Response status:', response.status);
+        if (!response.ok) throw new Error(`Failed to fetch robots: ${response.status} ${response.statusText}`);
+        
         const data = await response.json();
+        console.log('✅ Robots fetched:', data.data?.length || 0);
         setRobots(data.data || []);
       } else {
-        const response = await fetch(`${apiUrl}/api/gallery`);
-        if (!response.ok) throw new Error('Failed to fetch gallery');
+        const url = `${apiUrl}/api/gallery`;
+        console.log('🔍 Fetching gallery from:', url);
+        
+        const response = await fetch(url, {
+          method: 'GET',
+          headers: { 'Accept': 'application/json' },
+          mode: 'cors',
+          credentials: 'omit',
+        });
+        
+        console.log('📡 Response status:', response.status);
+        if (!response.ok) throw new Error(`Failed to fetch gallery: ${response.status} ${response.statusText}`);
+        
         const data = await response.json();
+        console.log('✅ Gallery items fetched:', data.data?.length || 0);
         setGalleryItems(data.data || []);
       }
     } catch (err) {
-      console.error('Error fetching data:', err);
-      setError(err instanceof Error ? err.message : 'Failed to fetch data');
+      console.error('❌ Error fetching data:', err);
+      
+      let errorMessage = 'Failed to fetch data';
+      if (err instanceof TypeError && err.message.includes('fetch')) {
+        errorMessage = 'Network error - Could not connect to API. Please check if the main app is running or accessible.';
+      } else if (err instanceof Error) {
+        errorMessage = err.message;
+      }
+      
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -186,7 +221,40 @@ export default function RobotsGalleryEnhancedPage() {
     }
   };
 
-  const processImageFile = (file: File) => {
+  const compressImage = async (file: File, maxWidth: number = 1200, quality: number = 0.8): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          let width = img.width;
+          let height = img.height;
+
+          // Resize if image is too large
+          if (width > maxWidth) {
+            height = (height * maxWidth) / width;
+            width = maxWidth;
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx!.drawImage(img, 0, 0, width, height);
+
+          // Convert to compressed base64
+          const compressedBase64 = canvas.toDataURL('image/jpeg', quality);
+          resolve(compressedBase64);
+        };
+        img.onerror = () => reject(new Error('Failed to load image'));
+        img.src = e.target!.result as string;
+      };
+      reader.onerror = () => reject(new Error('Failed to read file'));
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const processImageFile = async (file: File) => {
     if (file.size > 5 * 1024 * 1024) {
       showToast('Image size should be less than 5MB', 'error');
       return;
@@ -197,14 +265,20 @@ export default function RobotsGalleryEnhancedPage() {
       return;
     }
 
-    setImageFile(file);
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      const base64String = reader.result as string;
-      setImagePreview(base64String);
-      setFormData({ ...formData, imageUrl: base64String });
-    };
-    reader.readAsDataURL(file);
+    try {
+      setImageFile(file);
+      showToast('Compressing image...', 'success');
+      const compressedBase64 = await compressImage(file, 1200, 0.7);
+      setImagePreview(compressedBase64);
+      setFormData({ ...formData, imageUrl: compressedBase64 });
+      
+      // Calculate size
+      const sizeKB = Math.round((compressedBase64.length * 0.75) / 1024);
+      console.log(`✅ Image compressed: ${sizeKB}KB`);
+    } catch (error) {
+      console.error('Error compressing image:', error);
+      showToast('Failed to process image', 'error');
+    }
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -212,9 +286,15 @@ export default function RobotsGalleryEnhancedPage() {
     if (file) processImageFile(file);
   };
 
-  const handleMultipleImagesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleMultipleImagesChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files && files.length > 0) {
+      // Limit number of images
+      if (multipleImages.length + files.length > 8) {
+        showToast('Maximum 8 additional images allowed', 'error');
+        return;
+      }
+
       const newImages: string[] = [];
       const newPreviews: string[] = [];
       const validFiles: File[] = [];
@@ -233,23 +313,29 @@ export default function RobotsGalleryEnhancedPage() {
 
       if (validFiles.length === 0) return;
 
-      let processedCount = 0;
-      validFiles.forEach((file) => {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          const base64String = reader.result as string;
-          newImages.push(base64String);
-          newPreviews.push(base64String);
-          processedCount++;
+      showToast(`Compressing ${validFiles.length} image(s)...`, 'success');
 
-          if (processedCount === validFiles.length) {
-            setMultipleImages(prev => [...prev, ...newImages]);
-            setMultipleImagePreviews(prev => [...prev, ...newPreviews]);
-            setFormData((prev: any) => ({ ...prev, images: [...(prev.images || []), ...newImages] }));
-          }
-        };
-        reader.readAsDataURL(file);
-      });
+      // Process images sequentially with compression
+      for (const file of validFiles) {
+        try {
+          const compressedBase64 = await compressImage(file, 1000, 0.6); // Smaller size for multiple images
+          newImages.push(compressedBase64);
+          newPreviews.push(compressedBase64);
+          
+          const sizeKB = Math.round((compressedBase64.length * 0.75) / 1024);
+          console.log(`✅ Additional image compressed: ${sizeKB}KB`);
+        } catch (error) {
+          console.error('Error compressing image:', error);
+          showToast(`Failed to process ${file.name}`, 'error');
+        }
+      }
+
+      if (newImages.length > 0) {
+        setMultipleImages(prev => [...prev, ...newImages]);
+        setMultipleImagePreviews(prev => [...prev, ...newPreviews]);
+        setFormData((prev: any) => ({ ...prev, images: [...(prev.images || []), ...newImages] }));
+        showToast(`${newImages.length} image(s) added successfully`, 'success');
+      }
     }
   };
 
@@ -344,20 +430,54 @@ export default function RobotsGalleryEnhancedPage() {
         };
       }
 
+      // Check document size (MongoDB limit is 16MB)
+      const payloadSize = new Blob([JSON.stringify(payload)]).size;
+      const sizeMB = payloadSize / (1024 * 1024);
+      console.log(`📊 Payload size: ${sizeMB.toFixed(2)}MB`);
+      
+      if (sizeMB > 14) { // Leave buffer before 16MB limit
+        showToast(`Document too large (${sizeMB.toFixed(1)}MB). Please reduce number of images or image quality.`, 'error');
+        setIsSubmitting(false);
+        return;
+      }
+
       const url = editingItem 
         ? `${apiUrl}/api/${endpoint}/${editingItem._id}`
         : `${apiUrl}/api/${endpoint}`;
       
+      console.log('🔄 Making request to:', url);
+      console.log('📦 Payload size:', sizeMB.toFixed(2), 'MB');
+      console.log('🔧 Method:', editingItem ? 'PATCH' : 'POST');
+      
       const response = await fetch(url, {
         method: editingItem ? 'PATCH' : 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
         body: JSON.stringify(payload),
+        mode: 'cors',
+        credentials: 'omit',
       });
 
+      console.log('📡 Response status:', response.status);
+      console.log('📡 Response ok:', response.ok);
+
       if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.message || 'Failed to save');
+        let errorMessage = 'Failed to save';
+        try {
+          const data = await response.json();
+          errorMessage = data.message || errorMessage;
+          console.error('❌ Server error:', data);
+        } catch (parseError) {
+          console.error('❌ Could not parse error response:', parseError);
+          errorMessage = `Server returned ${response.status}: ${response.statusText}`;
+        }
+        throw new Error(errorMessage);
       }
+
+      const result = await response.json();
+      console.log('✅ Success:', result);
 
       showToast(`${viewMode === 'robots' ? 'Robot' : 'Gallery item'} ${editingItem ? 'updated' : 'created'} successfully!`, 'success');
       setShowForm(false);
@@ -365,8 +485,16 @@ export default function RobotsGalleryEnhancedPage() {
       resetForm();
       fetchData();
     } catch (err) {
-      console.error('Error saving:', err);
-      showToast(`Failed to save: ${err instanceof Error ? err.message : 'Unknown error'}`, 'error');
+      console.error('❌ Error saving:', err);
+      
+      let errorMessage = 'Unknown error';
+      if (err instanceof TypeError && err.message.includes('fetch')) {
+        errorMessage = 'Network error - Could not connect to API. Please check if the main app is running.';
+      } else if (err instanceof Error) {
+        errorMessage = err.message;
+      }
+      
+      showToast(`Failed to save: ${errorMessage}`, 'error');
     } finally {
       setIsSubmitting(false);
     }
@@ -937,12 +1065,12 @@ export default function RobotsGalleryEnhancedPage() {
 
                         <div className={styles.formGroup}>
                           <label className={styles.label}>
-                            Additional Images (Multiple)
+                            Additional Images (Multiple) - Max 8
                           </label>
                           <div className={styles.uploadArea} onClick={() => document.getElementById('gallery-multi-input')?.click()}>
                             <div className={styles.uploadIcon}>📸</div>
                             <p className={styles.uploadText}>Click to upload multiple images</p>
-                            <p className={styles.uploadHint}>Upload multiple images for gallery view</p>
+                            <p className={styles.uploadHint}>Up to 8 compressed images (auto-compressed to reduce size)</p>
                             <input
                               id="gallery-multi-input"
                               type="file"

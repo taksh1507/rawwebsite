@@ -77,9 +77,24 @@ export async function PATCH(
     const db = await getDatabase();
     const collection = db.collection('gallery');
 
+    // Prepare update data with all supported fields
+    const updateData: any = {};
+    if (body.title !== undefined) updateData.title = body.title;
+    if (body.description !== undefined) updateData.description = body.description;
+    if (body.detailedDescription !== undefined) updateData.detailedDescription = body.detailedDescription;
+    if (body.imageUrl !== undefined) updateData.imageUrl = body.imageUrl;
+    if (body.images !== undefined) updateData.images = body.images;
+    if (body.category !== undefined) updateData.category = body.category;
+    if (body.uploadedBy !== undefined) updateData.uploadedBy = body.uploadedBy;
+    if (body.year !== undefined) updateData.year = body.year;
+    if (body.location !== undefined) updateData.location = body.location;
+    if (body.date !== undefined) updateData.date = body.date;
+    if (body.participants !== undefined) updateData.participants = body.participants;
+    if (body.highlights !== undefined) updateData.highlights = body.highlights;
+
     const result = await collection.findOneAndUpdate(
       { _id: new ObjectId(id) },
-      { $set: body },
+      { $set: updateData },
       { returnDocument: 'after' }
     );
 
