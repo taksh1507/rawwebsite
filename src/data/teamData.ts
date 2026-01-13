@@ -52,8 +52,8 @@ export const teamMembers: TeamMember[] = [
     department: 'Designer',
     category: 'core',
     imageUrl: '/dittino.jpg',
-    email: 'dittino.thomas@student.sfit.ac.in',
-    linkedin: 'https://www.linkedin.com/in/dittino-thomas',
+    email: 'dittinothomas05@student.sfit.ac.in',
+    linkedin: 'https://www.linkedin.com/in/dittinothomas',
     createdAt: '2024-01-15',
   },
   {
@@ -153,8 +153,8 @@ export const teamMembers: TeamMember[] = [
     department: 'Designer',
     category: 'core',
     imageUrl: '/Shell.jpg',
-    email: 'shail.raut@student.sfit.ac.in',
-    linkedin: 'https://www.linkedin.com/in/shail-raut',
+    email: 'shailrautmcoc@student.sfit.ac.in',
+    linkedin: 'https://www.linkedin.com/in/shail-raut-54386a358',
     createdAt: '2024-01-15',
   },
   {
