@@ -354,7 +354,7 @@ export const teamMembers: TeamMember[] = [
     category: 'members',
     imageUrl: '/gunjan.jpg',
     email: 'gunjanpatil968@student.sfit.ac.in',
-    linkedin: 'https://www.linkedin.com/in/gunjan-patil',
+    linkedin: 'https://www.linkedin.com/in/gunjan-patil-2a069333b',
     createdAt: '2024-03-10',
   },
   {
