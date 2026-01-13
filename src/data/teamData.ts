@@ -159,7 +159,7 @@ export const teamMembers: TeamMember[] = [
   },
   {
     _id: 'core13',
-    name: 'Jash Mukesh Mewada',
+    name: 'Jash Mewada',
     role: 'INVENTORY MANAGER',
     department: 'Coder',
     category: 'members',
@@ -249,7 +249,7 @@ export const teamMembers: TeamMember[] = [
   },
   {
     _id: 'member3',
-    name: 'Siddha Santosh Shete',
+    name: 'Siddha Shete',
     role: 'EXECUTIVE MEMBER',
     department: 'Technical',
     category: 'members',
@@ -293,7 +293,7 @@ export const teamMembers: TeamMember[] = [
   },
   {
     _id: 'member7',
-    name: 'Paarth Rajendra Pradhan',
+    name: 'Paarth Pradhan',
     role: 'EXECUTIVE MEMBER',
     department: 'Technical',
     category: 'members',
