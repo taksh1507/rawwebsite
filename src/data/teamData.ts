@@ -30,8 +30,8 @@ export const teamMembers: TeamMember[] = [
     department: 'Management',
     category: 'core',
     imageUrl: '/ramjee.jpeg',
-    email: 'ramjee.yadav@sfit.ac.in',
-    linkedin: 'https://www.linkedin.com/in/ramjee-yadav',
+    email: 'ramjeeyadav@sfit.ac.in',
+    linkedin: 'https://www.linkedin.com/in/ramjeeyadav/',
     createdAt: '2024-01-15',
   },
   {
