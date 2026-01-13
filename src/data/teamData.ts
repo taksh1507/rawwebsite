@@ -41,8 +41,8 @@ export const teamMembers: TeamMember[] = [
     department: 'Electronics',
     category: 'core',
     imageUrl: '/siddhant.jpg',
-    email: 'siddhant.monde@student.sfit.ac.in',
-    linkedin: 'https://www.linkedin.com/in/siddhant-monde',
+    email: 'siddhantj.monde23@student.sfit.ac.in',
+    linkedin: 'https://www.linkedin.com/in/siddhant-monde-4a60502b7',
     createdAt: '2024-01-15',
   },
   {
