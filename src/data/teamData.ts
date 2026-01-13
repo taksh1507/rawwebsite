@@ -320,8 +320,8 @@ export const teamMembers: TeamMember[] = [
     department: 'Technical',
     category: 'members',
     imageUrl: '/Vansh.jpg',
-    email: 'vansh.singh@student.sfit.ac.in',
-    linkedin: 'https://www.linkedin.com/in/vansh-singh',
+    email: 'Vanshsinghat@student.sfit.ac.in',
+    linkedin: 'https://www.linkedin.com/in/vansh-singh-738353347',
     createdAt: '2024-03-10',
   },
   {
