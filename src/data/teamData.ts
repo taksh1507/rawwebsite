@@ -74,8 +74,8 @@ export const teamMembers: TeamMember[] = [
     department: 'Electronics',
     category: 'core',
     imageUrl: '/logo.png',
-    email: 'saish.loke@student.sfit.ac.in',
-    linkedin: 'https://www.linkedin.com/in/saish-loke',
+    email: 'lokesaish@student.sfit.ac.in',
+    linkedin: 'https://www.linkedin.com/in/saish-loke-867646291/',
     createdAt: '2024-01-15',
   },
   {
