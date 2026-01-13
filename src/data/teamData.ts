@@ -243,8 +243,8 @@ export const teamMembers: TeamMember[] = [
     department: 'Technical',
     category: 'members',
     imageUrl: '/Joshua.jpg',
-    email: 'jhoshua.coutinho@student.sfit.ac.in',
-    linkedin: 'https://www.linkedin.com/in/jhoshua-coutinho',
+    email: 'coutinhojhoshua5@student.sfit.ac.in',
+    linkedin: 'https://www.linkedin.com/in/jhoshua-coutinho-34b70333b',
     createdAt: '2024-03-10',
   },
   {
