@@ -29,7 +29,11 @@ export async function PATCH(
       deadline: body.deadline,
       teamSize: body.teamSize,
       imageUrl: body.imageUrl || null,
+      notes: body.notes || '',
       isActive: body.isActive ?? true,
+      registrationEnabled: body.registrationEnabled ?? true,
+      registrationStartDate: body.registrationStartDate || null,
+      registrationEndDate: body.registrationEndDate || null,
       customFields: body.customFields || [],
       updatedAt: new Date().toISOString(),
     };

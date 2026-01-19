@@ -29,6 +29,9 @@ interface Competition {
   imageUrl?: string;
   notes?: string;
   isActive: boolean;
+  registrationEnabled: boolean;
+  registrationStartDate?: string;
+  registrationEndDate?: string;
   customFields: CustomField[];
   createdAt: string;
   updatedAt: string;
@@ -50,6 +53,9 @@ export default function CompetitionsPage() {
     imageUrl: '',
     notes: '',
     isActive: true,
+    registrationEnabled: true,
+    registrationStartDate: '',
+    registrationEndDate: '',
     customFields: [] as CustomField[],
   });
 
@@ -201,6 +207,9 @@ export default function CompetitionsPage() {
       imageUrl: competition.imageUrl || '',
       notes: competition.notes || '',
       isActive: competition.isActive,
+      registrationEnabled: competition.registrationEnabled ?? true,
+      registrationStartDate: competition.registrationStartDate || '',
+      registrationEndDate: competition.registrationEndDate || '',
       customFields: competition.customFields || [],
     });
     setShowForm(true);
@@ -236,6 +245,9 @@ export default function CompetitionsPage() {
       imageUrl: '',
       notes: '',
       isActive: true,
+      registrationEnabled: true,
+      registrationStartDate: '',
+      registrationEndDate: '',
       customFields: [],
     });
     setEditingCompetition(null);
@@ -369,8 +381,44 @@ export default function CompetitionsPage() {
                     checked={formData.isActive}
                     onChange={handleInputChange}
                   />
-                  <span>Active (Show in registration form)</span>
+                  <span>Active (Show in competitions list)</span>
                 </label>
+              </div>
+
+              <div className={styles.formGroup}>
+                <label className={styles.checkbox}>
+                  <input
+                    type="checkbox"
+                    name="registrationEnabled"
+                    checked={formData.registrationEnabled}
+                    onChange={handleInputChange}
+                  />
+                  <span>Enable Registration (Allow students to register)</span>
+                </label>
+              </div>
+
+              <div className={styles.formRow}>
+                <div className={styles.formGroup}>
+                  <label>Registration Start Date (Optional)</label>
+                  <input
+                    type="datetime-local"
+                    name="registrationStartDate"
+                    value={formData.registrationStartDate}
+                    onChange={handleInputChange}
+                  />
+                  <small style={{color: '#666', fontSize: '0.85rem'}}>Leave empty to start immediately</small>
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label>Registration End Date (Optional)</label>
+                  <input
+                    type="datetime-local"
+                    name="registrationEndDate"
+                    value={formData.registrationEndDate}
+                    onChange={handleInputChange}
+                  />
+                  <small style={{color: '#666', fontSize: '0.85rem'}}>Leave empty for no end date</small>
+                </div>
               </div>
             </div>
 
@@ -546,13 +594,40 @@ export default function CompetitionsPage() {
           </div>
         ) : (
           <div className={styles.grid}>
-            {competitions.map((competition) => (
+            {competitions.map((competition) => {
+              // Check registration status
+              const now = new Date();
+              const startDate = competition.registrationStartDate ? new Date(competition.registrationStartDate) : null;
+              const endDate = competition.registrationEndDate ? new Date(competition.registrationEndDate) : null;
+              
+              let registrationStatus = 'Disabled';
+              let registrationColor = '#666';
+              
+              if (competition.registrationEnabled) {
+                if (startDate && now < startDate) {
+                  registrationStatus = 'Not Started';
+                  registrationColor = '#ff9800';
+                } else if (endDate && now > endDate) {
+                  registrationStatus = 'Closed';
+                  registrationColor = '#f44336';
+                } else {
+                  registrationStatus = 'Open';
+                  registrationColor = '#4caf50';
+                }
+              }
+              
+              return (
               <div key={competition._id} className={styles.card}>
                 <div className={styles.cardHeader}>
                   <h3>{competition.name}</h3>
-                  <span className={`${styles.badge} ${competition.isActive ? styles.active : styles.inactive}`}>
-                    {competition.isActive ? 'Active' : 'Inactive'}
-                  </span>
+                  <div style={{display: 'flex', gap: '8px', flexWrap: 'wrap'}}>
+                    <span className={`${styles.badge} ${competition.isActive ? styles.active : styles.inactive}`}>
+                      {competition.isActive ? 'Active' : 'Inactive'}
+                    </span>
+                    <span className={styles.badge} style={{backgroundColor: registrationColor, color: 'white'}}>
+                      Registration: {registrationStatus}
+                    </span>
+                  </div>
                 </div>
                 
                 <div className={styles.cardBody}>
@@ -561,6 +636,17 @@ export default function CompetitionsPage() {
                   <p><strong>Deadline:</strong> {competition.deadline}</p>
                   <p><strong>Team Size:</strong> {competition.teamSize}</p>
                   <p className={styles.description}>{competition.description}</p>
+                  
+                  {(competition.registrationStartDate || competition.registrationEndDate) && (
+                    <div style={{marginTop: '10px', padding: '8px', backgroundColor: '#f5f5f5', borderRadius: '4px', fontSize: '0.9rem'}}>
+                      {competition.registrationStartDate && (
+                        <p style={{margin: '4px 0'}}><strong>Reg. Start:</strong> {new Date(competition.registrationStartDate).toLocaleString()}</p>
+                      )}
+                      {competition.registrationEndDate && (
+                        <p style={{margin: '4px 0'}}><strong>Reg. End:</strong> {new Date(competition.registrationEndDate).toLocaleString()}</p>
+                      )}
+                    </div>
+                  )}
                   
                   {competition.customFields.length > 0 && (
                     <p><strong>Custom Fields:</strong> {competition.customFields.length}</p>
@@ -582,7 +668,8 @@ export default function CompetitionsPage() {
                   </button>
                 </div>
               </div>
-            ))}
+            );
+            })}
           </div>
         )}
       </div>

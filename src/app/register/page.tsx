@@ -34,6 +34,9 @@ interface Competition {
   imageUrl?: string;
   notes?: string;
   isActive: boolean;
+  registrationEnabled: boolean;
+  registrationStartDate?: string;
+  registrationEndDate?: string;
   customFields: CustomField[];
 }
 
@@ -67,6 +70,7 @@ export default function RegisterPage() {
   useEffect(() => {
     const fetchCompetitions = async () => {
       try {
+        // Fetch all active competitions (not just those with registration enabled)
         const response = await fetch('/api/competitions?active=true');
         const result = await response.json();
         if (result.success) {
@@ -381,20 +385,51 @@ export default function RegisterPage() {
                       ? comp.description 
                       : comp.description.substring(0, 120) + '...';
                     
+                    // Check registration status
+                    const now = new Date();
+                    const startDate = comp.registrationStartDate ? new Date(comp.registrationStartDate) : null;
+                    const endDate = comp.registrationEndDate ? new Date(comp.registrationEndDate) : null;
+                    
+                    let canRegister = comp.registrationEnabled !== false;
+                    let registrationMessage = '';
+                    let registrationBadgeStyle = {};
+                    
+                    if (!comp.registrationEnabled) {
+                      canRegister = false;
+                      registrationMessage = 'Registration Disabled';
+                      registrationBadgeStyle = { backgroundColor: '#666', color: 'white' };
+                    } else if (startDate && now < startDate) {
+                      canRegister = false;
+                      registrationMessage = `Registration Opens: ${startDate.toLocaleDateString()}`;
+                      registrationBadgeStyle = { backgroundColor: '#ff9800', color: 'white' };
+                    } else if (endDate && now > endDate) {
+                      canRegister = false;
+                      registrationMessage = 'Registration Closed';
+                      registrationBadgeStyle = { backgroundColor: '#f44336', color: 'white' };
+                    } else {
+                      registrationMessage = 'Registration Open';
+                      registrationBadgeStyle = { backgroundColor: '#4caf50', color: 'white' };
+                    }
+                    
                     return (
                       <motion.div
                         key={comp._id}
                         className={`${styles.competitionCard} competition-card ${
                           selectedCompetition?._id === comp._id ? styles.competitionCardActive : ''
-                        }`}
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
+                        } ${!canRegister ? styles.competitionCardDisabled : ''}`}
+                        whileHover={{ scale: canRegister ? 1.02 : 1 }}
+                        whileTap={{ scale: canRegister ? 0.98 : 1 }}
+                        style={{ opacity: canRegister ? 1 : 0.7 }}
                       >
-                        {selectedCompetition?._id === comp._id && (
+                        {selectedCompetition?._id === comp._id && canRegister && (
                           <span className={styles.selectedBadge}>✓ Selected</span>
                         )}
                         
-                        <div onClick={() => handleCompetitionSelect(comp)} style={{ cursor: 'pointer' }}>
+                        <span className={styles.registrationStatusBadge} style={registrationBadgeStyle}>
+                          {registrationMessage}
+                        </span>
+                        
+                        <div onClick={() => canRegister && handleCompetitionSelect(comp)} style={{ cursor: canRegister ? 'pointer' : 'not-allowed' }}>
                           <div className={styles.competitionHeader}>
                             <h4 className="competition-title">{comp.name}</h4>
                           </div>

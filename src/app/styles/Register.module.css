@@ -290,6 +290,31 @@
   box-shadow: 0 4px 20px rgba(225, 6, 0, 0.15);
 }
 
+.competitionCardDisabled {
+  cursor: not-allowed !important;
+  opacity: 0.7;
+}
+
+.competitionCardDisabled:hover {
+  border-color: rgba(10, 26, 58, 0.08) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+  transform: none !important;
+}
+
+.registrationStatusBadge {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  z-index: 2;
+  letter-spacing: 0.02em;
+}
+
 .competitionHeader {
   margin-bottom: 0.75rem;
 }
