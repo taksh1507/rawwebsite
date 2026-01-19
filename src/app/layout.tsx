@@ -12,6 +12,7 @@
 
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { DataProvider } from "@/context/DataContext";
 import FloatingChatbot from "./components/FloatingChatbot";
@@ -115,6 +116,18 @@ export default function RootLayout({
         <meta name="theme-color" content="#B2001D" />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-WC1498W69G"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-WC1498W69G');
+          `}
+        </Script>
         <StructuredData />
         <DataProvider>
           {children}
