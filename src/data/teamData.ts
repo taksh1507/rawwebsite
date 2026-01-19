@@ -359,11 +359,11 @@ export const teamMembers: TeamMember[] = [
   },
   {
     _id: 'member13',
-    name: 'Nityanr Tiwari',
+    name: 'Nityant Tiwari',
     role: 'EXECUTIVE MEMBER',
     department: 'Technical',
     category: 'members',
-    imageUrl: '/logo.png',
+    imageUrl: '/nityant.jpeg',
     email: 'nityant.tiwari2404@gmail.com',
     linkedin: 'https://www.linkedin.com/in/nityant-tiwari-88b97533b',
     createdAt: '2024-03-10',
