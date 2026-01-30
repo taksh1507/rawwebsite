@@ -197,7 +197,7 @@ export const teamMembers: TeamMember[] = [
     role: 'MENTOR',
     department: 'Coder Electronics',
     category: 'mentors',
-    imageUrl: '/logo.png',
+    imageUrl: '/diyanshu modi.jpeg',
     email: 'diyanshu.modi@alumni.sfit.ac.in',
     linkedin: 'https://www.linkedin.com/in/diyanshu-modi',
     createdAt: '2024-02-01',
