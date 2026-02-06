@@ -77,9 +77,8 @@ export default function AboutUs() {
               <Target size={28} strokeWidth={2.5} />
             </div>
             <div className={styles.missionContent}>
-              <h3>Our Mission</h3>
-              <p>
-                To provide a supportive environment for students to develop technical skills, conduct robotics research, and work on long-term innovative projects, while collaborating with industries and institutions to enhance learning and exposure in the field of robotics.
+             <p>
+                To represent SFIT in prestigious national and international robotics competitions such as DD Robocon, showcasing the technical excellence, teamwork and innovation of the institute.
               </p>
             </div>
           </motion.div>
@@ -211,11 +210,12 @@ export default function AboutUs() {
                 ].map((domain) => {
                   const IconComponent = domain.icon;
                   const isActive = expandedDomain === domain.id;
+                  const memberData = teamMembers.find(m => m._id === domain.memberId);
                   
                   return (
                     <motion.div
                       key={domain.id}
-                      className={`${styles.domainCard} ${isActive ? styles.active : ''}`}
+                      className={`${styles.domainCard} ${isActive ? styles.active : ''} ${isActive ? styles.expanded : ''}`}
                       onClick={() => setExpandedDomain(isActive ? null : domain.id)}
                       whileHover={{ 
                         x: 5,
@@ -228,7 +228,47 @@ export default function AboutUs() {
                           <IconComponent size={20} strokeWidth={2.5} />
                         </div>
                         <h4 className={styles.domainTitle}>{domain.title}</h4>
+                        <ChevronDown 
+                          className={styles.chevronIcon} 
+                          size={18} 
+                          style={{
+                            transform: isActive ? 'rotate(180deg)' : 'rotate(0deg)',
+                            transition: 'transform 0.3s ease'
+                          }}
+                        />
                       </div>
+                      
+                      {/* Mobile Member Details - Shows on mobile only */}
+                      <AnimatePresence>
+                        {isActive && memberData && (
+                          <motion.div
+                            className={styles.memberDetails}
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.3 }}
+                          >
+                            <div className={styles.memberContent}>
+                              <div className={styles.memberImageWrapper}>
+                                <Image
+                                  src={memberData.imageUrl}
+                                  alt={memberData.name}
+                                  width={100}
+                                  height={100}
+                                  className={styles.memberImage}
+                                  unoptimized
+                                />
+                              </div>
+                              <div className={styles.memberInfo}>
+                                <h5 className={styles.memberName}>{memberData.name}</h5>
+                                {domain.role && (
+                                  <p className={styles.memberRole}>{domain.role}</p>
+                                )}
+                              </div>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </motion.div>
                   );
                 })}

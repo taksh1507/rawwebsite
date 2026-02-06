@@ -327,6 +327,17 @@
   gap: 0.875rem;
 }
 
+.chevronIcon {
+  margin-left: auto;
+  color: var(--color-red);
+  flex-shrink: 0;
+  display: none;
+
+  @media (max-width: 968px) {
+    display: block;
+  }
+}
+
 .domainIconWrapper {
   width: 36px;
   height: 36px;
