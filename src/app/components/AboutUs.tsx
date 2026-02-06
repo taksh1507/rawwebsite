@@ -5,11 +5,16 @@
 
 'use client';
 
-import { motion } from 'framer-motion';
-import { Target, Zap, Layers, Users, Trophy, Factory, Handshake, Rocket, Cog, Cpu, Code, Briefcase, Calendar } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
+import { useState } from 'react';
+import { Target, Zap, Layers, Users, Trophy, Factory, Handshake, Rocket, Cog, Cpu, Code, Briefcase, Calendar, ChevronDown } from 'lucide-react';
 import styles from '../styles/AboutUs.module.css';
+import { teamMembers } from '@/data/teamData';
 
 export default function AboutUs() {
+  const [expandedDomain, setExpandedDomain] = useState<string | null>(null);
+
   const leftVariants = {
     hidden: { opacity: 0, x: -50 },
     visible: { 
@@ -91,7 +96,7 @@ export default function AboutUs() {
               whileHover={{ y: -5, boxShadow: '0 12px 24px rgba(225, 6, 0, 0.15)' }}
             >
               <Layers className={styles.statIcon} size={32} strokeWidth={2} />
-              <span className={styles.statValue}>3+</span>
+              <span className={styles.statValue}>7</span>
               <span className={styles.statLabel}>Domains</span>
             </motion.div>
             <motion.div 
@@ -119,33 +124,280 @@ export default function AboutUs() {
             viewport={{ once: true }}
             transition={{ delay: 0.6 }}
           >
-            <h3>Our Domains</h3>
+            <h3>Team / Domains</h3>
             <div className={styles.domainDivider}></div>
-            <div className={styles.domainsList}>
-              {[
-                { name: 'Mechanical Design', icon: Cog },
-                { name: 'Electronics & Control', icon: Cpu },
-                { name: 'Embedded Systems & AI', icon: Code },
-                { name: 'Public Relations & Logistics', icon: Briefcase },
-              ].map((domain) => {
-                const IconComponent = domain.icon;
-                return (
-                  <motion.div
-                    key={domain.name}
-                    className={styles.domainPill}
-                    whileHover={{ 
-                      scale: 1.05, 
-                      backgroundColor: 'var(--color-red)', 
-                      borderColor: 'var(--color-red)',
-                      boxShadow: '0 4px 16px rgba(225, 6, 0, 0.3)'
-                    }}
-                    transition={{ duration: 0.2 }}
+            <div className={styles.domainsContainer}>
+              {/* Left Column - Domain Cards */}
+              <div className={styles.domainsList}>
+                {/* Decorative Background Elements */}
+                <div className={styles.domainsListDecor}>
+                  <div className={styles.decorGradientBg}></div>
+                  <div className={styles.decorCircle1}></div>
+                  <div className={styles.decorCircle2}></div>
+                  <div className={styles.decorGrid}></div>
+                </div>
+                {[
+                  { 
+                    id: 'rt', 
+                    title: 'R&D Team', 
+                    role: 'CRC', 
+                    member: 'Siddhant Monde', 
+                    memberId: 'core2', 
+                    icon: Zap,
+                    focus: 'Leading research and development initiatives for innovative robotics solutions',
+                    skills: ['Innovation', 'Leadership', 'Research', 'Strategy']
+                  },
+                  { 
+                    id: 'dt', 
+                    title: 'Documentation Team', 
+                    role: 'Secretary', 
+                    member: 'Dikshi Adani', 
+                    memberId: 'core6', 
+                    icon: Briefcase,
+                    focus: 'Managing documentation, records, and official team communications',
+                    skills: ['Documentation', 'Organization', 'Communication', 'Record Keeping']
+                  },
+                  { 
+                    id: 'et', 
+                    title: 'Event Team', 
+                    role: 'Event Head', 
+                    member: 'Nandini Salunkhe', 
+                    memberId: 'core8', 
+                    icon: Calendar,
+                    focus: 'Organizing and coordinating team events, competitions, and workshops',
+                    skills: ['Event Planning', 'Coordination', 'Management', 'Logistics']
+                  },
+                  { 
+                    id: 'pt', 
+                    title: 'Publicity Team', 
+                    role: 'Publicity Head', 
+                    member: 'Dittino Thomas', 
+                    subtitle: '(Co-CRC)', 
+                    memberId: 'core3', 
+                    icon: Users,
+                    focus: 'Building team presence through marketing, social media, and outreach',
+                    skills: ['Marketing', 'Social Media', 'Design', 'Outreach']
+                  },
+                  { 
+                    id: 'eht', 
+                    title: 'Electronics & Hardware Coding Team', 
+                    role: '', 
+                    member: 'Saish Loke', 
+                    memberId: 'core5', 
+                    icon: Cpu,
+                    focus: 'Developing embedded systems, hardware integration, and electronic circuits',
+                    skills: ['Embedded Systems', 'Hardware Design', 'PCB Design', 'Microcontrollers']
+                  },
+                  { 
+                    id: 'st', 
+                    title: 'Software Coding Team', 
+                    role: '', 
+                    member: 'Taksh Gandhi', 
+                    memberId: 'core4', 
+                    icon: Code,
+                    focus: 'Creating software solutions, control systems, and automation frameworks',
+                    skills: ['Programming', 'Algorithms', 'Control Systems', 'Automation']
+                  },
+                  { 
+                    id: 'mt', 
+                    title: 'Mechanical Design Team', 
+                    role: '', 
+                    member: 'Shail Raut', 
+                    memberId: 'core12', 
+                    icon: Cog,
+                    focus: 'Designing mechanical structures, CAD modeling, and prototyping',
+                    skills: ['CAD Design', 'Prototyping', '3D Modeling', 'Manufacturing']
+                  },
+                ].map((domain) => {
+                  const IconComponent = domain.icon;
+                  const isActive = expandedDomain === domain.id;
+                  
+                  return (
+                    <motion.div
+                      key={domain.id}
+                      className={`${styles.domainCard} ${isActive ? styles.active : ''}`}
+                      onClick={() => setExpandedDomain(isActive ? null : domain.id)}
+                      whileHover={{ 
+                        x: 5,
+                        boxShadow: '0 4px 16px rgba(225, 6, 0, 0.12)'
+                      }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <div className={styles.domainCardContent}>
+                        <div className={styles.domainIconWrapper}>
+                          <IconComponent size={20} strokeWidth={2.5} />
+                        </div>
+                        <h4 className={styles.domainTitle}>{domain.title}</h4>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+
+              {/* Right Column - Member Details Panel */}
+              <div className={styles.detailsPanel}>
+                {/* Decorative Background Elements */}
+                <div className={styles.detailsPanelDecor}>
+                  <div className={styles.decorAccentLine}></div>
+                  <div className={styles.decorShape1}></div>
+                  <div className={styles.decorShape2}></div>
+                  <motion.div 
+                    className={styles.decorLabel}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.5, duration: 1 }}
                   >
-                    <IconComponent size={18} strokeWidth={2.5} />
-                    {domain.name}
+                    <Rocket size={24} strokeWidth={1.5} className={styles.decorIcon} />
+                    <span>TEAM RAW</span>
                   </motion.div>
-                );
-              })}
+                </div>
+
+                <AnimatePresence mode="wait">
+                  {expandedDomain ? (
+                    (() => {
+                      const domains = [
+                        { 
+                          id: 'rt', 
+                          title: 'R&D Team', 
+                          role: 'CRC', 
+                          member: 'Siddhant Monde', 
+                          memberId: 'core2', 
+                          icon: Zap,
+                          focus: 'Leading research and development initiatives for innovative robotics solutions',
+                          skills: ['Innovation', 'Leadership', 'Research', 'Strategy']
+                        },
+                        { 
+                          id: 'dt', 
+                          title: 'Documentation Team', 
+                          role: 'Secretary', 
+                          member: 'Dikshi Adani', 
+                          memberId: 'core6', 
+                          icon: Briefcase,
+                          focus: 'Managing documentation, records, and official team communications',
+                          skills: ['Documentation', 'Organization', 'Communication', 'Record Keeping']
+                        },
+                        { 
+                          id: 'et', 
+                          title: 'Event Team', 
+                          role: 'Event Head', 
+                          member: 'Nandini Salunkhe', 
+                          memberId: 'core8', 
+                          icon: Calendar,
+                          focus: 'Organizing and coordinating team events, competitions, and workshops',
+                          skills: ['Event Planning', 'Coordination', 'Management', 'Logistics']
+                        },
+                        { 
+                          id: 'pt', 
+                          title: 'Publicity Team', 
+                          role: 'Publicity Head', 
+                          member: 'Dittino Thomas', 
+                          subtitle: '(Co-CRC)', 
+                          memberId: 'core3', 
+                          icon: Users,
+                          focus: 'Building team presence through marketing, social media, and outreach',
+                          skills: ['Marketing', 'Social Media', 'Design', 'Outreach']
+                        },
+                        { 
+                          id: 'eht', 
+                          title: 'Electronics & Hardware Coding Team', 
+                          role: '', 
+                          member: 'Saish Loke', 
+                          memberId: 'core5', 
+                          icon: Cpu,
+                          focus: 'Developing embedded systems, hardware integration, and electronic circuits',
+                          skills: ['Embedded Systems', 'Hardware Design', 'PCB Design', 'Microcontrollers']
+                        },
+                        { 
+                          id: 'st', 
+                          title: 'Software Coding Team', 
+                          role: '', 
+                          member: 'Taksh Gandhi', 
+                          memberId: 'core4', 
+                          icon: Code,
+                          focus: 'Creating software solutions, control systems, and automation frameworks',
+                          skills: ['Programming', 'Algorithms', 'Control Systems', 'Automation']
+                        },
+                        { 
+                          id: 'mt', 
+                          title: 'Mechanical Design Team', 
+                          role: '', 
+                          member: 'Shail Raut', 
+                          memberId: 'core12', 
+                          icon: Cog,
+                          focus: 'Designing mechanical structures, CAD modeling, and prototyping',
+                          skills: ['CAD Design', 'Prototyping', '3D Modeling', 'Manufacturing']
+                        },
+                      ];
+                      const activeDomain = domains.find(d => d.id === expandedDomain);
+                      const memberData = activeDomain ? teamMembers.find(m => m._id === activeDomain.memberId) : null;
+                      
+                      return (memberData && activeDomain) ? (
+                        <motion.div
+                          key={expandedDomain}
+                          className={styles.detailsContent}
+                          initial={{ opacity: 0, x: 20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={{ opacity: 0, x: -20 }}
+                          transition={{ duration: 0.3 }}
+                        >
+                          <div className={styles.detailsImageWrapper}>
+                            <Image
+                              src={memberData.imageUrl}
+                              alt={memberData.name}
+                              width={200}
+                              height={200}
+                              className={styles.detailsImage}
+                              unoptimized
+                            />
+                          </div>
+                          <div className={styles.detailsInfo}>
+                            <h3 className={styles.detailsName}>{memberData.name}</h3>
+                            <p className={styles.detailsRole}>{activeDomain.title}</p>
+                          </div>
+                          
+                          {/* Team Focus Section */}
+                          <div className={styles.focusSection}>
+                            <h4 className={styles.focusTitle}>Team Focus</h4>
+                            <p className={styles.focusDescription}>{activeDomain.focus}</p>
+                          </div>
+
+                          {/* Skills Tags */}
+                          <div className={styles.skillsSection}>
+                            <div className={styles.skillsTags}>
+                              {activeDomain.skills.map((skill, index) => (
+                                <motion.span
+                                  key={skill}
+                                  className={styles.skillTag}
+                                  initial={{ opacity: 0, scale: 0.8 }}
+                                  animate={{ opacity: 1, scale: 1 }}
+                                  transition={{ delay: index * 0.1 }}
+                                >
+                                  {skill}
+                                </motion.span>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* Quote */}
+                          <div className={styles.quoteSection}>
+                            <p className={styles.quote}>"Building Innovation at Team RAW"</p>
+                          </div>
+                        </motion.div>
+                      ) : null;
+                    })()
+                  ) : (
+                    <motion.div
+                      className={styles.detailsPlaceholder}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                    >
+                      <Users size={48} strokeWidth={1.5} className={styles.placeholderIcon} />
+                      <p>Select a team domain to view details</p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             </div>
           </motion.div>
         </motion.div>

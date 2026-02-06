@@ -5,7 +5,7 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { teamMembers, TeamMember } from '@/data/teamData';
@@ -16,6 +16,27 @@ type CategoryType = 'all' | 'core' | 'mentors' | 'members';
 const TeamSection: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<CategoryType>('all');
   const [isLoading, setIsLoading] = useState(false);
+
+  // Handle scroll to member on load if hash is present
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const hash = window.location.hash;
+      if (hash) {
+        const memberId = hash.substring(1);
+        setTimeout(() => {
+          const element = document.getElementById(memberId);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            // Add highlight effect
+            element.classList.add(styles.highlighted);
+            setTimeout(() => {
+              element.classList.remove(styles.highlighted);
+            }, 3000);
+          }
+        }, 500);
+      }
+    }
+  }, []);
 
   const categories = [
     { id: 'all', label: 'All Team', count: teamMembers.length },
@@ -139,6 +160,7 @@ const TeamSection: React.FC = () => {
             {filteredMembers.map((member, index) => (
               <motion.div
                 key={member._id}
+                id={member._id}
                 className={styles.card}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
