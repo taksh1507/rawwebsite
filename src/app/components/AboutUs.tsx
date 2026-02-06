@@ -77,6 +77,7 @@ export default function AboutUs() {
               <Target size={28} strokeWidth={2.5} />
             </div>
             <div className={styles.missionContent}>
+              <h3>Our Objective</h3>
              <p>
                 To represent SFIT in prestigious national and international robotics competitions such as DD Robocon, showcasing the technical excellence, teamwork and innovation of the institute.
               </p>
