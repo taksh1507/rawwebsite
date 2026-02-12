@@ -208,7 +208,7 @@ export const teamMembers: TeamMember[] = [
     role: 'MENTOR',
     department: 'Designer Coder',
     category: 'mentors',
-    imageUrl: '/logo.png',
+    imageUrl: '/Yash Pathak.jpeg',
     email: 'yash.pathak@alumni.sfit.ac.in',
     linkedin: 'https://www.linkedin.com/in/yash-pathak',
     createdAt: '2024-02-01',
