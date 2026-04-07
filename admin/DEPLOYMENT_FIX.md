@@ -63,7 +63,7 @@ const response = await fetch(url, {
 
 2. Set environment variables in Vercel Dashboard:
    ```
-   MONGODB_URI=mongodb+srv://teamraw:TeamRaw@cluster0.jroqyqd.mongodb.net/?appName=Cluster0
+   
    OPENROUTER_API_KEY=your_key_here
    NEXT_PUBLIC_SITE_URL=https://rawwebsite-seven.vercel.app
    NEXT_PUBLIC_ADMIN_URL=https://rawwebsiteadmin.vercel.app
