@@ -1,0 +1,81 @@
+/**
+ * Author: Taksh Gandhi
+ * Email: takshgandhi4@gmail.com
+ */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  background: var(--bg-white);
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+.left h1 {
+  margin: 0;
+  font-size: 1.75rem;
+  color: var(--text-primary);
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.userName {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.logoutBtn {
+  padding: 0.5rem 1rem;
+  background: transparent;
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.logoutBtn:hover {
+  background: var(--primary);
+  color: white;
+}
+
+.profileBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 1rem;
+  background: var(--bg-light);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.profileBtn:hover {
+  background: var(--border);
+}

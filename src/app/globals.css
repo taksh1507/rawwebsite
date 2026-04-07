@@ -1,0 +1,313 @@
+/**
+ * Author: Taksh Gandhi
+ * Email: takshgandhi4@gmail.com
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Montserrat:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Custom robot cursor using SVG */
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><rect x="4" y="8" width="24" height="20" rx="3" fill="%23E10600" stroke="%230A1A3A" stroke-width="1.5"/><circle cx="10" cy="14" r="2.5" fill="%23ffffff"/><circle cx="22" cy="14" r="2.5" fill="%23ffffff"/><rect x="10" y="18" width="12" height="2" rx="1" fill="%23ffffff"/><rect x="14" y="2" width="4" height="6" rx="2" fill="%23E10600" stroke="%230A1A3A" stroke-width="1.5"/><circle cx="16" cy="1.5" r="2" fill="%23FFD700"/></svg>') 16 8, auto;
+}
+
+/* Disable cursor on touch/mobile devices */
+@media (hover: none) and (pointer: coarse) {
+  html {
+    cursor: auto;
+  }
+}
+
+/* Smooth section transitions */
+section {
+  position: relative;
+  transition: background 0.5s ease;
+}
+
+/* Add lazy loading optimization */
+img {
+  content-visibility: auto;
+}
+
+/* Improve scrollbar for modals/panels */
+.modal-scroll::-webkit-scrollbar,
+.filter-panel::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-scroll::-webkit-scrollbar-track,
+.filter-panel::-webkit-scrollbar-track {
+  background: rgba(10, 26, 58, 0.05);
+  border-radius: 10px;
+}
+
+.modal-scroll::-webkit-scrollbar-thumb,
+.filter-panel::-webkit-scrollbar-thumb {
+  background: rgba(178, 0, 29, 0.3);
+  border-radius: 10px;
+  transition: background 0.2s;
+}
+
+.modal-scroll::-webkit-scrollbar-thumb:hover,
+.filter-panel::-webkit-scrollbar-thumb:hover {
+  background: rgba(178, 0, 29, 0.5);
+}
+
+body {
+  --color-white: #ffffff;
+  --color-navy: #0A1A3A;
+  --color-dark-steel: #0F0F17;
+  --color-red: #E10600;
+  --color-light-navy: #1a2f52;
+  --color-gray-light: #f5f5f5;
+  --color-gray-dark: #333333;
+  --color-cyan: #00f3ff;
+
+  font-family: 'Montserrat', 'Roboto', sans-serif;
+  background-color: var(--color-white);
+  color: var(--color-dark-steel);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+
+
+/* Robot cursor styles - no JS needed, pure CSS */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+h1 {
+  font-size: 3.5rem;
+  line-height: 1.2;
+}
+
+h2 {
+  font-size: 2.5rem;
+  line-height: 1.3;
+}
+
+h3 {
+  font-size: 1.75rem;
+  line-height: 1.4;
+}
+
+h4 {
+  font-size: 1.5rem;
+}
+
+h5 {
+  font-size: 1.25rem;
+}
+
+h6 {
+  font-size: 1rem;
+}
+
+p {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  color: var(--color-gray-dark);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+a:focus-visible {
+  outline: 2px solid var(--color-red);
+  outline-offset: 2px;
+}
+
+button {
+  font-family: 'Montserrat', sans-serif;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--color-red);
+  outline-offset: 2px;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-gray-light);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-navy);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-red);
+}
+
+/* Interactive element cursors */
+input,
+textarea,
+select {
+  cursor: text;
+}
+
+/* Disabled state cursor */
+button:disabled,
+a[aria-disabled="true"],
+input:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Selection styling */
+::selection {
+  background-color: var(--color-red);
+  color: var(--color-white);
+}
+
+/* Utility classes */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.grid-pattern {
+  background-image:
+    linear-gradient(rgba(10, 26, 58, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(10, 26, 58, 0.05) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+.glow-text {
+  text-shadow: 0 0 20px rgba(225, 6, 0, 0.3);
+}
+
+/* Media queries for responsive design */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.75rem;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  h2 {
+    font-size: 2rem;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+  }
+
+  section {
+    padding: 4rem 0 !important;
+  }
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2rem;
+    line-height: 1.2;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    line-height: 1.3;
+  }
+
+  h3 {
+    font-size: 1.1rem;
+  }
+
+  p {
+    font-size: 0.9rem;
+  }
+
+  .container {
+    padding: 0 1rem;
+  }
+
+  section {
+    padding: 3rem 0 !important;
+  }
+
+  /* Responsive grid */
+  [style*="gridTemplateColumns*repeat(6"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  [style*="gridTemplateColumns*repeat(auto-fit"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.5rem;
+    line-height: 1.2;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+    line-height: 1.3;
+  }
+
+  h3 {
+    font-size: 1rem;
+    line-height: 1.3;
+  }
+
+  p {
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+
+  .container {
+    padding: 0 0.75rem;
+  }
+
+  /* Reduce padding in sections */
+  section {
+    padding: 2rem 0 !important;
+  }
+
+  /* Grid cards */
+  [style*="gridTemplateColumns"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  button {
+    padding: 0.75rem 1.25rem !important;
+    font-size: 0.9rem !important;
+  }
+}

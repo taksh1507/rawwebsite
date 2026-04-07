@@ -1,0 +1,1924 @@
+/**
+ * Competition Registration Page Styles
+ * Author: Taksh Gandhi
+ * Email: takshgandhi4@gmail.com
+ */
+
+/* Hero Section */
+.hero {
+  padding-top: 100px;
+  padding-bottom: 2rem;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  min-height: 30vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding-top: 80px;
+    padding-bottom: 1.5rem;
+    min-height: 20vh;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding-top: 70px;
+    padding-bottom: 1rem;
+    min-height: 18vh;
+  }
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(225, 6, 0, 0.05) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.heroContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.heroContent h1 {
+  font-size: 3.5rem;
+  font-family: 'Orbitron', sans-serif;
+  color: var(--color-navy);
+  margin-bottom: 1rem;
+  letter-spacing: 0.02em;
+}
+
+.heroContent p {
+  font-size: 1.2rem;
+  color: var(--color-gray-dark);
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.redAccent {
+  color: var(--color-red);
+  text-shadow: 0 0 10px rgba(225, 6, 0, 0.15);
+}
+
+/* Main Section */
+.section {
+  padding: 6rem 0;
+  background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+}
+
+/* Blueprint Grid Background */
+.gridBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image:
+    linear-gradient(rgba(10, 26, 58, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(10, 26, 58, 0.02) 1px, transparent 1px);
+  background-size: 60px 60px;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.section::before {
+  content: '';
+  position: absolute;
+  top: -30%;
+  left: -20%;
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(circle, rgba(225, 6, 0, 0.03) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  align-items: start;
+  position: relative;
+  z-index: 1;
+}
+
+/* Form Container */
+.formContainer {
+  position: relative;
+}
+
+.formHeader {
+  margin-bottom: 2.5rem;
+}
+
+.formHeader h2 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--color-navy);
+  margin-bottom: 0.75rem;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+}
+
+.tagline {
+  font-size: 1.05rem;
+  color: var(--color-gray-dark);
+  line-height: 1.6;
+}
+
+/* Form Styling */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.formSection {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(10, 26, 58, 0.08);
+  transition: all 0.3s ease;
+}
+
+.formSection:hover {
+  box-shadow: 0 8px 30px rgba(225, 6, 0, 0.08);
+  border-color: rgba(225, 6, 0, 0.15);
+}
+
+.sectionTitle {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-navy);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--color-red);
+  display: inline-block;
+}
+
+.sectionDescription {
+  color: var(--color-gray-dark);
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.55;
+}
+
+/* Phone Input with Prefix */
+.phoneInputWrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+  border: 2px solid rgba(10, 26, 58, 0.12);
+  border-radius: 8px;
+  background: #ffffff;
+  transition: all 0.3s ease;
+}
+
+.phoneInputWrapper:focus-within {
+  border-color: var(--color-red);
+  box-shadow: 0 0 0 4px rgba(225, 6, 0, 0.1);
+}
+
+.phonePrefix {
+  padding: 0.875rem 0.75rem 0.875rem 1rem;
+  font-weight: 600;
+  color: var(--color-navy);
+  background: rgba(10, 26, 58, 0.05);
+  border-right: 2px solid rgba(10, 26, 58, 0.12);
+  font-size: 1rem;
+  user-select: none;
+}
+
+.phoneInput {
+  flex: 1;
+  border: none !important;
+  padding: 0.875rem 1rem;
+  font-size: 1rem;
+  outline: none;
+  background: transparent;
+}
+
+.phoneInput:focus {
+  box-shadow: none !important;
+}
+
+.phoneHint {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--color-red);
+  font-weight: 500;
+}
+
+/* Competition Cards */
+.competitionsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.competitionCard {
+  background: #ffffff;
+  border: 2px solid rgba(10, 26, 58, 0.08);
+  border-radius: 16px;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  max-height: none;
+  overflow: visible;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+@media (max-width: 768px) {
+  .competitionCard {
+    padding: 1.35rem;
+    border-radius: 14px;
+    touch-action: manipulation;
+    -webkit-touch-callout: none;
+  }
+
+  .competitionCard:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease;
+  }
+}
+
+@media (max-width: 480px) {
+  .competitionCard {
+    padding: 1.25rem;
+    border-radius: 13px;
+  }
+}
+
+.competitionCard:hover {
+  border-color: rgba(225, 6, 0, 0.3);
+  box-shadow: 0 4px 16px rgba(225, 6, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+.competitionCardActive {
+  border-color: var(--color-red);
+  background: linear-gradient(135deg, rgba(225, 6, 0, 0.02) 0%, rgba(225, 6, 0, 0.04) 100%);
+  box-shadow: 0 4px 20px rgba(225, 6, 0, 0.15);
+}
+
+.competitionCardDisabled {
+  cursor: not-allowed !important;
+  opacity: 0.7;
+}
+
+.competitionCardDisabled:hover {
+  border-color: rgba(10, 26, 58, 0.08) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+  transform: none !important;
+}
+
+.registrationStatusBadge {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  z-index: 2;
+  letter-spacing: 0.02em;
+}
+
+.competitionHeader {
+  margin-bottom: 0.75rem;
+}
+
+.competitionHeader h4 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--color-navy);
+  margin: 0;
+  line-height: 1.4;
+  padding-right: 2rem;
+}
+
+.selectedBadge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: linear-gradient(135deg, var(--color-red) 0%, #b20500 100%);
+  color: #ffffff;
+  padding: 0.4rem 0.9rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(225, 6, 0, 0.3);
+  z-index: 2;
+  letter-spacing: 0.02em;
+}
+
+.competitionOrganizer {
+  font-size: 0.9rem;
+  color: var(--color-red);
+  font-weight: 600;
+  margin: 0 0 0.75rem 0;
+}
+
+.competitionMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background: rgba(10, 26, 58, 0.03);
+  border-radius: 8px;
+}
+
+.competitionMetaItem {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: var(--color-gray-dark);
+  font-weight: 500;
+}
+
+.metaIcon {
+  font-size: 1rem;
+}
+
+.competitionDescription {
+  font-size: 0.95rem;
+  color: var(--color-gray-dark);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.readMoreBtn {
+  display: block;
+  width: 100%;
+  margin-top: 0.75rem;
+  padding: 0.6rem;
+  background: transparent;
+  border: 1px solid rgba(10, 26, 58, 0.15);
+  border-radius: 8px;
+  color: var(--color-red);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.readMoreBtn:hover {
+  background: rgba(225, 6, 0, 0.05);
+  border-color: var(--color-red);
+}
+
+.competitionFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(10, 26, 58, 0.1);
+  font-size: 0.85rem;
+  font-weight: 600;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.competitionDeadline {
+  color: var(--color-navy);
+}
+
+.competitionTeamSize {
+  color: var(--color-gray-dark);
+}
+
+/* Checkbox Label for Custom Fields */
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  padding: 1rem;
+  background: rgba(10, 26, 58, 0.02);
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  min-height: 54px;
+}
+
+.checkboxLabel:hover {
+  background: rgba(10, 26, 58, 0.04);
+  border-color: rgba(10, 26, 58, 0.1);
+}
+
+.checkboxLabel input[type="checkbox"] {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  accent-color: var(--color-red);
+  flex-shrink: 0;
+}
+
+.checkboxLabel span {
+  font-weight: 500;
+  color: var(--color-navy);
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+/* Competition Instructions Card */
+.instructionCard {
+  background: #ffffff;
+  border: 2px solid rgba(10, 26, 58, 0.12);
+  border-radius: 16px;
+  padding: 0;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(10, 26, 58, 0.06);
+}
+
+.instructionHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.25rem 1.5rem;
+  background: linear-gradient(135deg, rgba(10, 26, 58, 0.04) 0%, rgba(225, 6, 0, 0.02) 100%);
+  border-bottom: 2px solid rgba(10, 26, 58, 0.08);
+}
+
+.instructionIcon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.instructionTitle {
+  margin: 0;
+  font-size: 1.15rem;
+  font-family: 'Orbitron', sans-serif;
+  color: var(--color-navy);
+  font-weight: 600;
+}
+
+.instructionBody {
+  padding: 1.5rem;
+  background: #fafbfc;
+}
+
+.instructionText {
+  font-size: 0.95rem;
+  line-height: 1.8;
+  color: var(--color-navy);
+  margin: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.consentSection {
+  padding: 1.25rem 1.5rem;
+  background: #ffffff;
+  border-top: 2px solid rgba(10, 26, 58, 0.08);
+}
+
+.consentLabel {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.875rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.consentCheckbox {
+  width: 22px;
+  height: 22px;
+  min-width: 22px;
+  min-height: 22px;
+  cursor: pointer;
+  accent-color: var(--color-red);
+  margin-top: 0.125rem;
+  flex-shrink: 0;
+}
+
+.consentText {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--color-navy);
+  font-weight: 500;
+  flex: 1;
+}
+
+/* Mobile Responsive Styles for Instruction Card */
+@media (max-width: 768px) {
+  .instructionCard {
+    border-radius: 12px;
+  }
+  
+  .instructionHeader {
+    padding: 1rem 1.25rem;
+    gap: 0.625rem;
+  }
+  
+  .instructionIcon {
+    font-size: 1.35rem;
+  }
+  
+  .instructionTitle {
+    font-size: 1.05rem;
+  }
+  
+  .instructionBody {
+    padding: 1.25rem;
+  }
+  
+  .instructionText {
+    font-size: 0.9rem;
+    line-height: 1.75;
+  }
+  
+  .consentSection {
+    padding: 1rem 1.25rem;
+  }
+  
+  .consentLabel {
+    gap: 0.75rem;
+  }
+  
+  .consentCheckbox {
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    min-height: 20px;
+  }
+  
+  .consentText {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+}
+
+@media (max-width: 480px) {
+  .instructionCard {
+    border-radius: 10px;
+  }
+  
+  .instructionHeader {
+    padding: 0.875rem 1rem;
+  }
+  
+  .instructionTitle {
+    font-size: 1rem;
+  }
+  
+  .instructionBody {
+    padding: 1rem;
+  }
+  
+  .instructionText {
+    font-size: 0.875rem;
+  }
+  
+  .consentSection {
+    padding: 0.875rem 1rem;
+  }
+  
+  .consentText {
+    font-size: 0.875rem;
+  }
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.formRow:last-child {
+  margin-bottom: 0;
+}
+
+/* Additional Fields Grid */
+.additionalFieldsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.formGroupFull {
+  grid-column: 1 / -1;
+}
+
+.formGroup label {
+  font-weight: 600;
+  color: var(--color-navy);
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.required {
+  color: var(--color-red);
+  font-weight: 700;
+}
+
+.formGroup input,
+.formGroup select,
+.formGroup textarea {
+  padding: 0.95rem 1.25rem;
+  border: 2px solid rgba(10, 26, 58, 0.1);
+  border-radius: 12px;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: all 0.3s ease;
+  background: #ffffff;
+  color: var(--color-dark-steel);
+  min-height: 48px;
+  line-height: 1.5;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (max-width: 768px) {
+  .formGroup input,
+  .formGroup select,
+  .formGroup textarea {
+    font-size: 16px; /* Prevents iOS zoom */
+    -webkit-text-size-adjust: 100%;
+  }
+}
+
+.formGroup input:focus,
+.formGroup select:focus,
+.formGroup textarea:focus {
+  outline: none;
+  border-color: var(--color-red);
+  box-shadow: 0 0 0 4px rgba(225, 6, 0, 0.08);
+  transform: translateY(-1px);
+}
+
+.formGroup input::placeholder,
+.formGroup textarea::placeholder {
+  color: #999;
+}
+
+.formGroup textarea {
+  resize: vertical;
+  min-height: 85px;
+  line-height: 1.55;
+}
+
+/* Submit Button */
+.submitBtn {
+  width: 100%;
+  padding: 1.25rem 2rem;
+  background: linear-gradient(135deg, var(--color-red) 0%, #b20500 100%);
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  font-family: 'Orbitron', sans-serif;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(225, 6, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  letter-spacing: 0.02em;
+  margin-top: 2rem;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.submitBtn:hover:not(:disabled) {
+  box-shadow: 0 8px 30px rgba(225, 6, 0, 0.4);
+  transform: translateY(-2px);
+}
+
+.submitBtn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.submitBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Spinner */
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Status Messages */
+.successMessage,
+.errorMessage {
+  padding: 1rem 1.5rem;
+  border-radius: 10px;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.successMessage {
+  background: #d4edda;
+  color: #155724;
+  border: 2px solid #c3e6cb;
+}
+
+.errorMessage {
+  background: #f8d7da;
+  color: #721c24;
+  border: 2px solid #f5c6cb;
+}
+
+/* Need Help Section */
+.needHelpSection {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 2px dashed rgba(10, 26, 58, 0.1);
+}
+
+.needHelpCard {
+  background: linear-gradient(135deg, rgba(225, 6, 0, 0.03) 0%, rgba(225, 6, 0, 0.01) 100%);
+  border: 2px solid rgba(225, 6, 0, 0.15);
+  border-radius: 16px;
+  padding: 2rem;
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+  transition: all 0.3s ease;
+}
+
+.needHelpCard:hover {
+  border-color: rgba(225, 6, 0, 0.3);
+  box-shadow: 0 8px 24px rgba(225, 6, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+.needHelpIcon {
+  font-size: 2.5rem;
+  flex-shrink: 0;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, var(--color-red) 0%, #b20500 100%);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(225, 6, 0, 0.2);
+}
+
+.needHelpContent {
+  flex: 1;
+}
+
+.needHelpContent h4 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.3rem;
+  color: var(--color-navy);
+  margin: 0 0 0.75rem 0;
+  font-weight: 600;
+}
+
+.needHelpContent p {
+  color: var(--color-gray-dark);
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1.25rem;
+}
+
+.contactList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.contactItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid rgba(10, 26, 58, 0.1);
+}
+
+.contactIcon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.contactItem a {
+  color: var(--color-red);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.contactItem a:hover {
+  color: #b20500;
+  text-decoration: underline;
+}
+
+.contactNumbers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* Info Sidebar */
+.infoSidebar {
+  position: sticky;
+  top: 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Mobile Desktop View Notice */
+.mobileNotice {
+  display: none;
+  background: linear-gradient(135deg, rgba(255, 193, 7, 0.12) 0%, rgba(255, 152, 0, 0.06) 100%);
+  border: 2px solid rgba(255, 152, 0, 0.35);
+  border-radius: 14px;
+  padding: 1.25rem 1.5rem;
+  margin: 0 auto 2rem;
+  max-width: 1400px;
+  align-items: flex-start;
+  gap: 1rem;
+  box-shadow: 0 4px 16px rgba(255, 152, 0, 0.15);
+  animation: slideInDown 0.5s ease-out;
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.mobileNoticeIcon {
+  font-size: 2rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.mobileNoticeContent {
+  flex: 1;
+}
+
+.mobileNoticeContent strong {
+  display: block;
+  color: var(--color-navy);
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+  font-family: 'Orbitron', sans-serif;
+  letter-spacing: 0.015em;
+}
+
+.mobileNoticeContent p {
+  color: var(--color-gray-dark);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.infoCard {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1.75rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(10, 26, 58, 0.08);
+  transition: all 0.3s ease;
+}
+
+.infoCard:hover {
+  box-shadow: 0 4px 16px rgba(10, 26, 58, 0.08);
+  border-color: rgba(10, 26, 58, 0.12);
+}
+
+.infoIcon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  display: inline-block;
+}
+
+.infoCard h3 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-navy);
+  margin-bottom: 1rem;
+}
+
+.infoCard ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.infoCard ul li {
+  padding: 0.5rem 0;
+  color: var(--color-gray-dark);
+  position: relative;
+  padding-left: 1.5rem;
+  line-height: 1.6;
+}
+
+.infoCard ul li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--color-red);
+  font-weight: bold;
+}
+
+.infoCard ul li strong {
+  color: var(--color-navy);
+}
+
+.infoCard p {
+  color: var(--color-gray-dark);
+  line-height: 1.6;
+}
+
+.infoCard a {
+  color: var(--color-red);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.infoCard a:hover {
+  color: #b20500;
+  text-decoration: underline;
+}
+
+/* Success Confirmation Styles */
+.successContainer {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.successCard {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 4rem 3rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+  border: 2px solid rgba(225, 6, 0, 0.1);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.successCard::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(225, 6, 0, 0.05) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.successIcon {
+  width: 100px;
+  height: 100px;
+  background: linear-gradient(135deg, #E10600 0%, #b00500 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+  color: white;
+  margin: 0 auto 2rem;
+  box-shadow: 0 10px 30px rgba(225, 6, 0, 0.3);
+  position: relative;
+  z-index: 1;
+}
+
+.successCard h2 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2.5rem;
+  color: #0A1A3A;
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.successMessage {
+  font-size: 1.1rem;
+  color: #666;
+  line-height: 1.8;
+  margin-bottom: 3rem;
+  position: relative;
+  z-index: 1;
+}
+
+.successActions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+
+.primaryBtn {
+  padding: 1rem 2.5rem;
+  background: linear-gradient(135deg, #E10600 0%, #b00500 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+  box-shadow: 0 4px 15px rgba(225, 6, 0, 0.3);
+}
+
+.primaryBtn:hover {
+  box-shadow: 0 6px 25px rgba(225, 6, 0, 0.4);
+  transform: translateY(-2px);
+}
+
+.secondaryBtn {
+  padding: 1rem 2.5rem;
+  background: white;
+  color: #E10600;
+  border: 2px solid #E10600;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.secondaryBtn:hover {
+  background: #E10600;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(225, 6, 0, 0.2);
+}
+
+.autoRedirect {
+  font-size: 0.95rem;
+  color: #999;
+  font-style: italic;
+  margin-top: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.autoRedirect span {
+  font-weight: 700;
+  color: #E10600;
+}
+
+/* Mobile Keyboard Handling */
+@media (max-width: 768px) {
+  /* Adjust layout when keyboard is visible */
+  .formContainer {
+    margin-bottom: 0;
+    padding-bottom: env(safe-area-inset-bottom, 20px);
+  }
+
+  /* Smooth scroll to focused input */
+  .formGroup input:focus,
+  .formGroup select:focus,
+  .formGroup textarea:focus {
+    scroll-margin-top: 100px;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .container {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .infoSidebar {
+    position: relative;
+    top: 0;
+    grid-row: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+/* Mobile Progress Indicator */
+.mobileProgressBar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: rgba(225, 6, 0, 0.1);
+  z-index: 1000;
+  display: none;
+}
+
+.mobileProgressFill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-red), #ff4500);
+  transition: width 0.3s ease;
+  box-shadow: 0 0 10px rgba(225, 6, 0, 0.5);
+}
+
+@media (max-width: 768px) {
+  .mobileProgressBar {
+    display: block;
+  }
+
+  /* Mobile Desktop View Notice - Show on tablet and mobile */
+  .mobileNotice {
+    display: flex;
+    padding: 1.15rem 1.35rem;
+    margin: 0 1rem 1.75rem;
+    border-radius: 14px;
+    box-shadow: 0 6px 18px rgba(255, 152, 0, 0.18);
+  }
+
+  .mobileNoticeIcon {
+    font-size: 1.65rem;
+  }
+
+  .mobileNoticeContent strong {
+    font-size: 0.98rem;
+  }
+
+  .mobileNoticeContent p {
+    font-size: 0.87rem;
+    line-height: 1.6;
+  }
+
+  .heroContent h1 {
+    font-size: 2.5rem;
+  }
+
+  .heroContent p {
+    font-size: 1rem;
+  }
+
+  .formHeader h2 {
+    font-size: 2rem;
+    line-height: 1.3;
+  }
+
+  .tagline {
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+
+  .formSection {
+    padding: 1.85rem;
+    border-radius: 15px;
+    box-shadow: 0 3px 16px rgba(0, 0, 0, 0.07);
+    margin-bottom: 1.5rem;
+  }
+
+  /* Mobile form spacing optimization */
+  .form {
+    gap: 1.75rem;
+    padding-bottom: 80px; /* Space for sticky submit button */
+  }
+
+  .sectionTitle {
+    font-size: 1.4rem;
+    line-height: 1.4;
+    margin-bottom: 1.4rem;
+  }
+
+  .sectionDescription {
+    font-size: 0.97rem;
+    line-height: 1.7;
+    margin-bottom: 1.4rem;
+  }
+
+  .formRow {
+    grid-template-columns: 1fr;
+    gap: 1.35rem;
+  }
+
+  /* Additional Fields Grid - Mobile */
+  .additionalFieldsGrid {
+    grid-template-columns: 1fr;
+    gap: 1.35rem;
+  }
+
+  .formGroup {
+    gap: 0.75rem;
+  }
+
+  .formGroupFull {
+    grid-column: 1;
+  }
+
+  .formGroup label {
+    font-size: 0.94rem;
+  }
+
+  .formGroup input,
+  .formGroup select {
+    font-size: 16px;
+    padding: 1rem 1.15rem;
+    min-height: 50px;
+    border-radius: 11px;
+    border-width: 2px;
+  }
+
+  .formGroup textarea {
+    min-height: 90px;
+    max-height: 150px;
+    padding: 1rem 1.15rem;
+    font-size: 16px;
+    line-height: 1.55;
+    border-radius: 11px;
+    border-width: 2px;
+  }
+
+  /* Competition Cards - Mobile Optimized */
+  .competitionsGrid {
+    gap: 1.15rem;
+  }
+
+  .competitionCard {
+    padding: 1.4rem;
+    border-radius: 15px;
+    border-width: 2px;
+  }
+
+  .competitionCardActive {
+    border-width: 2.5px;
+    box-shadow: 0 6px 24px rgba(225, 6, 0, 0.18);
+  }
+
+  .competitionHeader h4 {
+    font-size: 1.15rem;
+    line-height: 1.5;
+    padding-right: 0;
+    margin-bottom: 0.5rem;
+  }
+
+  .selectedBadge {
+    top: 0.85rem;
+    right: 0.85rem;
+    padding: 0.5rem 1.1rem;
+    font-size: 0.78rem;
+  }
+
+  .competitionOrganizer {
+    font-size: 0.9rem;
+    margin-bottom: 0.7rem;
+  }
+
+  .competitionMeta {
+    flex-direction: column;
+    gap: 0.7rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+  }
+
+  .competitionMetaItem {
+    font-size: 0.9rem;
+  }
+
+  .competitionDescription {
+    font-size: 0.94rem;
+    line-height: 1.7;
+  }
+
+  .readMoreBtn {
+    padding: 0.75rem;
+    font-size: 0.9rem;
+    margin-top: 0.9rem;
+    border-radius: 9px;
+  }
+
+  /* Checkboxes - Better Touch Targets */
+  .checkboxLabel {
+    padding: 1rem;
+    gap: 0.85rem;
+    min-height: 54px;
+    border-radius: 10px;
+    align-items: center;
+  }
+
+  .checkboxLabel input[type=\"checkbox\"] {
+    width: 24px;
+    height: 24px;
+  }
+
+  .checkboxLabel span {
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+
+  /* Notes Section - Accordion Mobile */
+  .notesToggle {
+    padding: 0.9rem 1.1rem;
+  }
+
+  .notesToggleIcon {
+    font-size: 1.6rem;
+  }
+
+  .notesToggleText strong {
+    font-size: 1rem;
+  }
+
+  .notesToggleHint {
+    font-size: 0.82rem;
+  }
+
+  .notesContent {
+    padding: 0 1.25rem 1.1rem 1.25rem;
+  }
+
+  .notesText {
+    font-size: 0.92rem;
+    line-height: 1.7;
+    padding: 0.9rem;
+  }
+
+  .notesCheckboxLabel {
+    padding: 1.1rem 1.25rem;
+    gap: 0.9rem;
+  }
+
+  .notesCheckboxLabel input[type=\"checkbox\"] {
+    width: 24px;
+    height: 24px;
+  }
+
+  .notesCheckboxText {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  /* Submit Button - Enhanced Mobile */
+  .submitBtn {
+    padding: 1.2rem 2.2rem;
+    font-size: 1.08rem;
+    min-height: 56px;
+    margin-top: 2.25rem;
+    border-radius: 13px;
+    box-shadow: 0 6px 22px rgba(225, 6, 0, 0.28);
+    position: sticky;
+    bottom: 1rem;
+    z-index: 100;
+    background: linear-gradient(135deg, var(--color-red) 0%, #a80400 100%);
+    /* Add backdrop for better visibility */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  /* Floating submit button wrapper for mobile */
+  .mobileSubmitWrapper {
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem;
+    background: linear-gradient(to top, rgba(255,255,255,0.98) 70%, transparent);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 99;
+    margin: 0 -1.85rem -1.85rem;
+  }
+
+  .submitBtn:active:not(:disabled) {
+    transform: scale(0.98);
+    box-shadow: 0 4px 16px rgba(225, 6, 0, 0.32);
+  }
+
+  /* Need Help Section */
+  .needHelpCard {
+    flex-direction: column;
+    padding: 1.5rem;
+    gap: 1rem;
+  }
+
+  .needHelpIcon {
+    width: 50px;
+    height: 50px;
+    font-size: 2rem;
+  }
+
+  .needHelpContent h4 {
+    font-size: 1.15rem;
+  }
+
+  .needHelpContent p {
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+
+  .contactItem {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+    padding: 1rem;
+  }
+
+  .contactNumbers {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .contactItem a {
+    font-size: 0.9rem;
+  }
+
+  /* Info Sidebar */
+  .skillsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .infoSidebar {
+    grid-template-columns: 1fr;
+  }
+
+  .section {
+    padding: 3.5rem 1rem;
+  }
+
+  .container {
+    padding: 0 1rem;
+    gap: 2.5rem;
+  }
+
+  .infoCard {
+    padding: 1.5rem;
+  }
+
+  .infoCard h3 {
+    font-size: 1.15rem;
+  }
+
+  .infoCard p,
+  .infoCard li {
+    font-size: 0.92rem;
+    line-height: 1.7;
+  }
+
+  /* Success Messages */
+  .successCard {
+    padding: 3rem 2rem;
+  }
+
+  .successCard h2 {
+    font-size: 2rem;
+  }
+
+  .successMessage {
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  .successActions {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .primaryBtn,
+  .secondaryBtn {
+    width: 100%;
+    min-height: 52px;
+  }
+}
+
+/* Mobile Floating Label Animation */
+.formGroup.hasValue label,
+.formGroup input:focus ~ label,
+.formGroup select:focus ~ label,
+.formGroup textarea:focus ~ label {
+  transform: translateY(-1.5rem) scale(0.85);
+  color: var(--color-red);
+}
+
+/* Mobile Input Validation States */
+.formGroup input:valid:not(:placeholder-shown),
+.formGroup select:valid:not(:placeholder-shown) {
+  border-color: rgba(34, 197, 94, 0.5);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='%2322c55e'%3E%3Cpath fill-rule='evenodd' d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z' clip-rule='evenodd'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 3rem;
+}
+
+.formGroup input:invalid:not(:placeholder-shown):not(:focus) {
+  border-color: rgba(239, 68, 68, 0.5);
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding: 3rem 1rem;
+  }
+
+  /* Mobile Notice - Compact on small screens */
+  .mobileNotice {
+    padding: 1rem 1.15rem;
+    margin: 0 0.85rem 1.5rem;
+    gap: 0.9rem;
+    border-radius: 13px;
+  }
+
+  .mobileNoticeIcon {
+    font-size: 1.5rem;
+  }
+
+  .mobileNoticeContent strong {
+    font-size: 0.92rem;
+  }
+
+  .mobileNoticeContent p {
+    font-size: 0.84rem;
+    line-height: 1.55;
+  }
+
+  .heroContent h1 {
+    font-size: 2rem;
+    line-height: 1.25;
+    letter-spacing: 0.01em;
+  }
+
+  .heroContent p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .formHeader h2 {
+    font-size: 1.75rem;
+    line-height: 1.3;
+    margin-bottom: 0.85rem;
+  }
+
+  .formHeader p {
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+
+  .tagline {
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+
+  .sectionTitle {
+    font-size: 1.25rem;
+    line-height: 1.4;
+    margin-bottom: 1.3rem;
+  }
+
+  .sectionDescription {
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+
+  .formSection {
+    padding: 1.5rem 1.35rem;
+    border-radius: 14px;
+    box-shadow: 0 3px 14px rgba(0, 0, 0, 0.08);
+  }
+
+  .form {
+    gap: 1.65rem;
+  }
+
+  /* Additional Fields Grid - Small Mobile */
+  .additionalFieldsGrid {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+
+  .formGroup {
+    gap: 0.7rem;
+  }
+
+  .formGroup label {
+    font-size: 0.9rem;
+  }
+
+  .formGroup input,
+  .formGroup select,
+  .formGroup textarea {
+    font-size: 16px; /* Prevents zoom on iOS */
+    padding: 1.05rem 1.1rem;
+    min-height: 52px;
+    border-radius: 11px;
+  }
+
+  .formGroup textarea {
+    min-height: 80px;
+  }
+
+  /* Competition Cards - Small Mobile */
+  .competitionsGrid {
+    gap: 1rem;
+  }
+
+  .competitionCard {
+    padding: 1.3rem;
+    border-radius: 14px;
+  }
+
+  .competitionHeader h4 {
+    font-size: 1.08rem;
+    line-height: 1.5;
+  }
+
+  .selectedBadge {
+    top: 0.75rem;
+    right: 0.75rem;
+    padding: 0.45rem 0.95rem;
+    font-size: 0.75rem;
+  }
+
+  .competitionOrganizer {
+    font-size: 0.87rem;
+  }
+
+  .competitionMeta {
+    padding: 0.9rem;
+    gap: 0.65rem;
+  }
+
+  .competitionMetaItem {
+    font-size: 0.85rem;
+  }
+
+  .competitionDescription {
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+
+  .readMoreBtn {
+    padding: 0.7rem;
+    font-size: 0.85rem;
+    margin-top: 0.8rem;
+  }
+
+  /* Checkboxes - Small Mobile */
+  .checkboxLabel {
+    padding: 1rem;
+    gap: 0.85rem;
+    min-height: 52px;
+    border-radius: 10px;
+  }
+
+  .checkboxLabel input[type="checkbox"] {
+    width: 24px;
+    height: 24px;
+  }
+
+  .checkboxLabel span {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  /* Notes Section - Small Mobile */
+  .notesToggle {
+    padding: 1.05rem 1.2rem;
+    gap: 0.9rem;
+  }
+
+  .notesToggleIcon {
+    font-size: 1.6rem;
+  }
+
+  .notesToggleText strong {
+    font-size: 0.98rem;
+  }
+
+  .notesToggleHint {
+    font-size: 0.8rem;
+  }
+
+  .notesToggleArrow {
+    font-size: 1.2rem;
+  }
+
+  .notesContent {
+    padding: 0 1.2rem 1.05rem 1.2rem;
+  }
+
+  .notesText {
+    font-size: 0.88rem;
+    line-height: 1.7;
+    padding: 0.9rem;
+  }
+
+  .notesCheckboxLabel {
+    padding: 1.05rem 1.2rem;
+    gap: 0.85rem;
+  }
+
+  .notesCheckboxLabel input[type="checkbox"] {
+    width: 24px;
+    height: 24px;
+  }
+
+  .notesCheckboxText {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  /* Submit Button - Sticky on Small Mobile */
+  .submitBtn {
+    font-size: 1.02rem;
+    padding: 1.15rem 1.85rem;
+    min-height: 56px;
+    margin-top: 2rem;
+    border-radius: 13px;
+    position: sticky;
+    bottom: 0.85rem;
+    z-index: 100;
+    box-shadow: 0 8px 28px rgba(225, 6, 0, 0.38);
+  }
+
+  /* Need Help Section - Small Mobile */
+  .needHelpSection {
+    margin-top: 1.65rem;
+    padding-top: 1.65rem;
+  }
+
+  .needHelpCard {
+    padding: 1.4rem;
+    border-radius: 14px;
+    gap: 1.15rem;
+  }
+
+  .needHelpIcon {
+    width: 52px;
+    height: 52px;
+    font-size: 2rem;
+  }
+
+  .needHelpContent h4 {
+    font-size: 1.08rem;
+  }
+
+  .needHelpContent p {
+    font-size: 0.88rem;
+    margin-bottom: 1.1rem;
+    line-height: 1.7;
+  }
+
+  .contactItem {
+    padding: 0.95rem;
+  }
+
+  .contactIcon {
+    font-size: 1.3rem;
+  }
+
+  .contactItem a {
+    font-size: 0.88rem;
+  }
+
+  /* Phone Input - Small Mobile */
+  .phonePrefix {
+    padding: 0.9rem 0.75rem 0.9rem 1rem;
+    font-size: 0.98rem;
+  }
+
+  .phoneInput {
+    padding: 0.9rem 1rem;
+    font-size: 16px;
+  }
+
+  .phoneHint {
+    font-size: 0.84rem;
+  }
+
+  /* Info Cards */
+  .infoCard {
+    padding: 1.15rem;
+  }
+
+  .infoIcon {
+    font-size: 1.15rem;
+  }
+
+  .infoCard h3 {
+    font-size: 1.05rem;
+  }
+
+  .infoCard p,
+  .infoCard li {
+    font-size: 0.86rem;
+    line-height: 1.7;
+  }
+
+  /* Success Card */
+  .successCard {
+    padding: 2.5rem 1.65rem;
+    border-radius: 18px;
+  }
+
+  .successIcon {
+    width: 80px;
+    height: 80px;
+    font-size: 3rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .successCard h2 {
+    font-size: 1.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .successMessage {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    margin-bottom: 2.25rem;
+  }
+
+  .primaryBtn,
+  .secondaryBtn {
+    font-size: 1rem;
+    padding: 1.05rem 2.15rem;
+    min-height: 52px;
+  }
+
+  .autoRedirect {
+    font-size: 0.87rem;
+  }
+
+  .errorMessage {
+    font-size: 0.9rem;
+    padding: 1rem 1.35rem;
+  }
+}

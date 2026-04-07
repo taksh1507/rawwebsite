@@ -1,0 +1,536 @@
+/**
+ * Author: Taksh Gandhi
+ * Email: takshgandhi4@gmail.com
+ */
+
+/* Analytics Dashboard - Enhanced Design */
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+  min-height: 100vh;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2rem;
+  color: #0a1a3a;
+  margin: 0 0 0.25rem 0;
+  font-weight: 700;
+}
+
+.subtitle {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.95rem;
+}
+
+.lastUpdated {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(10, 26, 58, 0.05);
+  border-radius: 8px;
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+.updateIcon {
+  font-size: 1rem;
+}
+
+/* Section */
+.section {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px rgba(10, 26, 58, 0.05);
+  border: 1px solid rgba(10, 26, 58, 0.08);
+}
+
+.sectionTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.3rem;
+  color: #0a1a3a;
+  margin: 0 0 1.5rem 0;
+  font-weight: 600;
+}
+
+.sectionIcon {
+  font-size: 1.5rem;
+}
+
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(10, 26, 58, 0.1) 50%, transparent 100%);
+  margin: 2rem 0;
+}
+
+/* Metrics Grid */
+.metricsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.metricCard {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  border-radius: 12px;
+  background: white;
+  border: 2px solid;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.metricCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: currentColor;
+}
+
+.metricCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(10, 26, 58, 0.1);
+}
+
+.metricCard.red {
+  border-color: rgba(225, 6, 0, 0.2);
+  color: #e10600;
+}
+
+.metricCard.blue {
+  border-color: rgba(59, 130, 246, 0.2);
+  color: rgb(59, 130, 246);
+}
+
+.metricCard.green {
+  border-color: rgba(34, 197, 94, 0.2);
+  color: rgb(34, 197, 94);
+}
+
+.metricCard.orange {
+  border-color: rgba(251, 146, 60, 0.2);
+  color: rgb(251, 146, 60);
+}
+
+.metricCard.purple {
+  border-color: rgba(168, 85, 247, 0.2);
+  color: rgb(168, 85, 247);
+}
+
+.metricIcon {
+  font-size: 2.5rem;
+  opacity: 0.9;
+}
+
+.metricContent {
+  flex: 1;
+}
+
+.metricValue {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #0a1a3a;
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+
+.metricLabel {
+  font-size: 0.85rem;
+  color: #64748b;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.trend {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+}
+
+.trendUp {
+  background: rgba(34, 197, 94, 0.15);
+  color: rgb(22, 163, 74);
+}
+
+.trendDown {
+  background: rgba(239, 68, 68, 0.15);
+  color: rgb(220, 38, 38);
+}
+
+/* Skeleton Loading */
+.skeletonCard {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.skeletonIcon {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.skeletonText {
+  flex: 1;
+  height: 40px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Category Grid */
+.categoryGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.categoryCard {
+  background: linear-gradient(135deg, rgba(10, 26, 58, 0.03) 0%, rgba(10, 26, 58, 0.01) 100%);
+  padding: 1.5rem;
+  border-radius: 10px;
+  text-align: center;
+  border: 1px solid rgba(10, 26, 58, 0.08);
+  transition: all 0.3s ease;
+}
+
+.categoryCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(10, 26, 58, 0.08);
+  border-color: rgba(225, 6, 0, 0.2);
+}
+
+.categoryIcon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.categoryValue {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #0a1a3a;
+  margin-bottom: 0.5rem;
+}
+
+.categoryLabel {
+  font-size: 0.85rem;
+  color: #64748b;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Chart Container */
+.chartContainer {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: rgba(10, 26, 58, 0.02);
+  border-radius: 10px;
+}
+
+.chartTitle {
+  font-size: 1.1rem;
+  color: #0a1a3a;
+  margin: 0 0 1.5rem 0;
+  font-weight: 600;
+}
+
+.barChart {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.barItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.barLabel {
+  min-width: 120px;
+  font-weight: 600;
+  color: #0a1a3a;
+  font-size: 0.9rem;
+}
+
+.barWrapper {
+  flex: 1;
+  height: 40px;
+  background: rgba(10, 26, 58, 0.05);
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+.bar {
+  height: 100%;
+  background: linear-gradient(90deg, #e10600 0%, #b2001d 100%);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 1rem;
+  transition: width 0.8s ease;
+}
+
+.barValue {
+  color: white;
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Status Grid */
+.statusGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.statusCard {
+  padding: 1.5rem;
+  border-radius: 12px;
+  text-align: center;
+  border: 2px solid;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.statusCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(10, 26, 58, 0.1);
+}
+
+.statusNew {
+  border-color: rgba(251, 146, 60, 0.3);
+  background: rgba(251, 146, 60, 0.05);
+}
+
+.statusRead {
+  border-color: rgba(59, 130, 246, 0.3);
+  background: rgba(59, 130, 246, 0.05);
+}
+
+.statusReplied {
+  border-color: rgba(34, 197, 94, 0.3);
+  background: rgba(34, 197, 94, 0.05);
+}
+
+.statusIcon {
+  font-size: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.statusValue {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #0a1a3a;
+  margin-bottom: 0.5rem;
+}
+
+.statusLabel {
+  font-size: 0.9rem;
+  color: #64748b;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+}
+
+.statusBar {
+  height: 6px;
+  background: rgba(10, 26, 58, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 1rem;
+}
+
+.statusFill {
+  height: 100%;
+  transition: width 0.8s ease;
+}
+
+.statusNew .statusFill {
+  background: rgb(251, 146, 60);
+}
+
+.statusRead .statusFill {
+  background: rgb(59, 130, 246);
+}
+
+.statusReplied .statusFill {
+  background: rgb(34, 197, 94);
+}
+
+/* Health Grid */
+.healthGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.healthCard {
+  padding: 1.5rem;
+  background: linear-gradient(135deg, rgba(10, 26, 58, 0.03) 0%, rgba(10, 26, 58, 0.01) 100%);
+  border-radius: 12px;
+  border-left: 4px solid #e10600;
+  transition: all 0.3s ease;
+}
+
+.healthCard:hover {
+  transform: translateX(4px);
+  box-shadow: 0 4px 12px rgba(10, 26, 58, 0.08);
+}
+
+.healthStatus {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.healthDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+.healthGood {
+  background: rgb(34, 197, 94);
+  box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+}
+
+.healthWarning {
+  background: rgb(251, 146, 60);
+  box-shadow: 0 0 0 0 rgba(251, 146, 60, 0.7);
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 currentColor;
+  }
+  50% {
+    box-shadow: 0 0 0 8px transparent;
+  }
+}
+
+.healthLabel {
+  font-weight: 700;
+  color: #0a1a3a;
+  font-size: 0.95rem;
+}
+
+.healthText {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* Empty State */
+.emptyState {
+  text-align: center;
+  padding: 3rem 2rem;
+  color: #64748b;
+}
+
+.emptyIcon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.emptyTitle {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.2rem;
+  color: #0a1a3a;
+  margin: 0 0 0.5rem 0;
+  font-weight: 600;
+}
+
+.emptyText {
+  font-size: 0.95rem;
+  margin: 0;
+  color: #64748b;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .metricsGrid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+
+  .categoryGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .barLabel {
+    min-width: 80px;
+    font-size: 0.85rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+}
+

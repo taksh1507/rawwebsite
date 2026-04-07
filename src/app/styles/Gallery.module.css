@@ -1,0 +1,326 @@
+/**
+ * Author: Taksh Gandhi
+ * Email: takshgandhi4@gmail.com
+ */
+
+.section {
+  padding: 6rem 0;
+  background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.section::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 1000px;
+  height: 1000px;
+  background: radial-gradient(circle, rgba(225, 6, 0, 0.04) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+
+  h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--color-navy);
+
+    @media (max-width: 768px) {
+      font-size: 2rem;
+    }
+
+    @media (max-width: 480px) {
+      font-size: 1.5rem;
+    }
+  }
+
+  p {
+    font-size: 1.1rem;
+    color: var(--color-gray-dark);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}
+
+.redAccent {
+  color: var(--color-red);
+  text-shadow: 0 0 10px rgba(225, 6, 0, 0.2);
+}
+
+.filterContainer {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+
+  @media (max-width: 480px) {
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
+}
+
+.filterButton {
+  background: rgba(255, 255, 255, 0.8);
+  border: 2px solid rgba(10, 26, 58, 0.2);
+  color: var(--color-navy);
+  padding: 0.65rem 1.5rem;
+  border-radius: 25px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  letter-spacing: 0.03em;
+
+  &:hover {
+    border-color: var(--color-red);
+    color: var(--color-red);
+  }
+
+  &.active {
+    background: var(--color-red);
+    color: var(--color-white);
+    border-color: var(--color-red);
+    box-shadow: 0 4px 15px rgba(225, 6, 0, 0.3);
+  }
+
+  @media (max-width: 480px) {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+}
+
+.masonryGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+  grid-auto-rows: minmax(250px, auto);
+  animation: fadeIn 0.3s ease;
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    grid-auto-rows: minmax(200px, auto);
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    grid-auto-rows: minmax(150px, auto);
+  }
+}
+
+.gridItem {
+  cursor: pointer;
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid rgba(10, 26, 58, 0.1);
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: var(--color-red);
+    box-shadow: 0 10px 30px rgba(225, 6, 0, 0.15);
+  }
+
+  &.span1 {
+    grid-column: span 1;
+  }
+
+  &.span2 {
+    grid-column: span 2;
+
+    @media (max-width: 768px) {
+      grid-column: span 1;
+    }
+  }
+}
+
+.itemContent {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0);
+    transition: background 0.3s ease;
+    z-index: 1;
+  }
+
+  .gridItem:hover &::before {
+    background: rgba(0, 0, 0, 0.3);
+  }
+}
+
+.itemEmoji {
+  font-size: 3rem;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+  position: relative;
+  z-index: 2;
+  transition: transform 0.3s ease;
+
+  .gridItem:hover & {
+    transform: scale(1.1);
+  }
+}
+
+.itemOverlay {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  right: 1rem;
+  z-index: 3;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+
+  .gridItem:hover & {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.1rem;
+    color: var(--color-white);
+    margin: 0 0 0.25rem 0;
+    letter-spacing: 0.02em;
+  }
+
+  p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0;
+    text-transform: capitalize;
+  }
+}
+
+.lightboxBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.lightboxContent {
+  background: var(--color-white);
+  border-radius: 12px;
+  max-width: 600px;
+  width: 100%;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+
+  @media (max-width: 480px) {
+    max-width: 90%;
+  }
+}
+
+.lightboxImage {
+  width: 100%;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @media (max-width: 480px) {
+    height: 300px;
+  }
+}
+
+.lightboxEmoji {
+  font-size: 5rem;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2));
+}
+
+.lightboxInfo {
+  padding: 2rem;
+  position: relative;
+
+  h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.5rem;
+    color: var(--color-navy);
+    margin: 0 0 0.5rem 0;
+    letter-spacing: 0.02em;
+  }
+
+  p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.95rem;
+    color: var(--color-gray-dark);
+    margin: 0;
+    text-transform: capitalize;
+  }
+}
+
+.closeButton {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 40px;
+  height: 40px;
+  background: var(--color-red);
+  color: var(--color-white);
+  border: none;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background: var(--color-navy);
+    transform: rotate(90deg);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,314 @@
+/**
+ * Author: Taksh Gandhi
+ * Email: takshgandhi4@gmail.com
+ */
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(248, 249, 250, 0.7);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(10, 26, 58, 0.08);
+  box-shadow: 0 2px 10px rgba(10, 26, 58, 0.03);
+  transition: all 0.3s ease;
+}
+
+.navbar:hover {
+  background: rgba(248, 249, 250, 0.85);
+  box-shadow: 0 4px 20px rgba(10, 26, 58, 0.08);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.logo a {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: var(--color-navy);
+}
+
+.logoIcon {
+  font-size: 1.5rem;
+}
+
+.logoWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  border-radius: 8px;
+  background: transparent;
+  transition: all 0.3s ease;
+}
+
+.logoImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.logoText {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  color: var(--color-navy);
+  text-shadow: 0 0 10px rgba(225, 6, 0, 0.1);
+}
+
+.logoDivider {
+  width: 1px;
+  height: 30px;
+  background: linear-gradient(to bottom, transparent, rgba(10, 26, 58, 0.2), transparent);
+  margin: 0 0.75rem;
+}
+
+.sfitLogoContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  padding: 4px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2px 8px rgba(10, 26, 58, 0.08);
+  border: 1px solid rgba(10, 26, 58, 0.08);
+  transition: all 0.3s ease;
+}
+
+.sfitLogoContainer:hover {
+  box-shadow: 0 4px 12px rgba(225, 6, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+.sfitLogo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.desktopMenu {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.links {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.link {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-navy);
+  position: relative;
+  transition: color 0.3s ease;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--color-red);
+    transition: width 0.3s ease;
+  }
+
+  &:hover {
+    color: var(--color-red);
+
+    &::after {
+      width: 100%;
+    }
+  }
+}
+
+.ctaButton {
+  background: var(--color-red);
+  color: var(--color-white);
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.05em;
+  transition: all 0.3s ease;
+  border: 2px solid var(--color-red);
+  cursor: pointer;
+
+  &:hover {
+    background: transparent;
+    color: var(--color-red);
+    box-shadow: 0 0 20px rgba(225, 6, 0, 0.3);
+  }
+}
+
+.mobileMenuBtn {
+  display: none;
+  flex-direction: column;
+  gap: 0.4rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 1001;
+
+  @media (max-width: 768px) {
+    display: flex;
+  }
+
+  span {
+    width: 25px;
+    height: 3px;
+    background: var(--color-navy);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+}
+
+.mobileMenu {
+  display: none;
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(10, 26, 58, 0.1);
+  }
+}
+
+.mobileLink {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-navy);
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgba(10, 26, 58, 0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    color: var(--color-red);
+    padding-left: 0.5rem;
+  }
+}
+
+.mobileCtaButton {
+  width: 100%;
+  background: var(--color-red);
+  color: var(--color-white);
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+  border: 2px solid var(--color-red);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 0.5rem;
+
+  &:active {
+    background: transparent;
+    color: var(--color-red);
+  }
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 0.75rem 1rem;
+  }
+
+  .logo a {
+    gap: 0.4rem;
+  }
+
+  .logoWrapper {
+    width: 35px;
+    height: 35px;
+  }
+
+  .logoText {
+    font-size: 1.1rem;
+  }
+
+  .logoDivider {
+    height: 24px;
+    margin: 0 0.5rem;
+  }
+
+  .sfitLogoContainer {
+    width: 32px;
+    height: 32px;
+    padding: 3px;
+  }
+
+  .desktopMenu {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .logo a {
+    gap: 0.3rem;
+  }
+
+  .logoWrapper {
+    width: 30px;
+    height: 30px;
+  }
+
+  .logoText {
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+  }
+
+  .logoDivider {
+    height: 20px;
+    margin: 0 0.4rem;
+  }
+
+  .sfitLogoContainer {
+    width: 28px;
+    height: 28px;
+    padding: 2px;
+  }
+}

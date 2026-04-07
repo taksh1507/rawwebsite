@@ -1,0 +1,498 @@
+/**
+ * Author: Taksh Gandhi
+ * Email: takshgandhi4@gmail.com
+ */
+
+.settingsPage {
+  padding: 2rem;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+}
+
+.header {
+  margin-bottom: 2rem;
+}
+
+.title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2rem;
+  color: #0a1a3a;
+  margin: 0 0 0.25rem 0;
+  font-weight: 700;
+}
+
+.subtitle {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.95rem;
+}
+
+/* Settings Sections */
+.section {
+  background: white;
+  border-radius: 12px;
+  border: 1px solid rgba(10, 26, 58, 0.1);
+  box-shadow: 0 2px 8px rgba(10, 26, 58, 0.05);
+  margin-bottom: 2rem;
+  overflow: hidden;
+}
+
+.sectionHeader {
+  padding: 1.5rem;
+  border-bottom: 1px solid rgba(10, 26, 58, 0.1);
+  background: rgba(10, 26, 58, 0.02);
+}
+
+.sectionTitle {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.2rem;
+  color: #0a1a3a;
+  margin: 0 0 0.5rem 0;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.sectionIcon {
+  font-size: 1.3rem;
+}
+
+.sectionDescription {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.sectionBody {
+  padding: 0;
+}
+
+/* Setting Item */
+.settingItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid rgba(10, 26, 58, 0.05);
+  transition: background 0.2s ease;
+  position: relative;
+}
+
+.settingItem:last-child {
+  border-bottom: none;
+}
+
+.settingItem:hover {
+  background: rgba(10, 26, 58, 0.02);
+}
+
+.settingInfo {
+  flex: 1;
+  padding-right: 1rem;
+}
+
+.settingLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: #0a1a3a;
+  margin: 0 0 0.5rem 0;
+  font-size: 0.95rem;
+}
+
+.settingLabelIcon {
+  font-size: 1rem;
+}
+
+.settingDescription {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.tooltipIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(10, 26, 58, 0.1);
+  color: #64748b;
+  font-size: 0.75rem;
+  cursor: help;
+  margin-left: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.tooltipIcon:hover {
+  background: rgba(10, 26, 58, 0.2);
+  color: #0a1a3a;
+}
+
+/* Toggle Switch */
+.toggleWrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.toggle {
+  position: relative;
+  width: 50px;
+  height: 28px;
+  background: rgba(10, 26, 58, 0.2);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.toggle:focus-within {
+  border-color: #e10600;
+  box-shadow: 0 0 0 3px rgba(225, 6, 0, 0.1);
+}
+
+.toggle.active {
+  background: linear-gradient(135deg, #e10600 0%, #b2001d 100%);
+}
+
+.toggleInput {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggleSlider {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 22px;
+  height: 22px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.toggle.active .toggleSlider {
+  transform: translateX(22px);
+}
+
+.saveIndicator {
+  font-size: 0.85rem;
+  color: rgb(34, 197, 94);
+  font-weight: 600;
+  opacity: 0;
+  animation: fadeInOut 2s ease;
+}
+
+@keyframes fadeInOut {
+  0%, 100% {
+    opacity: 0;
+  }
+  20%, 80% {
+    opacity: 1;
+  }
+}
+
+/* Danger Zone */
+.dangerZone {
+  background: white;
+  border-radius: 12px;
+  border: 2px solid rgb(239, 68, 68);
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.15);
+  overflow: hidden;
+  margin-top: 3rem;
+}
+
+.dangerHeader {
+  padding: 1.5rem;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(239, 68, 68, 0.05) 100%);
+  border-bottom: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.dangerTitle {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.2rem;
+  color: rgb(220, 38, 38);
+  margin: 0 0 0.5rem 0;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.dangerWarningIcon {
+  font-size: 1.5rem;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.dangerDescription {
+  margin: 0;
+  color: rgb(185, 28, 28);
+  font-size: 0.9rem;
+}
+
+.dangerBody {
+  padding: 1.5rem;
+}
+
+.dangerActions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.dangerAction {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem;
+  background: rgba(239, 68, 68, 0.05);
+  border-radius: 8px;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.dangerActionInfo h4 {
+  margin: 0 0 0.5rem 0;
+  color: #0a1a3a;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.dangerActionInfo p {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.dangerImpact {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(239, 68, 68, 0.1);
+  border-radius: 6px;
+  font-size: 0.8rem;
+  color: rgb(185, 28, 28);
+  font-weight: 600;
+}
+
+.dangerButton {
+  padding: 0.75rem 1.5rem;
+  background: rgb(239, 68, 68);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+}
+
+.dangerButton:hover {
+  background: rgb(220, 38, 38);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.dangerButton:active {
+  transform: translateY(0);
+}
+
+/* Confirmation Modal */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+  backdrop-filter: blur(4px);
+}
+
+.modal {
+  background: white;
+  border-radius: 16px;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.modalHeader {
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(239, 68, 68, 0.05) 100%);
+  border-bottom: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.modalTitle {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.4rem;
+  color: rgb(220, 38, 38);
+  margin: 0 0 0.75rem 0;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.modalIcon {
+  font-size: 2rem;
+}
+
+.modalMessage {
+  margin: 0;
+  color: #0a1a3a;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.modalImpact {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: rgba(239, 68, 68, 0.1);
+  border-radius: 8px;
+  border-left: 4px solid rgb(239, 68, 68);
+}
+
+.modalImpact strong {
+  display: block;
+  color: rgb(185, 28, 28);
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.modalImpact p {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.85rem;
+}
+
+.modalBody {
+  padding: 2rem;
+}
+
+.confirmInput {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 2px solid rgba(10, 26, 58, 0.2);
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: monospace;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.confirmInput:focus {
+  outline: none;
+  border-color: rgb(239, 68, 68);
+  box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1);
+}
+
+.confirmHint {
+  margin: 0.75rem 0 0 0;
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+.modalActions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.modalButton {
+  flex: 1;
+  padding: 0.875rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.modalButtonConfirm {
+  background: rgb(239, 68, 68);
+  color: white;
+}
+
+.modalButtonConfirm:hover:not(:disabled) {
+  background: rgb(220, 38, 38);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.modalButtonConfirm:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.modalButtonCancel {
+  background: rgba(10, 26, 58, 0.05);
+  color: #0a1a3a;
+  border: 2px solid rgba(10, 26, 58, 0.1);
+}
+
+.modalButtonCancel:hover {
+  background: rgba(10, 26, 58, 0.08);
+  border-color: rgba(10, 26, 58, 0.2);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .settingsPage {
+    padding: 1rem;
+  }
+
+  .settingItem {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .toggleWrapper {
+    align-self: flex-end;
+  }
+
+  .dangerAction {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .modalActions {
+    flex-direction: column;
+  }
+
+  .modalButton {
+    width: 100%;
+  }
+}
