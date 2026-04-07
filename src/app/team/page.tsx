@@ -3,7 +3,7 @@
  * Email: takshgandhi4@gmail.com
  */
 
-import React from 'react';
+import React, { Suspense } from 'react';
 import Navbar from '../components/Navbar';
 import TeamSection from '../components/TeamSection';
 import Footer from '../components/Footer';
@@ -13,11 +13,19 @@ export const metadata = {
   description: 'Meet the talented individuals behind Team RAW - our core team, mentors, members, and alumni who drive innovation in robotics.',
 };
 
+const TeamSectionLoading = () => (
+  <div style={{ minHeight: '800px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+    <p>Loading team members...</p>
+  </div>
+);
+
 const TeamPage = () => {
   return (
     <main>
       <Navbar />
-      <TeamSection />
+      <Suspense fallback={<TeamSectionLoading />}>
+        <TeamSection />
+      </Suspense>
       <Footer />
     </main>
   );
